@@ -1,43 +1,53 @@
+% Contains all the functions concerning the calculation
+% of the minimum distance between two nodes. edge/3 must
+% already be defined when calling this!
+%
+% minimumDistance/4 is the only one that you need to 
+% calculate the minimum distance.
+%
+% Example use:
+%   ?- minimumDistance(1, 2, P, L).
+
 % Calculate the minimum distance
 %   Start = Start Node ID
 %   Finish = Finish Node ID
 %   ShortestPath = the found path
-%   Len = the Len of the found path
-% It calls dijkstra algorithm
-minimumDistance(Start, Finish, ShortestPath, Len) :-
-  dijkstra([0-[Start]], Finish, RestShort, Len),
+%   Length = the Length of the found path
+% It calls dijkstra algorithm. 
+minimumDistance(Start, Finish, ShortestPath, Length) :-
+  dijkstra([0-[Start]], Finish, RestShort, Length),
   reverse(RestShort, ShortestPath).
 
 % Dijkstra algorithm. We have reached the final so it is time to stop
-%   Len = total Len already traveled
+%   Length = total Length already traveled
 %   Finish = last node visited
 %   RestPath = previous nodes visited
-dijkstra([Len-[Finish|RestPath]|_], Finish, [Finish|RestPath], Len) :- !.
+dijkstra([Length-[Finish|RestPath]|_], Finish, [Finish|RestPath], Length) :- !.
 
 % Find best candidate and continue with the algorithm
 %   Visited = already discovered path
 %   Finish = end node
 %   RestShortestPath = rest of the already discovered shortest path
-%   Len = total Len of RestShortestPath
-dijkstra(Visited, Finish, RestShortestPath, Len) :-
+%   Length = total Length of RestShortestPath
+dijkstra(Visited, Finish, RestShortestPath, Length) :-
   bestCandidate(Visited, BestCandidate), 
-  dijkstra([BestCandidate|Visited], Finish, RestShortestPath, Len).
+  dijkstra([BestCandidate|Visited], Finish, RestShortestPath, Length).
 
 % Search for the best candidate by performing a
 % findall and then take the minimum (the one with less distance)
 %   Paths = list of previously visited nodes (top = most recent)
 %   BestCandidate = best node to take as next
 bestCandidate(Paths, BestCandidate) :-
-  findall(NewNode, % format in which the elements of the list must be formatted
-    ( member(Len-[Node1|Path], Paths), % take a member from the paths
-      edge(Node1,Node2,Distance),          % take the edges where P1 starts from
-      \+isVisited(Paths, Node2),           % we only want non-visited P2's
-      NewLen is Len+Distance,        % we have an unvisited P2, we calculate total distance
-      NewNode=NewLen-[Node2,Node1|Path] % we make new node in list
+  findall(NewNode,                      % format in which the elements of the list must be formatted
+    ( member(Length-[Node1|Path], Paths),  % take a member from the paths
+      edge(Node1,Node2,Distance),       % take the edges where P1 starts from
+      \+isVisited(Paths, Node2),        % we only want non-visited P2's
+      NewLength is Length+Distance,           % we have an unvisited P2, we calculate total distance
+      NewNode=NewLength-[Node2,Node1|Path] % we make new node in list
     ),
-    Candidates % final list of all found candidates
+    Candidates                          % final list of all found candidates
   ),
-  minimum(Candidates, BestCandidate). % we take the minimum we have found
+  minimum(Candidates, BestCandidate).   % we take the minimum we have found
 
 % Sort the list of candidates and only take the head
 % the head is the minimum
