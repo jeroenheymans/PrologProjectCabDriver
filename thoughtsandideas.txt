@@ -1,0 +1,7 @@
+0 <= time <=  1440 (1 day = 1440 minutes)
+distance = time
+taxi = max 4 customers
+
+look for customers starting at the same node and have same destination? 
+ => don't exist so no use to do this!
+
