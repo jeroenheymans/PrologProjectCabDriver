@@ -17,3 +17,6 @@ IDEA: distance can be calculated from the start to the customer
  ! distance = time
  => EarlyTimeOfPickup - distance = most early time to depart at start
  use this as sorting basis?
+ 
+when calculated a path and transporting a customer, check at every node if
+there is a customer that can be picked up and must go to the same destination?
