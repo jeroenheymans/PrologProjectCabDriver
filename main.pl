@@ -1,4 +1,14 @@
-start(P):-
+% Main program
+%
+% Contains a main-function to execute the program
+% Loads all the other functions
+%
+% Execute in Prolog:
+%   ['program.pl'].
+%   main(X).
+
+main(P):-
   ['city.pl'],
-  ['minimumDistance.pl'],
-  minimumDistance(1,2,P,_).
+  ['routeCalculation.pl'],
+  ['customer.pl'],
+  nextCustomer(P).

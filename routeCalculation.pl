@@ -1,5 +1,5 @@
 % Contains all the functions concerning the calculation
-% of the minimum distance between two nodes. edge/3 must
+% of the route (minimum distance) between two nodes. edge/3 must
 % already be defined when calling this!
 %
 % minimumDistance/4 is the only one that you need to 
@@ -7,6 +7,10 @@
 %
 % Example use:
 %   ?- minimumDistance(1, 2, P, L).
+%
+% Internally it uses a list for tracking the previous
+% nodes that form a path. The structure of this list is:
+% [Length-[LastNode|RestPath]|Other]
 
 % Calculate the minimum distance
 %   Start = Start Node ID
@@ -38,16 +42,16 @@ dijkstra(Visited, Finish, RestShortestPath, Length) :-
 %   Paths = list of previously visited nodes (top = most recent)
 %   BestCandidate = best node to take as next
 bestCandidate(Paths, BestCandidate) :-
-  findall(NewNode,                      % format in which the elements of the list must be formatted
+  findall(NewNode,                         % format in which the elements of the list must be formatted
     ( member(Length-[Node1|Path], Paths),  % take a member from the paths
-      edge(Node1,Node2,Distance),       % take the edges where P1 starts from
-      \+isVisited(Paths, Node2),        % we only want non-visited P2's
-      NewLength is Length+Distance,           % we have an unvisited P2, we calculate total distance
+      edge(Node1,Node2,Distance),          % take the edges where P1 starts from
+      \+isVisited(Paths, Node2),           % we only want non-visited P2's
+      NewLength is Length+Distance,        % we have an unvisited P2, we calculate total distance
       NewNode=NewLength-[Node2,Node1|Path] % we make new node in list
     ),
-    Candidates                          % final list of all found candidates
+    Candidates                             % final list of all found candidates
   ),
-  minimum(Candidates, BestCandidate).   % we take the minimum we have found
+  minimum(Candidates, BestCandidate).      % we take the minimum we have found
 
 % Sort the list of candidates and only take the head
 % the head is the minimum

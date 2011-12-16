@@ -5,3 +5,10 @@ taxi = max 4 customers
 look for customers starting at the same node and have same destination? 
  => don't exist so no use to do this!
 
+sort customers, don't take randomly
+ => type of sort?
+    1: close to start, early pickup
+    2: far from start, early pickup
+    3: close to start, late pickup
+    4: far from start, late pickup
+    implemented: early pickup as minimum in sort
