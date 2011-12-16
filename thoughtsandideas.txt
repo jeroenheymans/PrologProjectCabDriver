@@ -2,7 +2,7 @@
 distance = time
 taxi = max 4 customers
 
-look for customers starting at the same node and have same destination? 
+look for 2+ customers starting at the same node and that have same destination? 
  => don't exist so no use to do this!
 
 sort customers, don't take randomly
@@ -12,3 +12,8 @@ sort customers, don't take randomly
     3: close to start, late pickup
     4: far from start, late pickup
     implemented: early pickup as minimum in sort
+    
+IDEA: distance can be calculated from the start to the customer
+ ! distance = time
+ => EarlyTimeOfPickup - distance = most early time to depart at start
+ use this as sorting basis?
