@@ -11,4 +11,5 @@ main(P):-
   ['city.pl'],
   ['routeCalculation.pl'],
   ['customer.pl'],
-  nextCustomer(P).
+  ['functions.pl'],
+  distanceFromStart(3,P).
