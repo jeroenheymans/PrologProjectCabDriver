@@ -20,3 +20,17 @@ IDEA: distance can be calculated from the start to the customer
  
 when calculated a path and transporting a customer, check at every node if
 there is a customer that can be picked up and must go to the same destination?
+ => implemented as getCustomersSameDestination/2
+ could this be used when calculating a path? for example, if there is a customer
+ with same destination on a node and that node is concidered for the shortest path,
+ why not prefer it to use that path?
+ ! don't forget the times of pickup
+ 
+maybe preprocess the edges to a minimum spanning tree? This way, we have an absolute
+minimum to get to all the nodes. This will decrease the amount of edges to consider for
+calculating the path with Dijkstra
+
+add heuristic to Dijkstra to reduce time of computation
+put it in bestCandidate? idea: work with the key-value where key is the heuristic value
+
+time to calculate distance between 1 and 2499 was 27 minutes, 10 seconds without optimalisations
