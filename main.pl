@@ -13,4 +13,4 @@
 :-['functions.pl'].
 
 main(P):-
-  distanceFromStart(3,P).
+  distanceFromStartToCustomer(3,P).

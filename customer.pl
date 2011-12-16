@@ -13,7 +13,7 @@ nextCustomer(First):-
 % starting point of the customer. Used as preprocessing
 %   CID = customer ID
 %   Distance = time to get to customer from parking lot
-distanceFromStart(CID,Distance):-
+distanceFromStartToCustomer(CID,Distance):-
     customer(CID, _, _, CustomerStart, _),
     startNode(ParkingLot),
     minimumDistance(ParkingLot, CustomerStart, _, Distance).
