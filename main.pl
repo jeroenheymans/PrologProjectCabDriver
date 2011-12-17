@@ -12,5 +12,6 @@
 :-['customer.pl'].
 :-['functions.pl'].
 
-main(CustomersToPickUp):-
-    getDeparturesForPickupCustomers(CustomersToPickUp).
+main(CustomersToPickUpSorted):-
+    getDeparturesForPickupCustomers(CustomersToPickUp),
+    keysort(CustomersToPickUp, CustomersToPickUpSorted).

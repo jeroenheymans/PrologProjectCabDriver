@@ -46,6 +46,6 @@ getDeparturesForPickupCustomers(CustomersToPickUp):-
             ( customer(CID,ETOP,_,_,_),
               distanceFromStartToCustomer(CID, Distance),
               NewDistance is ETOP - Distance,
-              Customer = [NewDistance-CID]
+              Customer = NewDistance-CID
              ),
             CustomersToPickUp).

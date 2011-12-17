@@ -17,6 +17,8 @@ IDEA: distance can be calculated from the start to the customer
  ! distance = time
  => EarlyTimeOfPickup - distance = most early time to depart at start
  use this as sorting basis?
+ => implemented getDeparturesForPickupCustomers/1
+ use the result to assign each customer to a taxi
  
 when calculated a path and transporting a customer, check at every node if
 there is a customer that can be picked up and must go to the same destination?
@@ -29,6 +31,8 @@ there is a customer that can be picked up and must go to the same destination?
 maybe preprocess the edges to a minimum spanning tree? This way, we have an absolute
 minimum to get to all the nodes. This will decrease the amount of edges to consider for
 calculating the path with Dijkstra
+ => could be used for further optimalisation but not yet necessary as the calculation
+    of the path from parkinglot to customer is done in approx. 7 seconds for ALL customers
 
 add heuristic to Dijkstra to reduce time of computation
 put it in bestCandidate? idea: work with the key-value where key is the heuristic value
@@ -37,3 +41,5 @@ heuristic:
     square(abs(CX-DX)+abs(CY-DY))
 
 time to calculate distance between 1 and 2499 was 27 minutes, 10 seconds without optimalisations
+
+startnode = (25,25) = Node 1275
