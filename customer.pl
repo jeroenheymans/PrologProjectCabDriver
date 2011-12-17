@@ -3,7 +3,7 @@
 % Takes the next customer to transport
 %   NewCustomers = newly list of customers with first deleted
 %   First = first customer formatted: TaxiTimeToDepart-CustomerID
-nextCustomer([First|NewCustomers], First, NewCustomers).
+nextCustomer([CustomerPickup-CustomerID|NewCustomers], CustomerPickup-CustomerID, NewCustomers).
     
 % Calculate the distance from the parking lot to the 
 % starting point of the customer. Used as preprocessing
