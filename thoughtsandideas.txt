@@ -32,5 +32,8 @@ calculating the path with Dijkstra
 
 add heuristic to Dijkstra to reduce time of computation
 put it in bestCandidate? idea: work with the key-value where key is the heuristic value
+heuristic:
+    CurrentX, CurrentY, DestinationX, DestinationY
+    sqrt(abs(CX-DX)+abs(CY-DY))
 
 time to calculate distance between 1 and 2499 was 27 minutes, 10 seconds without optimalisations

@@ -34,20 +34,24 @@ dijkstra([Length-[Finish|RestPath]|_], Finish, [Finish|RestPath], Length) :- !.
 %   RestShortestPath = rest of the already discovered shortest path
 %   Length = total Length of RestShortestPath
 dijkstra(Visited, Finish, RestShortestPath, Length) :-
-  bestCandidate(Visited, BestCandidate), 
+  bestCandidate(Visited, BestCandidate, Finish), 
   dijkstra([BestCandidate|Visited], Finish, RestShortestPath, Length).
 
 % Search for the best candidate by performing a
 % findall and then take the minimum (the one with less distance)
 %   Paths = list of previously visited nodes (top = most recent)
 %   BestCandidate = best node to take as next
-bestCandidate(Paths, BestCandidate) :-
+bestCandidate(Paths, BestCandidate, Finish) :-
   findall(NewNode,                         % format in which the elements of the list must be formatted
     ( member(Length-[Node1|Path], Paths),  % take a member from the paths
       edge(Node1,Node2,Distance),          % take the edges where P1 starts from
       \+isVisited(Paths, Node2),           % we only want non-visited P2's
+      node(Finish,N1X,N1Y),
+      node(Node2,N2X,N2Y),
+      Heuristic is sqrt(abs(N1X-N2X)+abs(N1Y-N2Y)),
+      NewCost is Distance + Heuristic,
       NewLength is Length+Distance,        % we have an unvisited P2, we calculate total distance
-      NewNode=NewLength-[Node2,Node1|Path] % we make new node in list
+      NewNode=NewCost-[NewLength-[Node2,Node1|Path]] % we make new node in list
     ),
     Candidates                             % final list of all found candidates
   ),
@@ -58,7 +62,7 @@ bestCandidate(Paths, BestCandidate) :-
 %   Candidates = list of possible candidates to visit
 %   BestCandidate = best candidate
 minimum(Candidates, BestCandidate) :-
-  keysort(Candidates, [BestCandidate|_]).
+  keysort(Candidates, [_-[BestCandidate|_]|_]).
 
 % Check if a node is already visited in the Paths
 %   Paths = visited path
