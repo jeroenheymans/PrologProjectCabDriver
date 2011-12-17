@@ -1,25 +1,17 @@
-0 <= time <=  1440 (1 day = 1440 minutes)
-distance = time
-taxi = max 4 customers
-
-look for 2+ customers starting at the same node and that have same destination? 
- => don't exist so no use to do this!
-
-sort customers, don't take randomly
- => type of sort?
-    1: close to start, early pickup
-    2: far from start, early pickup
-    3: close to start, late pickup
-    4: far from start, late pickup
-    implemented: early pickup as minimum in sort
+******************
+* FACTS AND INFO *
+******************
+    * 0 <= time <=  1440 (1 day = 1440 minutes)
+    * distance = time
+    * taxi = max 4 customers
+    * time to calculate distance from 1 to 2499 was 27m10s without optimalisations (after heuristic, reduced to second!)
+    * startnode = (25,25) = Node 1275
     
-IDEA: distance can be calculated from the start to the customer
- ! distance = time
- => EarlyTimeOfPickup - distance = most early time to depart at start
- use this as sorting basis?
- => implemented getDeparturesForPickupCustomers/1
- use the result to assign each customer to a taxi
- 
+********************************************
+* IDEAS (noted if it is done, todo or ???) *
+********************************************
+
+TODO 
 when calculated a path and transporting a customer, check at every node if
 there is a customer that can be picked up and must go to the same destination?
  => implemented as getCustomersSameDestination/2
@@ -27,19 +19,41 @@ there is a customer that can be picked up and must go to the same destination?
  with same destination on a node and that node is considered for the shortest path,
  why not prefer it to use that path?
  ! don't forget the times of pickup
- 
+ OTHER POSSIBILITY: when transporting, check neighbors of current node to see if
+ there is an user that also can be picked up by making small detour?
+
+TODO? 
 maybe preprocess the edges to a minimum spanning tree? This way, we have an absolute
 minimum to get to all the nodes. This will decrease the amount of edges to consider for
 calculating the path with Dijkstra
  => could be used for further optimalisation but not yet necessary as the calculation
     of the path from parkinglot to customer is done in approx. 7 seconds for ALL customers
 
+IMPOSSIBLE
+look for 2+ customers starting at the same node and that have same destination? 
+ => don't exist so no use to do this!
+
+DONE
+sort customers, don't take randomly
+ => type of sort?
+    1: close to start, early pickup
+    2: far from start, early pickup
+    3: close to start, late pickup
+    4: far from start, late pickup
+    implemented: early pickup as minimum in sort
+    reimplemented: took time to pickup customer in account (start to customer)
+
+DONE    
+distance can be calculated from the start to the customer
+ ! distance = time
+ => EarlyTimeOfPickup - distance = most early time to depart at start
+ use this as sorting basis?
+ => implemented getDeparturesForPickupCustomers/1
+ use the result to assign each customer to a taxi
+
+DONE
 add heuristic to Dijkstra to reduce time of computation
 put it in bestCandidate? idea: work with the key-value where key is the heuristic value
 heuristic:
     CurrentX, CurrentY, DestinationX, DestinationY
     square(abs(CX-DX)+abs(CY-DY))
-
-time to calculate distance between 1 and 2499 was 27 minutes, 10 seconds without optimalisations
-
-startnode = (25,25) = Node 1275

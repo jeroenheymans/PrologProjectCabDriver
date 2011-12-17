@@ -1,13 +1,9 @@
 % Functions concerning the customers
 
 % Takes the next customer to transport
-% Is not yet completely correct as it only takes the first one
-% and doesn't track already transported customers.
-% TODO: complete
-%   First = first customer
-nextCustomer(First):-
-    findall(ETOP-CID, customer(CID,ETOP, _,_,_), Result),
-    keysort(Result,[First|_]).
+%   NewCustomers = newly list of customers with first deleted
+%   First = first customer formatted: TaxiTimeToDepart-CustomerID
+nextCustomer([First|NewCustomers], First, NewCustomers).
     
 % Calculate the distance from the parking lot to the 
 % starting point of the customer. Used as preprocessing
