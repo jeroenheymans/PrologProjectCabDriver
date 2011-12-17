@@ -35,7 +35,10 @@ getCustomersSameDestination(CID1, Customers):-
 % to be picked up at 600 minutes (10am) and a taxi needs to drive
 % 30 minutes to get to the customer, the taxi must leave at best
 % at 570 (9.30am)
-%   CustomersToPickUp = pairs of time to depart from depot and customer ID
+%   CustomersToPickUp = pairs of time to depart from depot and customer ID (unsorted!)
+%   ETOP = Estimated Time Of Pickup
+%   CID = Customer ID
+%   Distance = Distance from start to customer
 % Example result: [[1038-0], [233-1], [587-2], [51-6], [... - ...], [...]|...]
 % with [DepartureTime - CustomerID]
 getDeparturesForPickupCustomers(CustomersToPickUp):-
