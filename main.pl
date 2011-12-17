@@ -35,14 +35,12 @@ loop(1440, RemainingCustomers):-
 %   Clock = value of the internal clock
 %   CustomersToPickUp = customers list still to be picked up
 %       Format: DepartureTimeTaxi-CustomerID
-loop(Clock, [CustomerPickup-CustomerID|CustomersToPickUpRest]):-
+loop(Clock, CustomersToPickUp):-
+    nextCustomer(CustomersToPickUp,CustomerPickup-CustomerID,CustomersToPickUpRest),
     NewClock is Clock + 1,
-    %writeln(CustomersToPickUpRest),
-    %writeln(CustomerPickup),
     writeln(NewClock),
     (NewClock =:= CustomerPickup 
         -> (writeln('wooooo!'),
             writeln(CustomerPickup),
-            NewNewClock is NewClock - 1,
-           loop(NewNewClock, CustomersToPickUpRest))
-        ;  loop(NewClock, [CustomerPickup-CustomerID|CustomersToPickUpRest])).
+           loop(Clock, CustomersToPickUpRest))
+        ;  loop(NewClock, CustomersToPickUp)).
