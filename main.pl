@@ -12,5 +12,5 @@
 :-['customer.pl'].
 :-['functions.pl'].
 
-main(P):-
-  distanceFromStartToCustomer(3,P).
+main(CustomersToPickUp):-
+    getDeparturesForPickupCustomers(CustomersToPickUp).
