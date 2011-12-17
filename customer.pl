@@ -29,3 +29,6 @@ getCustomersSameDestination(CID1, Customers):-
               \+CID1=CID2,
               Customer=CID2),
             Customers).
+            
+%
+transport(TaxiID, Customers).
