@@ -14,8 +14,33 @@
 :-['functions.pl'].
 :-['print.pl'].
 
+% Test function, used for testing small parts of code before
+% putting it in the rest of the code
+testmain:-
+    minimumDistance(1,2,[First|Path],Length),
+    writeln(Path),
+    Path = [Second|Rest],
+    edge(First,Second,Distance),
+    followPath(Distance,Rest,Second).
+
+followPath(0, [], _):-
+    writeln('Finish!'),!.
+    
+followPath(0, Path, Current):-
+    Path = [First|Rest],
+    write('Taking next: '),
+    writeln(First),
+    edge(Current, First, Distance),
+    followPath(Distance,Rest,First).
+    
+followPath(Distance, Path, Current):-
+    NewDistance is Distance - 1,
+    write('Distance still to do: '),
+    writeln(NewDistance),
+    followPath(NewDistance,Path,Current).
+
 % Main function, needs to be executed for this program
-main(_):-
+main:-
     writeln('Calculating departure times for taxis'),
     getDeparturesForPickupCustomers(CustomersToPickUp),
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
