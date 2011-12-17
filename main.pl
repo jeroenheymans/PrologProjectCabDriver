@@ -29,7 +29,8 @@ loop(Clock, []):-
     
 loop(1440, RemainingCustomers):-
     writeln('Times up!'),
-    writeln(RemainingCustomers).
+    writeln(RemainingCustomers),
+    forall(transport(TaxiID,_,_),writeln(TaxiID)).
     
 % Main loop
 %   Clock = value of the internal clock
@@ -38,9 +39,11 @@ loop(1440, RemainingCustomers):-
 loop(Clock, CustomersToPickUp):-
     nextCustomer(CustomersToPickUp,CustomerPickup-CustomerID,CustomersToPickUpRest),
     NewClock is Clock + 1,
-    writeln(NewClock),
     (NewClock =:= CustomerPickup 
-        -> (writeln('wooooo!'),
-            writeln(CustomerPickup),
+        -> (pickEmptyTaxi(Taxi),
+            customer(CustomerID, _,_,NodeID,_),
+            assert(transport(Taxi, NodeID, [CustomerID])),
+            write('Put customer in taxi'),
+            writeln(Taxi),
            loop(Clock, CustomersToPickUpRest))
         ;  loop(NewClock, CustomersToPickUp)).
