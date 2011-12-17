@@ -21,6 +21,9 @@ there is a customer that can be picked up and must go to the same destination?
  ! don't forget the times of pickup
  OTHER POSSIBILITY: when transporting, check neighbors of current node to see if
  there is an user that also can be picked up by making small detour?
+ 
+TODO
+when there is no taxi available, customer must wait. is that possible?
 
 TODO? 
 maybe preprocess the edges to a minimum spanning tree? This way, we have an absolute

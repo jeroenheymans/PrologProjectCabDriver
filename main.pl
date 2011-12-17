@@ -12,6 +12,7 @@
 :-['routeCalculation.pl'].
 :-['customer.pl'].
 :-['functions.pl'].
+:-['print.pl'].
 
 % Main function, needs to be executed for this program
 main(_):-
@@ -39,11 +40,10 @@ loop(1440, RemainingCustomers):-
 loop(Clock, CustomersToPickUp):-
     nextCustomer(CustomersToPickUp,CustomerPickup-CustomerID,CustomersToPickUpRest),
     NewClock is Clock + 1,
+    customer(CustomerID, ETOP, LTOP, NodeID, _),
     (NewClock =:= CustomerPickup 
         -> (pickEmptyTaxi(Taxi),
-            customer(CustomerID, _,_,NodeID,_),
             assert(transport(Taxi, NodeID, [CustomerID])),
-            write('Put customer in taxi'),
-            writeln(Taxi),
+            printNewCustomerInTaxi(Taxi, CustomerID, NewClock),
            loop(Clock, CustomersToPickUpRest))
         ;  loop(NewClock, CustomersToPickUp)).
