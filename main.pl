@@ -11,6 +11,7 @@
 :-['city.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
+:-['taxi.pl'].
 :-['functions.pl'].
 :-['print.pl'].
 
@@ -71,4 +72,6 @@ loop(Clock, CustomersToPickUp):-
             assert(transport(Taxi, NodeID, [CustomerID])),
             printNewCustomerInTaxi(Taxi, CustomerID, NewClock),
            loop(Clock, CustomersToPickUpRest))
-        ;  loop(NewClock, CustomersToPickUp)).
+        ;  (moveAllTaxis(CustomersToPickUp),
+            loop(NewClock, CustomersToPickUp)            
+        )).
