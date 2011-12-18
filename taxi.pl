@@ -14,14 +14,16 @@ pickEmptyTaxi(Taxi):-
     
 moveAllTaxis(CustomersToPickUp):-
     forall(transport(Taxi, Customers, NodeID, Distance, Path),
-           (followPath(Distance, Path, NodeID, NewDistance, NewPath, NewNodeID),
+           (followPath(Distance, Path, NodeID, NewDistance, NewPath, [NewNodeID]),
             retract(transport(Taxi,_,_,_,_)),
-            (NewPath =:= [] 
+            (NewPath = [] 
              -> (writeln('Taxi dropped customer off'),
                  startNode(StartID),
+                 write('At node '),write(NewNodeID),write(' and going to '),writeln(StartID),
                  minimumDistance(NewNodeID,StartID,PathToStart,_),
                  assert(transport(Taxi,[],NewNodeID,_,_)),
-                 startTaxi(Taxi, PathToStart)))
+                 startTaxi(Taxi, PathToStart))
+             ; true),
             write('Taxi '),
             write(Taxi),
             write(' has distance to do: '),
@@ -31,10 +33,10 @@ moveAllTaxis(CustomersToPickUp):-
 startTaxi(Taxi, [First|Path]):-
     Path = [Second|Rest],
     edge(First,Second,Distance),
-    followPath(Distance,Rest,Second).
+    followPath(Distance,Rest,Second,_,_,_).
 
 % Taxi has reached it destination
-followPath(0, [], _, 0, _, _):-
+followPath(0, [], Current, 0, _, Current):-
     writeln('Finish!'),!.
     
 % Taxi has reached a node
