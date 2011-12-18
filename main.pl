@@ -8,7 +8,7 @@
 %   main.
 
 % Necessary includes
-:-['city.pl'].
+:-['city_smaller.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
 :-['taxi.pl'].
@@ -49,9 +49,9 @@ loop(Clock, CustomersToPickUp):-
     customer(CustomerID, ETOP, LTOP, NodeID, _),
     (NewClock =:= CustomerPickup 
         -> (pickEmptyTaxi(Taxi),
-            assert(transport(Taxi, NodeID, [CustomerID], _, _)),
+            assert(transport(Taxi, [CustomerID], NodeID, _, _)),
             printNewCustomerInTaxi(CustomerID, Taxi, NewClock),
-            startTaxi(Taxi, [], Distance),
+            startTaxi(Taxi, [], _),
            loop(Clock, CustomersToPickUpRest))
         ;  (moveAllTaxis(CustomersToPickUp),
             loop(NewClock, CustomersToPickUp)            

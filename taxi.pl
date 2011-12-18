@@ -15,6 +15,13 @@ pickEmptyTaxi(Taxi):-
 moveAllTaxis(CustomersToPickUp):-
     forall(transport(Taxi, Customers, NodeID, Distance, Path),
            (followPath(Distance, Path, NodeID, NewDistance, NewPath, NewNodeID),
+            retract(transport(Taxi,_,_,_,_)),
+            (NewPath =:= [] 
+             -> (writeln('Taxi dropped customer off'),
+                 startNode(StartID),
+                 minimumDistance(NewNodeID,StartID,PathToStart,_),
+                 assert(transport(Taxi,[],NewNodeID,_,_)),
+                 startTaxi(Taxi, PathToStart)))
             write('Taxi '),
             write(Taxi),
             write(' has distance to do: '),
