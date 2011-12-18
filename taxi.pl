@@ -14,33 +14,32 @@ pickEmptyTaxi(Taxi):-
     
 moveAllTaxis(CustomersToPickUp):-
     forall(transport(Taxi, Customers, NodeID, Distance, Path),
-           (write('Taxi '),
+           (followPath(Distance, Path, NodeID, NewDistance, NewPath, NewNodeID),
+            write('Taxi '),
             write(Taxi),
-            writeln(' will be moved.'))).
+            write(' has distance to do: '),
+            writeln(NewDistance))).
 
 % init for followpath:
-% minimumDistance(1,2,[First|Path],Length),
-% writeln(Path),
-% Path = [Second|Rest],
-% edge(First,Second,Distance),
-% followPath(Distance,Rest,Second).
+startTaxi(Taxi, [First|Path]):-
+    Path = [Second|Rest],
+    edge(First,Second,Distance),
+    followPath(Distance,Rest,Second).
 
 % Taxi has reached it destination
-followPath(0, [], _):-
+followPath(0, [], _, 0, _, _):-
     writeln('Finish!'),!.
     
 % Taxi has reached a node
-followPath(0, Path, Current):-
+followPath(0, Path, Current, Distance, Rest, First):-
     Path = [First|Rest],
     write('Taking next: '),
     writeln(First),
-    edge(Current, First, Distance),
-    followPath(Distance,Rest,First).
+    edge(Current, First, Distance).
     
 % Taxi is not yet at a new node
-followPath(Distance, Path, Current):-
+followPath(Distance, Path, Current, NewDistance, Path, Current):-
     NewDistance is Distance - 1,
     write('Distance still to do: '),
-    writeln(NewDistance),
-    followPath(NewDistance,Path,Current).
+    writeln(NewDistance).
 

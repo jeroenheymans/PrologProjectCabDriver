@@ -34,7 +34,7 @@ loop(Clock, []):-
     writeln('Finished calculations for all customers'),
     writeln(Clock).
     
-loop(1440, RemainingCustomers):-
+loop(400, RemainingCustomers):-
     writeln('Times up!'),
     writeln(RemainingCustomers),
     forall(transport(TaxiID,_,_),writeln(TaxiID)).
@@ -51,6 +51,7 @@ loop(Clock, CustomersToPickUp):-
         -> (pickEmptyTaxi(Taxi),
             assert(transport(Taxi, NodeID, [CustomerID], _, _)),
             printNewCustomerInTaxi(CustomerID, Taxi, NewClock),
+            startTaxi(Taxi, [], Distance),
            loop(Clock, CustomersToPickUpRest))
         ;  (moveAllTaxis(CustomersToPickUp),
             loop(NewClock, CustomersToPickUp)            
