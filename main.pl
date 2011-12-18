@@ -70,7 +70,7 @@ loop(Clock, CustomersToPickUp):-
     (NewClock =:= CustomerPickup 
         -> (pickEmptyTaxi(Taxi),
             assert(transport(Taxi, NodeID, [CustomerID])),
-            printNewCustomerInTaxi(Taxi, CustomerID, NewClock),
+            printNewCustomerInTaxi(CustomerID, Taxi, NewClock),
            loop(Clock, CustomersToPickUpRest))
         ;  (moveAllTaxis(CustomersToPickUp),
             loop(NewClock, CustomersToPickUp)            

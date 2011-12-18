@@ -12,6 +12,10 @@ pickEmptyTaxi(Taxi):-
     taxi(Taxi),
     \+transport(Taxi,_,_,_,_).
     
-moveAllTaxis(CustomersToPickUp).
+moveAllTaxis(CustomersToPickUp):-
+    forall(transport(Taxi, Customers, NodeID, Distance, Path),
+           (write('Taxi '),
+            write(Taxi),
+            writeln(' will be moved.'))).
 
 
