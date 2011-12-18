@@ -18,9 +18,18 @@ moveAllTaxis(CustomersToPickUp):-
             write(Taxi),
             writeln(' will be moved.'))).
 
+% init for followpath:
+% minimumDistance(1,2,[First|Path],Length),
+% writeln(Path),
+% Path = [Second|Rest],
+% edge(First,Second,Distance),
+% followPath(Distance,Rest,Second).
+
+% Taxi has reached it destination
 followPath(0, [], _):-
     writeln('Finish!'),!.
     
+% Taxi has reached a node
 followPath(0, Path, Current):-
     Path = [First|Rest],
     write('Taking next: '),
@@ -28,6 +37,7 @@ followPath(0, Path, Current):-
     edge(Current, First, Distance),
     followPath(Distance,Rest,First).
     
+% Taxi is not yet at a new node
 followPath(Distance, Path, Current):-
     NewDistance is Distance - 1,
     write('Distance still to do: '),

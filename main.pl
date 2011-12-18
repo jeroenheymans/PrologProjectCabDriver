@@ -18,11 +18,7 @@
 % Test function, used for testing small parts of code before
 % putting it in the rest of the code
 testmain:-
-    minimumDistance(1,2,[First|Path],Length),
-    writeln(Path),
-    Path = [Second|Rest],
-    edge(First,Second,Distance),
-    followPath(Distance,Rest,Second).
+    writeln('This is the testfunction').
 
 % Main function, needs to be executed for this program
 main:-
