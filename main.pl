@@ -21,7 +21,7 @@ testmain:-
     writeln('This is the testfunction').
 
 % Main function, needs to be executed for this program
-main:-
+main(_):-
     writeln('Calculating departure times for taxis'),
     getDeparturesForPickupCustomers(CustomersToPickUp),
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
@@ -36,8 +36,8 @@ loop(Clock, []):-
     
 loop(400, RemainingCustomers):-
     writeln('Times up!'),
-    writeln(RemainingCustomers),
-    forall(transport(TaxiID,_,_),writeln(TaxiID)).
+    writeln(RemainingCustomers).
+    %forall(transport(TaxiID,_,_),writeln(TaxiID)).
     
 % Main loop
 %   Clock = value of the internal clock
@@ -47,11 +47,15 @@ loop(Clock, CustomersToPickUp):-
     nextCustomer(CustomersToPickUp,CustomerPickup-CustomerID,CustomersToPickUpRest),
     NewClock is Clock + 1,
     customer(CustomerID, ETOP, LTOP, NodeID, _),
+    startNode(StartID),
     (NewClock =:= CustomerPickup 
         -> (pickEmptyTaxi(Taxi),
             assert(transport(Taxi, [CustomerID], NodeID, _, _)),
             printNewCustomerInTaxi(CustomerID, Taxi, NewClock),
-            startTaxi(Taxi, [], _),
+            minimumDistance(StartID,NodeID,Path,_),
+            startTaxi(Taxi, Path),
+            CustomersToPickUpRest = [Top|_],
+            writeln(Top), 
            loop(Clock, CustomersToPickUpRest))
         ;  (moveAllTaxis(CustomersToPickUp),
             loop(NewClock, CustomersToPickUp)            

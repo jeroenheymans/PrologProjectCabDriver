@@ -12,9 +12,10 @@ pickEmptyTaxi(Taxi):-
     taxi(Taxi),
     \+transport(Taxi,_,_,_,_).
     
-moveAllTaxis(CustomersToPickUp):-
+moveAllTaxis(_):-
     forall(transport(Taxi, Customers, NodeID, Distance, Path),
-           (followPath(Distance, Path, NodeID, NewDistance, NewPath, [NewNodeID]),
+           (write('Moving taxi '),writeln(Taxi),
+            followPath(Distance, Path, NodeID, NewDistance, NewPath, [NewNodeID]),
             retract(transport(Taxi,_,_,_,_)),
             (NewPath = [] 
              -> (writeln('Taxi dropped customer off'),
@@ -31,6 +32,7 @@ moveAllTaxis(CustomersToPickUp):-
 
 % init for followpath:
 startTaxi(Taxi, [First|Path]):-
+    writeln('Starting taxi'),
     Path = [Second|Rest],
     edge(First,Second,Distance),
     followPath(Distance,Rest,Second,_,_,_).
