@@ -18,4 +18,19 @@ moveAllTaxis(CustomersToPickUp):-
             write(Taxi),
             writeln(' will be moved.'))).
 
+followPath(0, [], _):-
+    writeln('Finish!'),!.
+    
+followPath(0, Path, Current):-
+    Path = [First|Rest],
+    write('Taking next: '),
+    writeln(First),
+    edge(Current, First, Distance),
+    followPath(Distance,Rest,First).
+    
+followPath(Distance, Path, Current):-
+    NewDistance is Distance - 1,
+    write('Distance still to do: '),
+    writeln(NewDistance),
+    followPath(NewDistance,Path,Current).
 
