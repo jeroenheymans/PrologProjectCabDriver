@@ -43,6 +43,7 @@ loop(Clock, RemainingCustomers):-
     NewClock is Clock + 1,
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
     write('Customers to pick up now: '),writeln(CustomersNowToPickUp),
+    assignCustomersToTaxi(CustomersNowToPickUp),
     loop(NewClock, CustomersToPickUpLater).
     
 % Main loop
