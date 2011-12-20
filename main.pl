@@ -42,7 +42,9 @@ loop(588, RemainingCustomers):-
 loop(Clock, RemainingCustomers):-
     NewClock is Clock + 1,
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
-    write('Customers to pick up now: '),writeln(CustomersNowToPickUp),
+    (CustomersNowToPickUp = []
+     -> true
+     ;  (write('Customers to pick up now ('),write(NewClock),write('): '),writeln(CustomersNowToPickUp))),
     assignCustomersToTaxi(CustomersNowToPickUp),
     loop(NewClock, CustomersToPickUpLater).
     
