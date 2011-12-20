@@ -30,6 +30,20 @@ loop:
     get all customers that can be picked up now
     put customers in taxi
     
+************************
+* NEW MAIN LAYOUT LOOP *
+************************
+loop:
+    increase clock
+    get all customers where taxi needs to leave now
+    loop over customers:
+        is there taxi free? no => end!
+        calculate path
+        put customer in taxi
+        start taxi
+    get all running taxi's
+    loop over running taxi's
+    
 ********************************************
 * IDEAS (noted if it is done, todo or ???) *
 ********************************************
