@@ -2,7 +2,7 @@
 
 % transport(TaxiID, NodeID, [Customer1ID, ..., Customer4ID])
 %   TaxiID = taxi that is doing the transport
-%   CustumerXID = ID of the customer in the taxi
+%   CustumerXID = ID of the customers in the taxi
 %   NodeID = current node where the taxi is at
 %   Distance = distance to travel to next node
 %   Path = remaining path to do
@@ -11,6 +11,9 @@
 pickEmptyTaxi(Taxi):-
     taxi(Taxi),
     \+transport(Taxi,_,_,_,_).
+    
+putCustomerInTaxi(Customer,Taxi):-
+    assert(transport(Taxi,Customer,_,_,_)).
     
 moveAllTaxis(_):-
     forall(transport(Taxi, Customers, NodeID, Distance, Path),
@@ -57,5 +60,7 @@ followPath(Distance, Path, Current, NewDistance, Path, Current):-
 assignCustomersToTaxi([]).
 
 assignCustomersToTaxi([Customer|RestCustomers]):-
-    write('Assign customer '),write(Customer),writeln(' to new taxi'),
+    pickEmptyTaxi(Taxi),
+    putCustomerInTaxi(Customer, Taxi),
+    write('Assign customer '),write(Customer),write(' to taxi '),writeln(Taxi),
     assignCustomersToTaxi(RestCustomers).
