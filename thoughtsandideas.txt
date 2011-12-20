@@ -39,10 +39,24 @@ loop:
     loop over customers:
         is there taxi free? no => end!
         calculate path
-        put customer in taxi
         start taxi
+    endloop
     get all running taxi's
     loop over running taxi's
+        decrease distance to travel between 2 nodes
+        if distance = 0
+        then change node
+            if node = drop node customer
+            then drop customer
+                calculate path back to depot
+                start taxi
+            else if node = pick up node customer
+            then pick up customer
+                calculate path to drop node customer
+                start taxi
+            else set stuff to go correctly to next node on path
+     endloop
+endloop
     
 ********************************************
 * IDEAS (noted if it is done, todo or ???) *
