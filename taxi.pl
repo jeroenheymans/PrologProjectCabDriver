@@ -22,7 +22,7 @@ putCustomerInTaxi(Customer,Taxi):-
     assert(transport(Taxi,Customer,_,_,_)).
     
 moveAllTaxis(_):-
-    forall(transport(Taxi, Customers, NodeID, Distance, Path),
+    forall(transport(Taxi, _, NodeID, Distance, Path),
            (write('Moving taxi '),writeln(Taxi),
             followPath(Distance, Path, NodeID, NewDistance, NewPath, [NewNodeID]),
             retract(transport(Taxi,_,_,_,_)),
@@ -40,7 +40,7 @@ moveAllTaxis(_):-
             writeln(NewDistance))).
 
 % init for followpath:
-startTaxi(Taxi, [First|Path]):-
+startTaxi(_, [First|Path]):-
     writeln('Starting taxi'),
     Path = [Second|Rest],
     edge(First,Second,Distance),
