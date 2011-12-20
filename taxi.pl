@@ -8,10 +8,16 @@
 %   Path = remaining path to do
 :- dynamic transport/5.
 
+% Tries to find a taxi that is not yet on the move
+%   -Taxi = ID of the found empty taxi
 pickEmptyTaxi(Taxi):-
     taxi(Taxi),
     \+transport(Taxi,_,_,_,_).
     
+% Take an exisiting taxi and put the customer in it
+% LATER: change the taxi so more customers can fit!
+%   +Customer = ID of the customer to put in taxi
+%   +Taxi = ID of the taxi to put the customer in
 putCustomerInTaxi(Customer,Taxi):-
     assert(transport(Taxi,Customer,_,_,_)).
     
