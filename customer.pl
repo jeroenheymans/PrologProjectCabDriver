@@ -45,14 +45,22 @@ getDeparturesForPickupCustomers(CustomersToPickUp):-
               Customer = NewDistance-CID
              ),
             CustomersToPickUp).
-            
-% customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater):-
-
+    
+% Stopcondition for customersToPickupNow        
+% customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater)
 customersToPickupNow(_, [], [], []).
-customersToPickupNow(Clock, [LeaveTime-CID|T], [LeaveTime-CID|Z], R):- 
+
+% Split the list in 2 parts.
+% Here we put the current customer (head of RemainingCustomers) in
+% the list of CustomersNowToPickUp as the leavingtime is equal to the clock
+customersToPickupNow(Clock, [LeaveTime-CID|Remaining], [LeaveTime-CID|PickUpNow], PickUpLater):- 
     LeaveTime =:= Clock, !, 
-    customersToPickupNow(Clock, T, Z, R).
-customersToPickupNow(Clock, [LeaveTime-CID|T], R, [LeaveTime-CID|Z]) :- 
+    customersToPickupNow(Clock, Remaining, PickUpNow, PickUpLater).
+    
+% Split the list in 2 parts.
+% Here we put the current customer (head of RemainingCustomers) in
+% the list of CustomersToPickUpLater as the leavingtime isn't equal to the clock
+customersToPickupNow(Clock, [LeaveTime-CID|Remaining], PickUpNow, [LeaveTime-CID|PickUpLater]) :- 
     LeaveTime =\= Clock, 
-    customersToPickupNow(Clock, T, R, Z).
+    customersToPickupNow(Clock, Remaining, PickUpNow, PickUpLater).
     

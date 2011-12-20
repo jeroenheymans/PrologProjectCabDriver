@@ -34,14 +34,13 @@ loop(Clock, []):-
     writeln('Finished calculations for all customers'),
     writeln(Clock).
     
-loop(400, RemainingCustomers):-
+loop(588, RemainingCustomers):-
     writeln('Times up!'),
     writeln(RemainingCustomers).
     %forall(transport(TaxiID,_,_),writeln(TaxiID)).
     
 loop(Clock, RemainingCustomers):-
     NewClock is Clock + 1,
-    writeln(NewClock),
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
     write('Customers to pick up now: '),writeln(CustomersNowToPickUp),
     loop(NewClock, CustomersToPickUpLater).
