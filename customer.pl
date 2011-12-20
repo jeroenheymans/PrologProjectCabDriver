@@ -45,3 +45,14 @@ getDeparturesForPickupCustomers(CustomersToPickUp):-
               Customer = NewDistance-CID
              ),
             CustomersToPickUp).
+            
+% customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater):-
+
+customersToPickupNow(_, [], [], []).
+customersToPickupNow(Clock, [LeaveTime-CID|T], [LeaveTime-CID|Z], R):- 
+    LeaveTime =:= Clock, !, 
+    customersToPickupNow(Clock, T, Z, R).
+customersToPickupNow(Clock, [LeaveTime-CID|T], R, [LeaveTime-CID|Z]) :- 
+    LeaveTime =\= Clock, 
+    customersToPickupNow(Clock, T, R, Z).
+    

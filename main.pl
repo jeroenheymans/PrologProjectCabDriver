@@ -39,10 +39,12 @@ loop(400, RemainingCustomers):-
     writeln(RemainingCustomers).
     %forall(transport(TaxiID,_,_),writeln(TaxiID)).
     
-loop(Clock, CustomersToPickUp):-
+loop(Clock, RemainingCustomers):-
     NewClock is Clock + 1,
     writeln(NewClock),
-    loop(NewClock, CustomersToPickUp).
+    customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
+    write('Customers to pick up now: '),writeln(CustomersNowToPickUp),
+    loop(NewClock, CustomersToPickUpLater).
     
 % Main loop
 %   Clock = value of the internal clock
