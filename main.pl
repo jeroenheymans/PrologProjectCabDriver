@@ -36,8 +36,11 @@ loop(Clock, []):-
     
 loop(588, RemainingCustomers):-
     writeln('Times up!'),
-    writeln(RemainingCustomers).
-    %forall(transport(TaxiID,_,_),writeln(TaxiID)).
+    write('Remaining customers: '),
+    writeln(RemainingCustomers),
+    writeln('Taxis still in transport: '),
+    forall(transport(TaxiID,_,_,_,_,_),
+          (write('Taxi '),writeln(TaxiID))).
     
 loop(Clock, RemainingCustomers):-
     NewClock is Clock + 1,
@@ -46,6 +49,7 @@ loop(Clock, RemainingCustomers):-
      -> true
      ;  (write('Customers to pick up now ('),write(NewClock),write('): '),writeln(CustomersNowToPickUp))),
     sendTaxisToCustomers(CustomersNowToPickUp),
+    moveAllTaxis(),
     loop(NewClock, CustomersToPickUpLater).
     
 % Main loop
