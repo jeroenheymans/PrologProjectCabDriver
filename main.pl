@@ -49,7 +49,7 @@ loop(Clock, RemainingCustomers):-
      -> true
      ;  (write('Customers to pick up now ('),write(NewClock),write('): '),writeln(CustomersNowToPickUp))),
     sendTaxisToCustomers(CustomersNowToPickUp),
-    moveAllTaxis(),
+    %moveAllTaxis(),
     loop(NewClock, CustomersToPickUpLater).
     
 % Main loop

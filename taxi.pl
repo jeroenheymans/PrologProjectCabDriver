@@ -51,7 +51,7 @@ startTaxi(Taxi, WhereTo, [First|Path]):-
     Path = [Second|Rest],
     edge(Frist, Second, Distance),
     assert(transport(Taxi, [], NodeID, WhereTo, Distance, Rest)),
-    writeln('Started taxi').
+    printStartTaxi(First, Second, Distance, Rest, WhereTo).
 
 % Taxi has reached it destination
 followPath(0, [], Current, 0, _, Current):-
