@@ -46,9 +46,25 @@ getTaxisInTransport(Taxis):-
            Taxi = TaxiID),
           Taxis).   
           
+dropOffCustomers([], _, _).
+
+dropOffCustomers([Customer|Customers], NodeID, _):-
+    write('Trying dropoff, customers: '),write(Customer),write(Customers),writeln(NodeID),
+    customer(Customer, _, _, _, NodeID),
+    write('Can drop off customer '),writeln(Customer),
+    dropOffCustomers(Customers, NodeID).
+    
+pickUpCustomers(NodeID, PickUpCustomers):-
+    findall(Customer,
+            (customer(CID, _, _, NodeID, _),
+             Customer = CID),
+            PickUpCustomers).
+          
 % Reached finish
-moveTaxi(TaxiID, Customers, 1, FinishID, [], 999, FinishID, [], NewCustomers):-
-    NewCustomers = Customers.
+moveTaxi(TaxiID, Customers, 1, FinishID, [], 10, FinishID, [], PickUpCustomers):-
+    writeln('Trying dropoff'),
+    dropOffCustomers(Customers, FinishID, _),
+    pickUpCustomers(FinishID, PickUpCustomers).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
 moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
