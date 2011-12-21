@@ -13,6 +13,8 @@ printStartTaxi(First, Second, Distance, Path, WhereTo):-
     write(Second),
     write(' (distance='),
     write(Distance),
-    write(') and path to follow: '),
-    write(Path),write(' to end: '),
-    writeln(WhereTo).
+    %write(') and path to follow: '),
+    %write(Path),
+    %write(' to end: '),
+    %writeln(WhereTo).
+    writeln(')').

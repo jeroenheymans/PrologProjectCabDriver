@@ -46,7 +46,15 @@ getTaxisInTransport(Taxis):-
            Taxi = TaxiID),
           Taxis).    
           
-moveTaxis(Taxis).
+moveTaxis([]).
+          
+moveTaxis([Taxi|Taxis]):-
+    write('Moving taxi '),writeln(Taxi),
+    retract(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)),
+    NewDistance is Distance - 1,
+    assert(transport(Taxi, Customers, NodeID, FinishID, NewDistance, Path)),
+    write('Moved taxi '),write(Taxi),write(' with new distance: '),writeln(NewDistance),
+    moveTaxis(Taxis).
 
 % init for followpath:
 %startTaxi(_, [First|Path]):-
@@ -55,7 +63,7 @@ moveTaxis(Taxis).
 %    edge(First,Second,Distance),
 %    followPath(Distance,Rest,Second,_,_,_).
 startTaxi(Taxi, WhereTo, [First|Path]):-
-    \+transport(Taxi,_,_,_,_,_),
+    %\+transport(Taxi,_,_,_,_,_),
     Path = [Second|Rest],
     edge(Frist, Second, Distance),
     assert(transport(Taxi, [], First, WhereTo, Distance, Rest)),

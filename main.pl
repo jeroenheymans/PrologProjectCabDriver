@@ -23,7 +23,8 @@ testmain:-
 % Main function, needs to be executed for this program
 main(_):-
     writeln('Calculating departure times for taxis'),
-    getDeparturesForPickupCustomers(CustomersToPickUp),
+    %getDeparturesForPickupCustomers(CustomersToPickUp),
+    CustomersToPickUp = [1038-0,233-1,587-2],
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
     writeln('Picking up customers'),
     loop(0, CustomersToPickUpSorted).
@@ -34,7 +35,7 @@ loop(Clock, []):-
     writeln('Finished calculations for all customers'),
     writeln(Clock).
     
-loop(588, RemainingCustomers):-
+loop(234, RemainingCustomers):-
     writeln('Times up!'),
     write('Remaining customers: '),
     writeln(RemainingCustomers),
