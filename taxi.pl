@@ -47,21 +47,22 @@ getTaxisInTransport(Taxis):-
           Taxis).   
           
 % Reached finish
-moveTaxi(1, NodeID, [], 999, NodeID, []).
+moveTaxi(TaxiID, Customers, 1, FinishID, [], 999, FinishID, [], NewCustomers):-
+    NewCustomers = Customers.
 
-% Distance, NodeID, Path, newDistance
-moveTaxi(1, NodeID, [Top|Rest], NewDistance, Top, Rest):-
+% moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
+moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
     edge(NodeID,Top,NewDistance).
           
-moveTaxi(Distance, NodeID, Path, NewDistance, NodeID, Path):-
+moveTaxi(_, Customers, Distance, NodeID, Path, NewDistance, NodeID, Path, Customers):-
     NewDistance is Distance - 1.  
           
 moveTaxis([]).
           
 moveTaxis([Taxi|Taxis]):-
     retract(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)),
-    moveTaxi(Distance, NodeID, Path, NewDistance, NewNodeID, NewPath),
-    assert(transport(Taxi, Customers, NewNodeID, FinishID, NewDistance, NewPath)),
+    moveTaxi(Taxi, Customers, Distance, NodeID, Path, NewDistance, NewNodeID, NewPath, NewCustomers),
+    assert(transport(Taxi, NewCustomers, NewNodeID, FinishID, NewDistance, NewPath)),
     write('Moved taxi '),write(Taxi),write(' with new distance: '),write(NewDistance),write(', going to: '),writeln(NewNodeID),
     moveTaxis(Taxis).
 
