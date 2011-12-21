@@ -40,6 +40,14 @@ putCustomerInTaxi(Customer,Taxi):-
 %            write(' has distance to do: '),
 %            writeln(NewDistance))).
 
+getTaxisInTransport(Taxis):-
+    findall(Taxi,
+          (transport(TaxiID, _, _, _, _, _),
+           Taxi = TaxiID),
+          Taxis).    
+          
+moveTaxis(Taxis).
+
 % init for followpath:
 %startTaxi(_, [First|Path]):-
 %    writeln('Starting taxi'),
@@ -50,7 +58,7 @@ startTaxi(Taxi, WhereTo, [First|Path]):-
     \+transport(Taxi,_,_,_,_,_),
     Path = [Second|Rest],
     edge(Frist, Second, Distance),
-    assert(transport(Taxi, [], NodeID, WhereTo, Distance, Rest)),
+    assert(transport(Taxi, [], First, WhereTo, Distance, Rest)),
     printStartTaxi(First, Second, Distance, Rest, WhereTo).
 
 % Taxi has reached it destination
