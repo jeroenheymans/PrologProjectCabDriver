@@ -35,7 +35,7 @@ loop(Clock, []):-
     writeln('Finished calculations for all customers'),
     writeln(Clock).
     
-loop(234, RemainingCustomers):-
+loop(600, RemainingCustomers):-
     writeln('Times up!'),
     write('Remaining customers: '),
     writeln(RemainingCustomers),
