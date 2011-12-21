@@ -63,10 +63,10 @@ followPath(Distance, Path, Current, NewDistance, Path, Current):-
     write('Distance still to do: '),
     writeln(NewDistance).
 
-assignCustomersToTaxi([]).
+sendTaxisToCustomers([]).
 
-assignCustomersToTaxi([Customer|RestCustomers]):-
+sendTaxisToCustomers([Customer|RestCustomers]):-
     pickEmptyTaxi(Taxi),
     putCustomerInTaxi(Customer, Taxi),
-    write('Assign customer '),write(Customer),write(' to taxi '),writeln(Taxi),
-    assignCustomersToTaxi(RestCustomers).
+    write('Sending taxi '),write(Taxi),write(' to pick up customer '),writeln(Customer),
+    sendTaxisToCustomers(RestCustomers).
