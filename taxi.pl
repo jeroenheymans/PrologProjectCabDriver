@@ -22,6 +22,11 @@ pickEmptyTaxi(Taxi):-
 putCustomerInTaxi(Customer,Taxi):-
     assert(transport(Taxi,Customer,_,_,_)).
     
+putCustomersInTaxi(Customers, Taxi):-
+    % append later on as optimization
+    retract(transport(Taxi, _, NodeID, FinishID, Distance, Path)),
+    assert(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)).
+    
 %moveAllTaxis(_):-
 %    forall(transport(Taxi, _, NodeID, Distance, Path),
 %           (write('Moving taxi '),writeln(Taxi),
@@ -64,7 +69,8 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
 moveTaxi(TaxiID, Customers, 1, FinishID, [], 10, FinishID, [], PickUpCustomers):-
     writeln('Trying dropoff'),
     dropOffCustomers(Customers, FinishID, _),
-    getCustomersToPickUp(FinishID, PickUpCustomers).
+    getCustomersToPickUp(FinishID, PickUpCustomers),
+    putCustomersInTaxi(PickUpCustomers, TaxiID).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
 moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
