@@ -54,7 +54,7 @@ dropOffCustomers([Customer|Customers], NodeID, _):-
     write('Can drop off customer '),writeln(Customer),
     dropOffCustomers(Customers, NodeID).
     
-pickUpCustomers(NodeID, PickUpCustomers):-
+getCustomersToPickUp(NodeID, PickUpCustomers):-
     findall(Customer,
             (customer(CID, _, _, NodeID, _),
              Customer = CID),
@@ -64,7 +64,7 @@ pickUpCustomers(NodeID, PickUpCustomers):-
 moveTaxi(TaxiID, Customers, 1, FinishID, [], 10, FinishID, [], PickUpCustomers):-
     writeln('Trying dropoff'),
     dropOffCustomers(Customers, FinishID, _),
-    pickUpCustomers(FinishID, PickUpCustomers).
+    getCustomersToPickUp(FinishID, PickUpCustomers).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
 moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
