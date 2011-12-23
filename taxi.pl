@@ -66,13 +66,18 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
             PickUpCustomers).
           
 % Reached finish
-moveTaxi(TaxiID, Customers, 1, FinishID, [], 10, FinishID, [], PickUpCustomers):-
+moveTaxi(TaxiID, Customers, 1, FinishID, [], NewDistance, NewNextNodeID, NewPath, PickUpCustomers):-
     writeln('Trying dropoff'),
     dropOffCustomers(Customers, FinishID, _),
     getCustomersToPickUp(FinishID, PickUpCustomers),
     write('Customers to pick up: '),writeln(PickUpCustomers),
     %putCustomersInTaxi(PickUpCustomers, TaxiID),
-    PickUpCustomers = [Customer],
+    PickUpCustomers = [Customer], % we assume one customer to pick up
+    customer(Customer,_,_,_,Destination),
+    minimumDistance(FinishID, Destination, Path, Distance),
+    Path = [FinishID|TempPath],
+    TempPath = [NewNextNodeID|NewPath],
+    edge(FinishID, NewNextNodeID, NewDistance),
     write('Customer in moveTaxi: '),writeln(Customer).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
