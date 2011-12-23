@@ -54,10 +54,9 @@ getTaxisInTransport(Taxis):-
 dropOffCustomers([], _, _).
 
 dropOffCustomers([Customer|Customers], NodeID, _):-
-    write('Trying dropoff, customers: '),write(Customer),write(Customers),writeln(NodeID),
     customer(Customer, _, _, _, NodeID),
-    write('Can drop off customer '),writeln(Customer),
-    dropOffCustomers(Customers, NodeID).
+    write('Dropped off customer '),writeln(Customer),
+    dropOffCustomers(Customers, NodeID, _).
     
 getCustomersToPickUp(NodeID, PickUpCustomers):-
     findall(Customer,
@@ -67,18 +66,15 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
           
 % Reached finish
 moveTaxi(TaxiID, Customers, 1, FinishID, [], NewDistance, NewNextNodeID, NewPath, PickUpCustomers):-
-    writeln('Trying dropoff'),
+    write('Taxi '),write(TaxiID),writeln(' reached destination'),
     dropOffCustomers(Customers, FinishID, _),
     getCustomersToPickUp(FinishID, PickUpCustomers),
-    write('Customers to pick up: '),writeln(PickUpCustomers),
-    %putCustomersInTaxi(PickUpCustomers, TaxiID),
     PickUpCustomers = [Customer], % we assume one customer to pick up
     customer(Customer,_,_,_,Destination),
     minimumDistance(FinishID, Destination, Path, Distance),
     Path = [FinishID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
-    edge(FinishID, NewNextNodeID, NewDistance),
-    write('Customer in moveTaxi: '),writeln(Customer).
+    edge(FinishID, NewNextNodeID, NewDistance).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
 moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
@@ -93,7 +89,6 @@ moveTaxis([Taxi|Taxis]):-
     retract(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)),
     moveTaxi(Taxi, Customers, Distance, NodeID, Path, NewDistance, NewNodeID, NewPath, NewCustomers),
     assert(transport(Taxi, NewCustomers, NewNodeID, FinishID, NewDistance, NewPath)),
-    write('Moved taxi '),write(Taxi),write(' with new distance: '),write(NewDistance),write(', going to: '),writeln(NewNodeID),
     moveTaxis(Taxis).
 
 % init for followpath:
@@ -105,9 +100,9 @@ moveTaxis([Taxi|Taxis]):-
 startTaxi(Taxi, WhereTo, [First|Path]):-
     %\+transport(Taxi,_,_,_,_,_),
     Path = [Second|Rest],
-    edge(Frist, Second, Distance),
-    assert(transport(Taxi, [], Second, WhereTo, Distance, Rest)),
-    printStartTaxi(First, Second, Distance, Rest, WhereTo).
+    edge(First, Second, Distance),
+    assert(transport(Taxi, [], Second, WhereTo, Distance, Rest)).
+    %printStartTaxi(First, Second, Distance, Rest, WhereTo).
 
 % Taxi has reached it destination
 followPath(0, [], Current, 0, _, Current):-
@@ -116,14 +111,12 @@ followPath(0, [], Current, 0, _, Current):-
 % Taxi has reached a node
 followPath(0, Path, Current, Distance, Rest, First):-
     Path = [First|Rest],
-    write('Taking next: '),
     writeln(First),
     edge(Current, First, Distance).
     
 % Taxi is not yet at a new node
 followPath(Distance, Path, Current, NewDistance, Path, Current):-
     NewDistance is Distance - 1,
-    write('Distance still to do: '),
     writeln(NewDistance).
 
 sendTaxisToCustomers([]).
@@ -134,5 +127,4 @@ sendTaxisToCustomers([Customer|RestCustomers]):-
     startNode(NodeID),
     minimumDistance(NodeID, StartID, Path, _),
     startTaxi(Taxi, StartID, Path),
-    write('Sending taxi '),write(Taxi),write(' to pick up customer '),writeln(Customer),
     sendTaxisToCustomers(RestCustomers).
