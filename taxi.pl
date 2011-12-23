@@ -70,7 +70,10 @@ moveTaxi(TaxiID, Customers, 1, FinishID, [], 10, FinishID, [], PickUpCustomers):
     writeln('Trying dropoff'),
     dropOffCustomers(Customers, FinishID, _),
     getCustomersToPickUp(FinishID, PickUpCustomers),
-    putCustomersInTaxi(PickUpCustomers, TaxiID).
+    write('Customers to pick up: '),writeln(PickUpCustomers),
+    %putCustomersInTaxi(PickUpCustomers, TaxiID),
+    PickUpCustomers = [Customer],
+    write('Customer in moveTaxi: '),writeln(Customer).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
 moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
