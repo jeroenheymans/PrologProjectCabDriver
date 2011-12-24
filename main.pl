@@ -32,10 +32,12 @@ main(_):-
 % Ending of the main loop
 %   Clock = value of the internal clock
 loop(Clock, []):-
-    writeln('Finished calculations for all customers'),
-    writeln(Clock).
+    NewClock is Clock + 1,
+    getTaxisInTransport(TaxisInTransport),
+    moveTaxis(TaxisInTransport),
+    loop(NewClock, []).
     
-loop(2000, RemainingCustomers):-
+loop(1440, RemainingCustomers):-
     writeln('Times up!'),
     write('Remaining customers: '),
     writeln(RemainingCustomers),

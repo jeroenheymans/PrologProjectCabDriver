@@ -82,7 +82,7 @@ moveTaxi(_, Customers, Distance, NodeID, Path, NewDistance, NodeID, Path, Custom
 moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath):-
     startNode(FinishID),
     minimumDistance(StartID, FinishID, Path, Distance),
-    write(' - '),write(StartID),write(' - '),write(NewNextNodeID),write(' - '),write(Distance),write(' - '),writeln(Path),
+    write(' - '),write(StartID),write(' - '),write(Distance),write(' - '),writeln(Path),
     Path = [StartID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
     edge(StartID, NewNextNodeID, NewDistance),
@@ -107,7 +107,7 @@ moveTaxis([]).
           
 moveTaxis([Taxi|Taxis]):-
     retract(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)),
-    moveTaxi(Taxi, Customers, Distance, NodeID, Path, NewDistance, NewNodeID, NewPath, NewCustomers),
+    moveTaxi(Taxi, Customers, Distance, NodeID, FinishID, Path, NewDistance, NewNodeID, NewPath, NewCustomers),
     assert(transport(Taxi, NewCustomers, NewNodeID, FinishID, NewDistance, NewPath)),
     moveTaxis(Taxis).
 
