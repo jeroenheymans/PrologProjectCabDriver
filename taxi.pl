@@ -42,7 +42,6 @@ dropOffCustomers([], _, _).
 %   +_ = unused, why??? TODO: fix this!
 dropOffCustomers([Customer|Customers], NodeID, _):-
     customer(Customer, _, _, _, NodeID),
-    write('Dropped off customer '),writeln(Customer),
     dropOffCustomers(Customers, NodeID, _).
     
 % Get a list of all the customers that we can pick
@@ -64,7 +63,7 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
 %   +Distance = 1
 %   +Path = []
 moveTaxi(TaxiID, Customers, _, 1275, 1, []):-
-    write('"Honey I\'m home!", said Taxi '),writeln(TaxiID).
+    printTaxiIsHome(TaxiID).
         
 % Reached finish and it is not the starting point
 %   +TaxiID = ID of the taxi on the move
@@ -75,11 +74,10 @@ moveTaxi(TaxiID, Customers, _, 1275, 1, []):-
 %   +Path = []
 moveTaxi(TaxiID, Customers, _, FinishID, 1, []):-
     dropOffCustomers(Customers, FinishID, _),
-    %write('Taxi '),write(TaxiID),write(' dropped off: '),writeln(Customers),
+    printDropOffCustomers(TaxiID,Customers),
     getCustomersToPickUp(FinishID, PickUpCustomers),
-    %write('Taxi '),write(TaxiID),write(' reached destination and picks up: '),writeln(PickUpCustomers),
+    printPickUpCustomers(TaxiID, PickUpCustomers),
     moveTaxiContinue(PickUpCustomers, FinishID, NewNextNodeID, NewDistance, NewPath, NewFinishID),
-    %write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID),
     assert(transport(TaxiID, PickUpCustomers, NewNextNodeID, NewFinishID, NewDistance, NewPath)).
 
 % Reached new node and this is not yet the finish

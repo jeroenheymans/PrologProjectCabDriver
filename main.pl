@@ -9,6 +9,7 @@
 
 % Necessary includes
 :-['city_smaller.pl'].
+%:-['city.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
 :-['taxi.pl'].
@@ -24,21 +25,14 @@ testmain:-
 
 % Main function, needs to be executed for this program
 main(_):-
-    writeln('Calculating departure times for taxis'),
-    %getDeparturesForPickupCustomers(CustomersToPickUp),
-    CustomersToPickUp = [1038-0,233-1,587-2],
+    getDeparturesForPickupCustomers(CustomersToPickUp),
+    %CustomersToPickUp = [1038-0,233-1,587-2],
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
-    writeln('Picking up customers'),
     assert(clock(0)),
     loop(0, CustomersToPickUpSorted).
     
 loop(3000, RemainingCustomers):-
-    writeln('Times up!'),
-    write('Remaining customers: '),
-    writeln(RemainingCustomers),
-    writeln('Taxis still in transport: '),
-    forall(transport(TaxiID,_,_,_,_,_),
-          (write('Taxi '),writeln(TaxiID))).
+    printTimesUp(RemainingCustomers).
           
 loop(Clock, []):-
     retract(clock(Clock)),
@@ -54,7 +48,7 @@ loop(Clock, RemainingCustomers):-
     assert(clock(NewClock)),
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
     (CustomersNowToPickUp = [] -> true
-     ;  (write('Customers to pick up now ('),write(NewClock),write('): '),writeln(CustomersNowToPickUp))),
+     ;  printCustomersToPickUpNow(CustomersNowToPickUp)),
     sendTaxisToCustomers(CustomersNowToPickUp),
     getTaxisInTransport(TaxisInTransport),
     moveTaxis(TaxisInTransport),
