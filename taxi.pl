@@ -63,8 +63,8 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
 %   +FinishID = 1275 (can we make this dynamic? TODO!)
 %   +Distance = 1
 %   +Path = []
-moveTaxi(TaxiID, Customers, _, 1275, 1, []):- 
-    write("Honey I'm home!, said Taxi "),writeln(TaxiID).
+moveTaxi(TaxiID, Customers, _, 1275, 1, []):-
+    write('"Honey I\'m home!", said Taxi '),writeln(TaxiID).
         
 % Reached finish and it is not the starting point
 %   +TaxiID = ID of the taxi on the move
@@ -75,11 +75,11 @@ moveTaxi(TaxiID, Customers, _, 1275, 1, []):-
 %   +Path = []
 moveTaxi(TaxiID, Customers, _, FinishID, 1, []):-
     dropOffCustomers(Customers, FinishID, _),
-    write('Taxi '),write(TaxiID),write(' dropped off: '),writeln(Customers),
+    %write('Taxi '),write(TaxiID),write(' dropped off: '),writeln(Customers),
     getCustomersToPickUp(FinishID, PickUpCustomers),
-    write('Taxi '),write(TaxiID),write(' reached destination and picks up: '),writeln(PickUpCustomers),
+    %write('Taxi '),write(TaxiID),write(' reached destination and picks up: '),writeln(PickUpCustomers),
     moveTaxiContinue(PickUpCustomers, FinishID, NewNextNodeID, NewDistance, NewPath, NewFinishID),
-    write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID),
+    %write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID),
     assert(transport(TaxiID, PickUpCustomers, NewNextNodeID, NewFinishID, NewDistance, NewPath)).
 
 % Reached new node and this is not yet the finish
