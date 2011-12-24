@@ -47,8 +47,7 @@ loop(Clock, RemainingCustomers):-
     NewClock is Clock + 1,
     assert(clock(NewClock)),
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
-    (CustomersNowToPickUp = [] -> true
-     ;  printCustomersToPickUpNow(CustomersNowToPickUp)),
+    printCustomersToPickUpNow(CustomersNowToPickUp),
     sendTaxisToCustomers(CustomersNowToPickUp),
     getTaxisInTransport(TaxisInTransport),
     moveTaxis(TaxisInTransport),

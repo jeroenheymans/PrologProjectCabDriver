@@ -13,6 +13,8 @@ printTimesUp(Customers):-
     forall(transport(TaxiID,_,_,_,_,_),
           (write(TaxiID),write(' '))).
     
+printCustomersToPickUpNow([]).
+    
 printCustomersToPickUpNow(Customers):-
     printClock,
     write('Sending taxi\'s to customers: '),
