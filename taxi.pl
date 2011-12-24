@@ -62,7 +62,7 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
 %   +FinishID = 1275 (can we make this dynamic? TODO!)
 %   +Distance = 1
 %   +Path = []
-moveTaxi(TaxiID, Customers, _, 1275, 1, []):-
+moveTaxi(TaxiID, _, _, 1275, 1, []):-
     printTaxiIsHome(TaxiID).
         
 % Reached finish and it is not the starting point
@@ -113,7 +113,7 @@ moveTaxi(TaxiID, Customers, NodeID, FinishID, Distance, Path):-
 %   -NewFinishID = the ID of the endpoint
 moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath, NewFinishID):-
     startNode(NewFinishID),
-    minimumDistance(StartID, NewFinishID, Path, Distance),
+    minimumDistance(StartID, NewFinishID, Path, _),
     Path = [StartID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
     edge(StartID, NewNextNodeID, NewDistance).
@@ -127,10 +127,10 @@ moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath, NewFinishID):
 %   -NewFinishID = the ID of the endpoint
 moveTaxiContinue([Customer|_], StartID, NewNextNodeID, NewDistance, NewPath, Destination):-
     customer(Customer,_,_,_,Destination),
-    minimumDistance(StartID, Destination, Path, Distance),
+    minimumDistance(StartID, Destination, Path, _),
     Path = [StartID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
-    edge(FinishID, NewNextNodeID, NewDistance).
+    edge(StartID, NewNextNodeID, NewDistance).
             
 % Endcondition to loop over all the taxis
 moveTaxis([]).
