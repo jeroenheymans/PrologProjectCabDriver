@@ -29,21 +29,19 @@ main(_):-
     writeln('Picking up customers'),
     loop(0, CustomersToPickUpSorted).
     
-% Ending of the main loop
-%   Clock = value of the internal clock
-loop(Clock, []):-
-    NewClock is Clock + 1,
-    getTaxisInTransport(TaxisInTransport),
-    moveTaxis(TaxisInTransport),
-    loop(NewClock, []).
-    
-loop(1440, RemainingCustomers):-
+loop(3000, RemainingCustomers):-
     writeln('Times up!'),
     write('Remaining customers: '),
     writeln(RemainingCustomers),
     writeln('Taxis still in transport: '),
     forall(transport(TaxiID,_,_,_,_,_),
           (write('Taxi '),writeln(TaxiID))).
+          
+loop(Clock, []):-
+    NewClock is Clock + 1,
+    getTaxisInTransport(TaxisInTransport),
+    moveTaxis(TaxisInTransport),
+    loop(NewClock, []).
     
 loop(Clock, RemainingCustomers):-
     NewClock is Clock + 1,

@@ -65,19 +65,23 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
             PickUpCustomers).
           
 % Reached finish
-moveTaxi(TaxiID, Customers, 1, FinishID, [], NewDistance, NewNextNodeID, NewPath, PickUpCustomers):-
+moveTaxi(TaxiID, Customers, _, FinishID, 1, []):-
     dropOffCustomers(Customers, FinishID, _),
     getCustomersToPickUp(FinishID, PickUpCustomers),
     write('Taxi '),write(TaxiID),write(' reached destination and picks up: '),writeln(PickUpCustomers),
     moveTaxiContinue(PickUpCustomers, FinishID, NewNextNodeID, NewDistance, NewPath),
-    write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID).
+    write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID),
+    assert(transport(TaxiID, PickUpCustomers, NewNextNodeID, FinishID, NewDistance, NewPath)).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
-moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
-    edge(NodeID,Top,NewDistance).
+moveTaxi(TaxiID, Customers, NodeID, FinishID, 1, [NextNodeID|NewPath]):-
+    edge(NodeID,NextNodeID,NewDistance),
+    write('Taxi '),write(TaxiID),write(' goes from node '),write(NodeID),write(' to node '),writeln(NextNodeID),
+    assert(transport(TaxiID, Customers, NextNodeID, FinishID, NewDistance, NewPath)).
           
-moveTaxi(_, Customers, Distance, NodeID, Path, NewDistance, NodeID, Path, Customers):-
-    NewDistance is Distance - 1.  
+moveTaxi(TaxiID, Customers, NodeID, FinishID, Distance, Path):-
+    NewDistance is Distance - 1,
+    assert(transport(TaxiID, Customers, NodeID, FinishID, NewDistance, Path)).  
             
 moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath):-
     startNode(FinishID),
@@ -107,8 +111,7 @@ moveTaxis([]).
           
 moveTaxis([Taxi|Taxis]):-
     retract(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)),
-    moveTaxi(Taxi, Customers, Distance, NodeID, FinishID, Path, NewDistance, NewNodeID, NewPath, NewCustomers),
-    assert(transport(Taxi, NewCustomers, NewNodeID, FinishID, NewDistance, NewPath)),
+    moveTaxi(Taxi, Customers, NodeID, FinishID, Distance, Path),
     moveTaxis(Taxis).
 
 % init for followpath:
