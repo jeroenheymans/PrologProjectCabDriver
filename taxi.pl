@@ -67,11 +67,12 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
 % Reached finish
 moveTaxi(TaxiID, Customers, _, FinishID, 1, []):-
     dropOffCustomers(Customers, FinishID, _),
+    write('Taxi '),write(TaxiID),write(' dropped off: '),writeln(Customers),
     getCustomersToPickUp(FinishID, PickUpCustomers),
     write('Taxi '),write(TaxiID),write(' reached destination and picks up: '),writeln(PickUpCustomers),
-    moveTaxiContinue(PickUpCustomers, FinishID, NewNextNodeID, NewDistance, NewPath),
+    moveTaxiContinue(PickUpCustomers, FinishID, NewNextNodeID, NewDistance, NewPath, NewFinishID),
     write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID),
-    assert(transport(TaxiID, PickUpCustomers, NewNextNodeID, FinishID, NewDistance, NewPath)).
+    assert(transport(TaxiID, PickUpCustomers, NewNextNodeID, NewFinishID, NewDistance, NewPath)).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
 moveTaxi(TaxiID, Customers, NodeID, FinishID, 1, [NextNodeID|NewPath]):-
@@ -83,16 +84,16 @@ moveTaxi(TaxiID, Customers, NodeID, FinishID, Distance, Path):-
     NewDistance is Distance - 1,
     assert(transport(TaxiID, Customers, NodeID, FinishID, NewDistance, Path)).  
             
-moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath):-
-    startNode(FinishID),
-    minimumDistance(StartID, FinishID, Path, Distance),
+moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath, NewFinishID):-
+    startNode(NewFinishID),
+    minimumDistance(StartID, NewFinishID, Path, Distance),
     write(' - '),write(StartID),write(' - '),write(Distance),write(' - '),writeln(Path),
     Path = [StartID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
     edge(StartID, NewNextNodeID, NewDistance),
     writeln('Sending taxi back to starting point').
 
-moveTaxiContinue([Customer|_], StartID, NewNextNodeID, NewDistance, NewPath):-
+moveTaxiContinue([Customer|_], StartID, NewNextNodeID, NewDistance, NewPath, Destination):-
     customer(Customer,_,_,_,Destination),
     minimumDistance(StartID, Destination, Path, Distance),
     Path = [StartID|TempPath],
