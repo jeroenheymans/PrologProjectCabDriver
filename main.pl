@@ -15,6 +15,8 @@
 :-['functions.pl'].
 :-['print.pl'].
 
+:-dynamic clock/1.
+
 % Test function, used for testing small parts of code before
 % putting it in the rest of the code
 testmain:-
@@ -27,6 +29,7 @@ main(_):-
     CustomersToPickUp = [1038-0,233-1,587-2],
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
     writeln('Picking up customers'),
+    assert(clock(0)),
     loop(0, CustomersToPickUpSorted).
     
 loop(3000, RemainingCustomers):-
@@ -38,13 +41,17 @@ loop(3000, RemainingCustomers):-
           (write('Taxi '),writeln(TaxiID))).
           
 loop(Clock, []):-
+    retract(clock(Clock)),
     NewClock is Clock + 1,
+    assert(clock(NewClock)),
     getTaxisInTransport(TaxisInTransport),
     moveTaxis(TaxisInTransport),
     loop(NewClock, []).
     
 loop(Clock, RemainingCustomers):-
+    retract(clock(Clock)),
     NewClock is Clock + 1,
+    assert(clock(NewClock)),
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
     (CustomersNowToPickUp = [] -> true
      ;  (write('Customers to pick up now ('),write(NewClock),write('): '),writeln(CustomersNowToPickUp))),
