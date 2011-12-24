@@ -15,56 +15,64 @@ pickEmptyTaxi(Taxi):-
     taxi(Taxi),
     \+transport(Taxi,_,_,_,_,_).
     
-% Take an exisiting taxi and put the customer in it
+% Take an exisiting taxi and put the customers in it
 % LATER: change the taxi so more customers can fit!
-%   +Customer = ID of the customer to put in taxi
-%   +Taxi = ID of the taxi to put the customer in
-putCustomerInTaxi(Customer,Taxi):-
-    assert(transport(Taxi,Customer,_,_,_)).
-    
+%   +Customers = IDs of the customers to put in taxi
+%   +Taxi = ID of the taxi to put the customers in    
 putCustomersInTaxi(Customers, Taxi):-
-    % append later on as optimization
     retract(transport(Taxi, _, NodeID, FinishID, Distance, Path)),
     assert(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)).
-    
-%moveAllTaxis(_):-
-%    forall(transport(Taxi, _, NodeID, Distance, Path),
-%           (write('Moving taxi '),writeln(Taxi),
-%            followPath(Distance, Path, NodeID, NewDistance, NewPath, [NewNodeID]),
-%            retract(transport(Taxi,_,_,_,_)),
-%            (NewPath = [] 
-%             -> (writeln('Taxi dropped customer off'),
-%                 startNode(StartID),
-%                 write('At node '),write(NewNodeID),write(' and going to '),writeln(StartID),
-%                 minimumDistance(NewNodeID,StartID,PathToStart,_),
-%                 assert(transport(Taxi,[],NewNodeID,_,_)),
-%                 startTaxi(Taxi, PathToStart))
-%             ; true),
-%            write('Taxi '),
-%            write(Taxi),
-%            write(' has distance to do: '),
-%            writeln(NewDistance))).
 
+% Get all the taxi's that are currently transporting
+%   -Taxis = all the taxi ID's
 getTaxisInTransport(Taxis):-
     findall(Taxi,
           (transport(TaxiID, _, _, _, _, _),
            Taxi = TaxiID),
           Taxis).   
           
+% Endcondition for dropOffCustomers/3
 dropOffCustomers([], _, _).
 
+% Drop off every customer in the taxi
+% TODO: keep track of the dropped off customers?
+%   +Customer = customer ID to drop off
+%   +Customers = still to drop off
+%   +NodeID = the ID of the node where we drop off
+%   +_ = unused, why??? TODO: fix this!
 dropOffCustomers([Customer|Customers], NodeID, _):-
     customer(Customer, _, _, _, NodeID),
     write('Dropped off customer '),writeln(Customer),
     dropOffCustomers(Customers, NodeID, _).
     
+% Get a list of all the customers that we can pick
+% up at given node ID
+%   +NodeID = ID of the node where we want to pick up
+%   -PickUpCustomers = the list of customers to pick up
 getCustomersToPickUp(NodeID, PickUpCustomers):-
     findall(Customer,
             (customer(CID, _, _, NodeID, _),
              Customer = CID),
             PickUpCustomers).
-          
-% Reached finish
+         
+% Endcondition for when a taxi returns to the starting
+% point. 
+%   +TaxiID = ID of the taxi on the move
+%   +Customers = customers in the taxi (should be empty? TODO!)
+%   +NodeID = ID of the node where we are (should be 1275? TODO!)
+%   +FinishID = 1275 (can we make this dynamic? TODO!)
+%   +Distance = 1
+%   +Path = []
+moveTaxi(TaxiID, Customers, _, 1275, 1, []):- 
+    write("Honey I'm home!, said Taxi "),writeln(TaxiID).
+        
+% Reached finish and it is not the starting point
+%   +TaxiID = ID of the taxi on the move
+%   +Customers = customers in the taxi
+%   +NodeID = ID of the node where we are
+%   +FinishID = ID of the node where we finish
+%   +Distance = 1
+%   +Path = []
 moveTaxi(TaxiID, Customers, _, FinishID, 1, []):-
     dropOffCustomers(Customers, FinishID, _),
     write('Taxi '),write(TaxiID),write(' dropped off: '),writeln(Customers),
@@ -74,25 +82,51 @@ moveTaxi(TaxiID, Customers, _, FinishID, 1, []):-
     write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID),
     assert(transport(TaxiID, PickUpCustomers, NewNextNodeID, NewFinishID, NewDistance, NewPath)).
 
-% moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
+% Reached new node and this is not yet the finish
+%   +TaxiID = ID of the taxi on the move
+%   +Customers = customers in the taxi
+%   +NodeID = ID of the node where we are
+%   +FinishID = ID of the node where we finish
+%   +Distance = 1
+%   +Path = []
 moveTaxi(TaxiID, Customers, NodeID, FinishID, 1, [NextNodeID|NewPath]):-
     edge(NodeID,NextNodeID,NewDistance),
-    write('Taxi '),write(TaxiID),write(' goes from node '),write(NodeID),write(' to node '),writeln(NextNodeID),
     assert(transport(TaxiID, Customers, NextNodeID, FinishID, NewDistance, NewPath)).
           
+% Between two nodes
+%   +TaxiID = ID of the taxi on the move
+%   +Customers = customers in the taxi
+%   +NodeID = ID of the node where we are
+%   +FinishID = ID of the node where we finish
+%   +Distance = 1
+%   +Path = []
 moveTaxi(TaxiID, Customers, NodeID, FinishID, Distance, Path):-
     NewDistance is Distance - 1,
     assert(transport(TaxiID, Customers, NodeID, FinishID, NewDistance, Path)).  
             
+% We arrived at the finish, dropped off everyone and there is nobody to pickup 
+% here so we return to home
+% TODO: change so that we could possibly wait here?
+%   +Customers = []
+%   +StartID = ID of the node where we are now
+%   -NewNextNodeID = node where we go to first in the path
+%   -NewDistance = distance to NewNextNodeID
+%   -NewPath = the rest of the path to follow
+%   -NewFinishID = the ID of the endpoint
 moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath, NewFinishID):-
     startNode(NewFinishID),
     minimumDistance(StartID, NewFinishID, Path, Distance),
-    write(' - '),write(StartID),write(' - '),write(Distance),write(' - '),writeln(Path),
     Path = [StartID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
-    edge(StartID, NewNextNodeID, NewDistance),
-    writeln('Sending taxi back to starting point').
+    edge(StartID, NewNextNodeID, NewDistance).
 
+% We arrived at the finish and are able to pickup a customer
+%   +Customer = customer (first of the list) that we pick up
+%   +StartID = ID of the node where we are now
+%   -NewNextNodeID = node where we go to first in the path
+%   -NewDistance = distance to NewNextNodeID
+%   -NewPath = the rest of the path to follow
+%   -NewFinishID = the ID of the endpoint
 moveTaxiContinue([Customer|_], StartID, NewNextNodeID, NewDistance, NewPath, Destination):-
     customer(Customer,_,_,_,Destination),
     minimumDistance(StartID, Destination, Path, Distance),
@@ -100,55 +134,13 @@ moveTaxiContinue([Customer|_], StartID, NewNextNodeID, NewDistance, NewPath, Des
     TempPath = [NewNextNodeID|NewPath],
     edge(FinishID, NewNextNodeID, NewDistance).
             
-%moveTaxiContinue([Customer], NewNextNodeID, NewDistance, NewPath):-
-%    writeln('Calling'),
-%    customer(Customer,_,_,_,Destination),
-%    minimumDistance(FinishID, Destination, Path, Distance),
-%    Path = [FinishID|TempPath],
-%    TempPath = [NewNextNodeID|NewPath],
-%    edge(FinishID, NewNextNodeID, NewDistance).
-          
+% Endcondition to loop over all the taxis
 moveTaxis([]).
           
+% Loop over all the taxis to move them
+%   +Taxi = taxi we move in this iteration
+%   +Taxis = other taxis to move
 moveTaxis([Taxi|Taxis]):-
     retract(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)),
     moveTaxi(Taxi, Customers, NodeID, FinishID, Distance, Path),
     moveTaxis(Taxis).
-
-% init for followpath:
-%startTaxi(_, [First|Path]):-
-%    writeln('Starting taxi'),
-%    Path = [Second|Rest],
-%    edge(First,Second,Distance),
-%    followPath(Distance,Rest,Second,_,_,_).
-startTaxi(Taxi, WhereTo, [First|Path]):-
-    %\+transport(Taxi,_,_,_,_,_),
-    Path = [Second|Rest],
-    edge(First, Second, Distance),
-    assert(transport(Taxi, [], Second, WhereTo, Distance, Rest)).
-    %printStartTaxi(First, Second, Distance, Rest, WhereTo).
-
-% Taxi has reached it destination
-followPath(0, [], Current, 0, _, Current):-
-    writeln('Finish!'),!.
-    
-% Taxi has reached a node
-followPath(0, Path, Current, Distance, Rest, First):-
-    Path = [First|Rest],
-    writeln(First),
-    edge(Current, First, Distance).
-    
-% Taxi is not yet at a new node
-followPath(Distance, Path, Current, NewDistance, Path, Current):-
-    NewDistance is Distance - 1,
-    writeln(NewDistance).
-
-sendTaxisToCustomers([]).
-
-sendTaxisToCustomers([Customer|RestCustomers]):-
-    pickEmptyTaxi(Taxi),
-    customer(Customer, _, _, StartID, _),
-    startNode(NodeID),
-    minimumDistance(NodeID, StartID, Path, _),
-    startTaxi(Taxi, StartID, Path),
-    sendTaxisToCustomers(RestCustomers).
