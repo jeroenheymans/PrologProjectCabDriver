@@ -148,7 +148,6 @@ startTaxi(Taxi, WhereTo, [First|Path]):-
     Path = [Second|Rest],
     edge(First, Second, Distance),
     assert(transport(Taxi, [], Second, WhereTo, Distance, Rest)).
-    %printStartTaxi(First, Second, Distance, Rest, WhereTo).
 
 sendTaxisToCustomers([]).
 
