@@ -52,25 +52,3 @@ loop(Clock, RemainingCustomers):-
     getTaxisInTransport(TaxisInTransport),
     moveTaxis(TaxisInTransport),
     loop(NewClock, CustomersToPickUpLater).
-    
-% Main loop
-%   Clock = value of the internal clock
-%   CustomersToPickUp = customers list still to be picked up
-%       Format: DepartureTimeTaxi-CustomerID
-%loop(Clock, CustomersToPickUp):-
-%    nextCustomer(CustomersToPickUp,CustomerPickup-CustomerID,CustomersToPickUpRest),
-%    NewClock is Clock + 1,
-%    customer(CustomerID, ETOP, LTOP, NodeID, _),
-%    startNode(StartID),
-%    (NewClock =:= CustomerPickup 
-%        -> (pickEmptyTaxi(Taxi),
-%            assert(transport(Taxi, [CustomerID], NodeID, _, _)),
-%            printNewCustomerInTaxi(CustomerID, Taxi, NewClock),
-%            minimumDistance(StartID,NodeID,Path,_),
-%            startTaxi(Taxi, Path),
-%            CustomersToPickUpRest = [Top|_],
-%            writeln(Top), 
-%           loop(Clock, CustomersToPickUpRest))
-%        ;  (moveAllTaxis(CustomersToPickUp),
-%            loop(NewClock, CustomersToPickUp)            
-%        )).

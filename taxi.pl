@@ -144,3 +144,20 @@ moveTaxis([Taxi|Taxis]):-
     retract(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)),
     moveTaxi(Taxi, Customers, NodeID, FinishID, Distance, Path),
     moveTaxis(Taxis).
+
+startTaxi(Taxi, WhereTo, [First|Path]):-
+    %\+transport(Taxi,_,_,_,_,_),
+    Path = [Second|Rest],
+    edge(First, Second, Distance),
+    assert(transport(Taxi, [], Second, WhereTo, Distance, Rest)).
+    %printStartTaxi(First, Second, Distance, Rest, WhereTo).
+
+sendTaxisToCustomers([]).
+
+sendTaxisToCustomers([Customer|RestCustomers]):-
+    pickEmptyTaxi(Taxi),
+    customer(Customer, _, _, StartID, _),
+    startNode(NodeID),
+    minimumDistance(NodeID, StartID, Path, _),
+    startTaxi(Taxi, StartID, Path),
+    sendTaxisToCustomers(RestCustomers).
