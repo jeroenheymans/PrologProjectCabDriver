@@ -80,15 +80,20 @@ moveTaxi(_, Customers, Distance, NodeID, Path, NewDistance, NodeID, Path, Custom
     NewDistance is Distance - 1.  
             
 moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath):-
-    writeln('Need to put more stuff here').
+    startNode(FinishID),
+    minimumDistance(StartID, FinishID, Path, Distance),
+    write(' - '),write(StartID),write(' - '),write(NewNextNodeID),write(' - '),write(Distance),write(' - '),writeln(Path),
+    Path = [StartID|TempPath],
+    TempPath = [NewNextNodeID|NewPath],
+    edge(StartID, NewNextNodeID, NewDistance),
+    writeln('Sending taxi back to starting point').
 
 moveTaxiContinue([Customer|_], StartID, NewNextNodeID, NewDistance, NewPath):-
     customer(Customer,_,_,_,Destination),
     minimumDistance(StartID, Destination, Path, Distance),
     Path = [StartID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
-    edge(FinishID, NewNextNodeID, NewDistance),
-    write('Sending taxi to node '),writeln(NewNextNodeID).
+    edge(FinishID, NewNextNodeID, NewDistance).
             
 %moveTaxiContinue([Customer], NewNextNodeID, NewDistance, NewPath):-
 %    writeln('Calling'),
