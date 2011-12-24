@@ -66,11 +66,11 @@ getCustomersToPickUp(NodeID, PickUpCustomers):-
           
 % Reached finish
 moveTaxi(TaxiID, Customers, 1, FinishID, [], NewDistance, NewNextNodeID, NewPath, PickUpCustomers):-
-    write('Taxi '),write(TaxiID),writeln(' reached destination'),
     dropOffCustomers(Customers, FinishID, _),
     getCustomersToPickUp(FinishID, PickUpCustomers),
-    writeln(PickUpCustomers),
-    moveTaxiContinue(PickUpCustomers, NewNextNodeID, NewDistance, NewPath).
+    write('Taxi '),write(TaxiID),write(' reached destination and picks up: '),writeln(PickUpCustomers),
+    moveTaxiContinue(PickUpCustomers, FinishID, NewNextNodeID, NewDistance, NewPath),
+    write('Taxi '),write(TaxiID),write(' will ride to: '),writeln(NewNextNodeID).
 
 % moveTaxi(TaxiID, Customers, Distance, NextNodeID, Path, NewDistance, NewNextNodeID, NewPath, NewCustomers)
 moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers):-
@@ -79,13 +79,13 @@ moveTaxi(_, Customers, 1, NodeID, [Top|Rest], NewDistance, Top, Rest, Customers)
 moveTaxi(_, Customers, Distance, NodeID, Path, NewDistance, NodeID, Path, Customers):-
     NewDistance is Distance - 1.  
             
-moveTaxiContinue([], NewNextNodeID, NewDistance, NewPath):-
+moveTaxiContinue([], StartID, NewNextNodeID, NewDistance, NewPath):-
     writeln('Need to put more stuff here').
 
-moveTaxiContinue([Customer|_], NewNextNodeID, NewDistance, NewPath):-
+moveTaxiContinue([Customer|_], StartID, NewNextNodeID, NewDistance, NewPath):-
     customer(Customer,_,_,_,Destination),
-    minimumDistance(FinishID, Destination, Path, Distance),
-    Path = [FinishID|TempPath],
+    minimumDistance(StartID, Destination, Path, Distance),
+    Path = [StartID|TempPath],
     TempPath = [NewNextNodeID|NewPath],
     edge(FinishID, NewNextNodeID, NewDistance),
     write('Sending taxi to node '),writeln(NewNextNodeID).
