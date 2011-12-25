@@ -153,6 +153,7 @@ sendTaxisToCustomers([]).
 
 sendTaxisToCustomers([Customer|RestCustomers]):-
     pickEmptyTaxi(Taxi),
+    write('Emtpy taxi: '),writeln(Taxi),
     customer(Customer, _, _, StartID, _),
     startNode(NodeID),
     minimumDistance(NodeID, StartID, Path, _),

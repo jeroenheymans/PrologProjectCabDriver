@@ -8,8 +8,8 @@
 %   main.
 
 % Necessary includes
-%:-['city_smaller.pl'].
-:-['city.pl'].
+:-['city_smaller.pl'].
+%:-['city.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
 :-['taxi.pl'].
