@@ -151,6 +151,7 @@ startTaxi(Taxi, WhereTo, [First|Path]):-
 
 sendTaxisToCustomers([]).
 
+% TODO: check if there are enough empty taxi's
 sendTaxisToCustomers([Customer|RestCustomers]):-
     pickEmptyTaxi(Taxi),
     write('Emtpy taxi: '),writeln(Taxi),
