@@ -11,3 +11,199 @@ D = 286
 minimumDistance(641,1275,P,D),writeln(P).
 [641,691,690,689,739,789,839,838,837,887,886,936,986,1036,1086,1136,1135,1185,1184,1183,1233,1283,1282,1281,1280,1279,1278,1277,1276,1326,1325,1275]
 D = 217
+
+
+
+
+1 ?- reconsult(main).
+%  city.pl compiled 0.14 sec, 1,771,232 bytes
+%  routeCalculation.pl compiled 0.00 sec, 4,712 bytes
+%  customer.pl compiled 0.00 sec, 4,352 bytes
+%  taxi.pl compiled 0.00 sec, 9,008 bytes
+%  functions.pl compiled 0.00 sec, 1,056 bytes
+%  print.pl compiled 0.00 sec, 5,296 bytes
+% main compiled 0.15 sec, 1,800,144 bytes
+true.
+
+2 ?- main.
+[19] Sending taxi's to customers: [179]
+[51] Sending taxi's to customers: [6]
+[72] Sending taxi's to customers: [469]
+[94] Sending taxi's to customers: [458]
+[99] Sending taxi's to customers: [252]
+[132] Sending taxi's to customers: [492]
+[133] Sending taxi's to customers: [224]
+[135] Sending taxi's to customers: [462]
+[142] Sending taxi's to customers: [394]
+[143] Sending taxi's to customers: [147,443]
+[144] Sending taxi's to customers: [457]
+[146] Sending taxi's to customers: [127]
+[150] Sending taxi's to customers: [64]
+[158] Sending taxi's to customers: [405]
+[167] Sending taxi's to customers: [121]
+[171] Sending taxi's to customers: [108]
+[172] Sending taxi's to customers: [41,56]
+[181] Sending taxi's to customers: [374]
+[183] Sending taxi's to customers: [129]
+[186] Sending taxi's to customers: [36]
+[188] Sending taxi's to customers: [156]
+[189] Sending taxi's to customers: [377]
+[191] Sending taxi's to customers: [288,317,355]
+[196] Sending taxi's to customers: [312]
+[198] Sending taxi's to customers: [392]
+[200] Sending taxi's to customers: [104]
+[204] Sending taxi's to customers: [363]
+[207] Sending taxi's to customers: [316]
+[216] Sending taxi's to customers: [285]
+[219] Sending taxi's to customers: [142]
+[221] Sending taxi's to customers: [24]
+[226] Sending taxi's to customers: [354]
+[229] Sending taxi's to customers: [322]
+[231] Sending taxi's to customers: [450]
+[233] Sending taxi's to customers: [1]
+[234] Sending taxi's to customers: [80]
+[238] Sending taxi's to customers: [419]
+[239] Sending taxi's to customers: [122,148]
+[243] Sending taxi's to customers: [348]
+[250] Sending taxi's to customers: [193]
+[254] Sending taxi's to customers: [19]
+[256] Sending taxi's to customers: [77]
+[257] Sending taxi's to customers: [431]
+[262] Sending taxi's to customers: [186]
+[264] Sending taxi's to customers: [491]
+[271] Sending taxi's to customers: [414]
+[276] Sending taxi's to customers: [310]
+[281] Sending taxi's to customers: [398,473]
+[282] Sending taxi's to customers: [194,241]
+[288] Sending taxi's to customers: [209]
+[289] Sending taxi's to customers: [130]
+[291] Sending taxi's to customers: [338]
+[293] Sending taxi's to customers: [66]
+[302] Sending taxi's to customers: [357]
+[303] Sending taxi's to customers: [144,375,387]
+[306] Sending taxi's to customers: [15,477]
+[307] Sending taxi's to customers: [373]
+[311] Sending taxi's to customers: [101,182,418]
+[316] Sending taxi's to customers: [125]
+[317] Sending taxi's to customers: [81]
+[321] Sending taxi's to customers: [278]
+[324] Sending taxi's to customers: [11,289]
+[325] Sending taxi's to customers: [404]
+[328] Sending taxi's to customers: [383]
+[329] Sending taxi's to customers: [360,446]
+[331] Sending taxi's to customers: [79]
+[334] Sending taxi's to customers: [309]
+[335] Sending taxi's to customers: [497]
+[336] Sending taxi's to customers: [378]
+[346] Sending taxi's to customers: [71]
+[348] Sending taxi's to customers: [3,85,177]
+[349] Sending taxi's to customers: [17,70]
+[356] Sending taxi's to customers: [163]
+[359] Sending taxi's to customers: [107]
+[360] Sending taxi's to customers: [225]
+[362] Sending taxi's to customers: [16]
+[364] Sending taxi's to customers: [165,173,476]
+[365] Taxi 1 reached destination, no customers to drop off
+[365] Taxi 1 reached destination and picks up: [6,46,462]
+[365] Taxi 15 reached destination, no customers to drop off
+[365] Taxi 15 reached destination and picks up: [121]
+[367] Sending taxi's to customers: [459]
+[367] Taxi 45 reached destination, no customers to drop off
+[367] Taxi 45 reached destination and picks up: [19]
+[368] Taxi 37 reached destination, no customers to drop off
+[368] Taxi 37 reached destination and picks up: [450]
+[369] Sending taxi's to customers: [264]
+[369] Taxi 49 reached destination, no customers to drop off
+[369] Taxi 49 reached destination and picks up: [270,491]
+[370] Sending taxi's to customers: [4,265]
+[371] Taxi 9 reached destination, no customers to drop off
+[371] Taxi 9 reached destination and picks up: [125,147]
+[377] Sending taxi's to customers: [40]
+[379] Taxi 0 reached destination, no customers to drop off
+[379] Taxi 0 reached destination and picks up: [179]
+[379] Taxi 42 reached destination, no customers to drop off
+[379] Taxi 42 reached destination and picks up: [148]
+[382] Sending taxi's to customers: [258]
+[383] Sending taxi's to customers: [239]
+[383] Taxi 2 reached destination, no customers to drop off
+[383] Taxi 2 reached destination and picks up: [373,469]
+[384] Sending taxi's to customers: [480]
+[384] Taxi 3 reached destination, no customers to drop off
+[384] Taxi 3 reached destination and picks up: [458]
+[384] Taxi 5 reached destination, no customers to drop off
+[384] Taxi 5 reached destination and picks up: [492]
+[386] Taxi 4 reached destination, no customers to drop off
+[386] Taxi 4 reached destination and picks up: [252]
+[389] Sending taxi's to customers: [76]
+[390] Sending taxi's to customers: [82]
+[391] Sending taxi's to customers: [46]
+[393] Sending taxi's to customers: [138]
+[394] Taxi 16 reached destination, no customers to drop off
+[394] Taxi 16 reached destination and picks up: [108]
+[395] Taxi 41 reached destination, no customers to drop off
+[395] Taxi 41 reached destination and picks up: [122]
+[396] Sending taxi's to customers: [103]
+[397] Sending taxi's to customers: [221]
+[398] Taxi 29 reached destination, no customers to drop off
+[398] Taxi 29 reached destination and picks up: [104]
+[400] Sending taxi's to customers: [297]
+[401] Sending taxi's to customers: [407]
+[402] Sending taxi's to customers: [292]
+[404] Taxi 85 reached destination, no customers to drop off
+[404] Taxi 85 reached destination and picks up: [85]
+[405] Sending taxi's to customers: [215]
+[406] Sending taxi's to customers: [84]
+[410] Sending taxi's to customers: [219,359]
+[411] Sending taxi's to customers: [447]
+[413] Sending taxi's to customers: [306]
+[414] Taxi 6 reached destination, no customers to drop off
+[414] Taxi 6 reached destination and picks up: [224]
+[415] Sending taxi's to customers: [246,329]
+[416] Taxi 54 reached destination, no customers to drop off
+[416] Taxi 54 reached destination and picks up: [194]
+[420] Taxi 13 reached destination, no customers to drop off
+[420] Taxi 13 reached destination and picks up: [64]
+[421] Sending taxi's to customers: [157,294]
+[421] Taxi 23 reached destination, no customers to drop off
+[421] Taxi 23 reached destination and picks up: [377]
+[422] Sending taxi's to customers: [366]
+[423] Sending taxi's to customers: [18,222]
+[423] Taxi 123 reached destination, no customers to drop off
+[423] Taxi 123 reached destination and picks up: [366]
+[423] Taxi 123 drops off customers []
+[423] Taxi 123 reached destination and picks up: [366]
+[423] Taxi 123 drops off customers [366]
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 drops off customers [366]
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 says: "Honey I'm home!"
+[423] Taxi 123 reached destination, no customers to drop off
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 drops off customers []
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 says: "Honey I'm home!"
+[423] Taxi 123 reached destination, no customers to drop off
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 drops off customers []
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 says: "Honey I'm home!"
+[423] Taxi 123 reached destination, no customers to drop off
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 drops off customers []
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 says: "Honey I'm home!"
+[423] Taxi 123 reached destination, no customers to drop off
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+[423] Taxi 123 drops off customers []
+[423] Taxi 123 reached destination, no customers to pick up
+[423] Taxi 123 reached destination and picks up: []
+
