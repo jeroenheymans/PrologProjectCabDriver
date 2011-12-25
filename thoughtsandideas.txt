@@ -62,6 +62,13 @@ endloop
 * IDEAS (noted if it is done, todo or ???) *
 ********************************************
 
+TODO
+when sending taxi's to customers, keep a list of unassigned customers (the ones
+where there is no taxi available). put that list back in the list of customers still
+to assign. the list of customers to pick up every "now" should be the customers
+where the starttime is exactly now AND the ones not yet received a taxi (and that
+it still is within the ETOP-LTOP range)
+
 TODO 
 when calculated a path and transporting a customer, check at every node if
 there is a customer that can be picked up and must go to the same destination?
