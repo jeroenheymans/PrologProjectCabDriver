@@ -30,6 +30,40 @@ testmain:-
     %getDeparturesForPickupCustomers(CustomersToPickUp),
     %keysort(CustomersToPickUp, CustomersToPickUpSorted),
     %writeln(CustomersToPickUpSorted).
+    
+newmain:-
+    getDeparturesForPickupCustomers(CustomersToPickUp),
+    keysort(CustomersToPickUp, CustomersToPickUpSorted),
+	getAllTaxis(Taxis),
+	newloop(CustomersToPickUpSorted, Taxis).
+	
+newloop([],Taxis):-
+	write('All customers will get a cab, remaining taxis: '),writeln(Taxis).
+
+newloop(Customers,[]):-
+	write('Taxis are full!!! Customers left: '),writeln(Customers).
+	
+newloop([LeavingTime-CID|Customers], [Taxi|Taxis]):-
+	customer(CID, ETOP, LTOP, SID, FID),
+	startNode(PID),
+	minimumDistance(PID, SID, Path, Length),
+	planTaxiRoute(Taxi, [CID], Path, ETOP, Path, Customers),
+	newloop(Customers, Taxis).
+
+planTaxiRoute(Taxi, [CID], Path, ETOP, [], Customers):-
+	writeln('Send him home').
+
+planTaxiRoute(Taxi, [CID], Path, ETOP, [Node], Customers):-
+	writeln('Someone left on this spot?').
+	
+% TaxiID
+% Customers ID
+% Complete path
+% time taxi will end this path
+% Last path (can be used to walk through
+% remaining customers
+planTaxiRoute(Taxi, [CID], Path, ETOP, [Node|Path], Customers):-
+	planTaxiRoute(Taxi, [CID], Path, ETOP, Path, Customers).
 
 % Main function, needs to be executed for this program
 main(_):-
