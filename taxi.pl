@@ -149,12 +149,23 @@ startTaxi(Taxi, WhereTo, [First|Path]):-
     edge(First, Second, Distance),
     assert(transport(Taxi, [], Second, WhereTo, Distance, Rest)).
     
-sendTaxisToCustomers(Customers, [], Customers):-
-	%\+ Customers = [],
-	writeln('*********').
+% There are no taxi's left but there are customers left to send
+% We return the unsend customers
+%	+Customers = the unsend customers
+%	+Taxis = []
+sendTaxisToCustomers(Customers, [], Customers).
 
+% All customers are assigned to a taxi
+% 	+Customers = []
+%	+Taxis = list of unassigned taxi's
 sendTaxisToCustomers([], Taxis, []).
 
+% We loop over the customers and taxis to assign them
+%	+Customer = customer to assign
+%	+RestCustomers = other customers left
+%	+Taxi = taxi to assign
+%	+Taxis = other taxis left
+%	-NotSentCustomers = customers that can't be assigned to taxis
 sendTaxisToCustomers([Customer|RestCustomers], [Taxi|Taxis], NotSentCustomers):-
     write('Emtpy taxi: '),writeln(Taxi),
     customer(Customer, _, _, StartID, _),
@@ -163,6 +174,9 @@ sendTaxisToCustomers([Customer|RestCustomers], [Taxi|Taxis], NotSentCustomers):-
     startTaxi(Taxi, StartID, Path),
     sendTaxisToCustomers(RestCustomers, Taxis, NotSentCustomers).
     
+% Returns list of all the taxis that are not
+% yet assigned to a customer
+%	-AvailableTaxis = list of taxis not assigned
 getAvailableTaxis(AvailableTaxis):-
 	findall(Taxi,
 			(taxi(TaxiID),
