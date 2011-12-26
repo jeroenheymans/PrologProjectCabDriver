@@ -12,198 +12,953 @@ minimumDistance(641,1275,P,D),writeln(P).
 [641,691,690,689,739,789,839,838,837,887,886,936,986,1036,1086,1136,1135,1185,1184,1183,1233,1283,1282,1281,1280,1279,1278,1277,1276,1326,1325,1275]
 D = 217
 
-
-
-
-1 ?- reconsult(main).
+1 ?- reconsult(main),main.
 %  city.pl compiled 0.14 sec, 1,771,232 bytes
-%  routeCalculation.pl compiled 0.00 sec, 4,712 bytes
-%  customer.pl compiled 0.00 sec, 4,352 bytes
-%  taxi.pl compiled 0.00 sec, 9,008 bytes
-%  functions.pl compiled 0.00 sec, 1,056 bytes
-%  print.pl compiled 0.00 sec, 5,296 bytes
-% main compiled 0.15 sec, 1,800,144 bytes
-true.
-
-2 ?- main.
-[19] Sending taxi's to customers: [179]
-[51] Sending taxi's to customers: [6]
-[72] Sending taxi's to customers: [469]
-[94] Sending taxi's to customers: [458]
-[99] Sending taxi's to customers: [252]
-[132] Sending taxi's to customers: [492]
-[133] Sending taxi's to customers: [224]
-[135] Sending taxi's to customers: [462]
-[142] Sending taxi's to customers: [394]
-[143] Sending taxi's to customers: [147,443]
-[144] Sending taxi's to customers: [457]
-[146] Sending taxi's to customers: [127]
-[150] Sending taxi's to customers: [64]
-[158] Sending taxi's to customers: [405]
-[167] Sending taxi's to customers: [121]
-[171] Sending taxi's to customers: [108]
-[172] Sending taxi's to customers: [41,56]
-[181] Sending taxi's to customers: [374]
-[183] Sending taxi's to customers: [129]
-[186] Sending taxi's to customers: [36]
-[188] Sending taxi's to customers: [156]
-[189] Sending taxi's to customers: [377]
-[191] Sending taxi's to customers: [288,317,355]
-[196] Sending taxi's to customers: [312]
-[198] Sending taxi's to customers: [392]
-[200] Sending taxi's to customers: [104]
-[204] Sending taxi's to customers: [363]
-[207] Sending taxi's to customers: [316]
-[216] Sending taxi's to customers: [285]
-[219] Sending taxi's to customers: [142]
-[221] Sending taxi's to customers: [24]
-[226] Sending taxi's to customers: [354]
-[229] Sending taxi's to customers: [322]
-[231] Sending taxi's to customers: [450]
-[233] Sending taxi's to customers: [1]
-[234] Sending taxi's to customers: [80]
-[238] Sending taxi's to customers: [419]
-[239] Sending taxi's to customers: [122,148]
-[243] Sending taxi's to customers: [348]
-[250] Sending taxi's to customers: [193]
-[254] Sending taxi's to customers: [19]
-[256] Sending taxi's to customers: [77]
-[257] Sending taxi's to customers: [431]
-[262] Sending taxi's to customers: [186]
-[264] Sending taxi's to customers: [491]
-[271] Sending taxi's to customers: [414]
-[276] Sending taxi's to customers: [310]
-[281] Sending taxi's to customers: [398,473]
-[282] Sending taxi's to customers: [194,241]
-[288] Sending taxi's to customers: [209]
-[289] Sending taxi's to customers: [130]
-[291] Sending taxi's to customers: [338]
-[293] Sending taxi's to customers: [66]
-[302] Sending taxi's to customers: [357]
-[303] Sending taxi's to customers: [144,375,387]
-[306] Sending taxi's to customers: [15,477]
-[307] Sending taxi's to customers: [373]
-[311] Sending taxi's to customers: [101,182,418]
-[316] Sending taxi's to customers: [125]
-[317] Sending taxi's to customers: [81]
-[321] Sending taxi's to customers: [278]
-[324] Sending taxi's to customers: [11,289]
-[325] Sending taxi's to customers: [404]
-[328] Sending taxi's to customers: [383]
-[329] Sending taxi's to customers: [360,446]
-[331] Sending taxi's to customers: [79]
-[334] Sending taxi's to customers: [309]
-[335] Sending taxi's to customers: [497]
-[336] Sending taxi's to customers: [378]
-[346] Sending taxi's to customers: [71]
-[348] Sending taxi's to customers: [3,85,177]
-[349] Sending taxi's to customers: [17,70]
-[356] Sending taxi's to customers: [163]
-[359] Sending taxi's to customers: [107]
-[360] Sending taxi's to customers: [225]
-[362] Sending taxi's to customers: [16]
-[364] Sending taxi's to customers: [165,173,476]
+%  routeCalculation.pl compiled 0.00 sec, 4,688 bytes
+%  customer.pl compiled 0.00 sec, 5,216 bytes
+Warning: /home/jeroen/git/PrologProjectCabDriver/taxi.pl:158:
+	Singleton variables: [Taxis]
+Warning: /home/jeroen/git/PrologProjectCabDriver/taxi.pl:166:
+	Singleton variables: [LeaveTime]
+%  taxi.pl compiled 0.00 sec, 9,960 bytes
+%  functions.pl compiled 0.00 sec, 1,072 bytes
+%  print.pl compiled 0.00 sec, 4,280 bytes
+% main compiled 0.15 sec, 1,802,072 bytes
 [365] Taxi 1 reached destination, no customers to drop off
-[365] Taxi 1 reached destination and picks up: [6,46,462]
+[365] Taxi 1 reached destination, no customers to pick up
 [365] Taxi 15 reached destination, no customers to drop off
-[365] Taxi 15 reached destination and picks up: [121]
-[367] Sending taxi's to customers: [459]
+[365] Taxi 15 reached destination, no customers to pick up
 [367] Taxi 45 reached destination, no customers to drop off
-[367] Taxi 45 reached destination and picks up: [19]
+[367] Taxi 45 reached destination, no customers to pick up
 [368] Taxi 37 reached destination, no customers to drop off
-[368] Taxi 37 reached destination and picks up: [450]
-[369] Sending taxi's to customers: [264]
+[368] Taxi 37 reached destination, no customers to pick up
 [369] Taxi 49 reached destination, no customers to drop off
-[369] Taxi 49 reached destination and picks up: [270,491]
-[370] Sending taxi's to customers: [4,265]
+[369] Taxi 49 reached destination, no customers to pick up
 [371] Taxi 9 reached destination, no customers to drop off
-[371] Taxi 9 reached destination and picks up: [125,147]
-[377] Sending taxi's to customers: [40]
+[371] Taxi 9 reached destination, no customers to pick up
 [379] Taxi 0 reached destination, no customers to drop off
-[379] Taxi 0 reached destination and picks up: [179]
+[379] Taxi 0 reached destination, no customers to pick up
 [379] Taxi 42 reached destination, no customers to drop off
-[379] Taxi 42 reached destination and picks up: [148]
-[382] Sending taxi's to customers: [258]
-[383] Sending taxi's to customers: [239]
+[379] Taxi 42 reached destination, no customers to pick up
 [383] Taxi 2 reached destination, no customers to drop off
-[383] Taxi 2 reached destination and picks up: [373,469]
-[384] Sending taxi's to customers: [480]
+[383] Taxi 2 reached destination, no customers to pick up
 [384] Taxi 3 reached destination, no customers to drop off
-[384] Taxi 3 reached destination and picks up: [458]
+[384] Taxi 3 reached destination, no customers to pick up
 [384] Taxi 5 reached destination, no customers to drop off
-[384] Taxi 5 reached destination and picks up: [492]
+[384] Taxi 5 reached destination, no customers to pick up
 [386] Taxi 4 reached destination, no customers to drop off
-[386] Taxi 4 reached destination and picks up: [252]
-[389] Sending taxi's to customers: [76]
-[390] Sending taxi's to customers: [82]
-[391] Sending taxi's to customers: [46]
-[393] Sending taxi's to customers: [138]
+[386] Taxi 4 reached destination, no customers to pick up
 [394] Taxi 16 reached destination, no customers to drop off
-[394] Taxi 16 reached destination and picks up: [108]
+[394] Taxi 16 reached destination, no customers to pick up
 [395] Taxi 41 reached destination, no customers to drop off
-[395] Taxi 41 reached destination and picks up: [122]
-[396] Sending taxi's to customers: [103]
-[397] Sending taxi's to customers: [221]
+[395] Taxi 41 reached destination, no customers to pick up
 [398] Taxi 29 reached destination, no customers to drop off
-[398] Taxi 29 reached destination and picks up: [104]
-[400] Sending taxi's to customers: [297]
-[401] Sending taxi's to customers: [407]
-[402] Sending taxi's to customers: [292]
+[398] Taxi 29 reached destination, no customers to pick up
 [404] Taxi 85 reached destination, no customers to drop off
-[404] Taxi 85 reached destination and picks up: [85]
-[405] Sending taxi's to customers: [215]
-[406] Sending taxi's to customers: [84]
-[410] Sending taxi's to customers: [219,359]
-[411] Sending taxi's to customers: [447]
-[413] Sending taxi's to customers: [306]
+[404] Taxi 85 reached destination, no customers to pick up
 [414] Taxi 6 reached destination, no customers to drop off
-[414] Taxi 6 reached destination and picks up: [224]
-[415] Sending taxi's to customers: [246,329]
+[414] Taxi 6 reached destination, no customers to pick up
 [416] Taxi 54 reached destination, no customers to drop off
-[416] Taxi 54 reached destination and picks up: [194]
+[416] Taxi 54 reached destination, no customers to pick up
 [420] Taxi 13 reached destination, no customers to drop off
-[420] Taxi 13 reached destination and picks up: [64]
-[421] Sending taxi's to customers: [157,294]
+[420] Taxi 13 reached destination, no customers to pick up
 [421] Taxi 23 reached destination, no customers to drop off
-[421] Taxi 23 reached destination and picks up: [377]
-[422] Sending taxi's to customers: [366]
-[423] Sending taxi's to customers: [18,222]
-[423] Taxi 123 reached destination, no customers to drop off
-[423] Taxi 123 reached destination and picks up: [366]
-[423] Taxi 123 drops off customers []
-[423] Taxi 123 reached destination and picks up: [366]
-[423] Taxi 123 drops off customers [366]
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 drops off customers [366]
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 says: "Honey I'm home!"
-[423] Taxi 123 reached destination, no customers to drop off
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 drops off customers []
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 says: "Honey I'm home!"
-[423] Taxi 123 reached destination, no customers to drop off
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 drops off customers []
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 says: "Honey I'm home!"
-[423] Taxi 123 reached destination, no customers to drop off
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 drops off customers []
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 says: "Honey I'm home!"
-[423] Taxi 123 reached destination, no customers to drop off
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
-[423] Taxi 123 drops off customers []
-[423] Taxi 123 reached destination, no customers to pick up
-[423] Taxi 123 reached destination and picks up: []
+[421] Taxi 23 reached destination, no customers to pick up
+[424] Taxi 25 reached destination, no customers to drop off
+[424] Taxi 25 reached destination, no customers to pick up
+[425] Taxi 14 reached destination, no customers to drop off
+[425] Taxi 14 reached destination, no customers to pick up
+[430] Taxi 12 reached destination, no customers to drop off
+[430] Taxi 12 reached destination, no customers to pick up
+[430] Taxi 49 says: "Honey I'm home!"
+[431] Taxi 28 reached destination, no customers to drop off
+[431] Taxi 28 reached destination, no customers to pick up
+[434] Taxi 42 says: "Honey I'm home!"
+[434] Taxi 84 reached destination, no customers to drop off
+[434] Taxi 84 reached destination, no customers to pick up
+[438] Taxi 20 reached destination, no customers to drop off
+[438] Taxi 20 reached destination, no customers to pick up
+[439] Taxi 85 says: "Honey I'm home!"
+[442] Taxi 24 reached destination, no customers to drop off
+[442] Taxi 24 reached destination, no customers to pick up
+[444] Taxi 50 reached destination, no customers to drop off
+[444] Taxi 50 reached destination, no customers to pick up
+[446] Taxi 82 reached destination, no customers to drop off
+[446] Taxi 82 reached destination, no customers to pick up
+[448] Taxi 19 reached destination, no customers to drop off
+[448] Taxi 19 reached destination, no customers to pick up
+[449] Taxi 7 reached destination, no customers to drop off
+[449] Taxi 7 reached destination and picks up: [6]
+[449] Taxi 68 reached destination, no customers to drop off
+[449] Taxi 68 reached destination, no customers to pick up
+[456] Taxi 10 reached destination, no customers to drop off
+[456] Taxi 10 reached destination, no customers to pick up
+[459] Taxi 8 reached destination, no customers to drop off
+[459] Taxi 8 reached destination, no customers to pick up
+[459] Taxi 27 reached destination, no customers to drop off
+[459] Taxi 27 reached destination, no customers to pick up
+[460] Taxi 34 reached destination, no customers to drop off
+[460] Taxi 34 reached destination, no customers to pick up
+[462] Taxi 11 reached destination, no customers to drop off
+[462] Taxi 11 reached destination, no customers to pick up
+[462] Taxi 26 reached destination, no customers to drop off
+[462] Taxi 26 reached destination, no customers to pick up
+[466] Taxi 18 reached destination, no customers to drop off
+[466] Taxi 18 reached destination, no customers to pick up
+[466] Taxi 45 says: "Honey I'm home!"
+[467] Taxi 76 reached destination, no customers to drop off
+[467] Taxi 76 reached destination, no customers to pick up
+[470] Taxi 94 reached destination, no customers to drop off
+[470] Taxi 94 reached destination, no customers to pick up
+[471] Taxi 119 reached destination, no customers to drop off
+[471] Taxi 119 reached destination, no customers to pick up
+[471] Taxi 123 reached destination, no customers to drop off
+[471] Taxi 123 reached destination, no customers to pick up
+[472] Taxi 22 reached destination, no customers to drop off
+[472] Taxi 22 reached destination, no customers to pick up
+[472] Taxi 39 reached destination, no customers to drop off
+[472] Taxi 39 reached destination, no customers to pick up
+[473] Taxi 44 reached destination, no customers to drop off
+[473] Taxi 44 reached destination, no customers to pick up
+[477] Taxi 21 reached destination, no customers to drop off
+[477] Taxi 21 reached destination, no customers to pick up
+[480] Taxi 48 reached destination, no customers to drop off
+[480] Taxi 48 reached destination, no customers to pick up
+[482] Taxi 80 reached destination, no customers to drop off
+[482] Taxi 80 reached destination, no customers to pick up
+[484] Taxi 58 reached destination, no customers to drop off
+[484] Taxi 58 reached destination, no customers to pick up
+[487] Taxi 73 reached destination, no customers to drop off
+[487] Taxi 73 reached destination, no customers to pick up
+[490] Taxi 43 reached destination, no customers to drop off
+[490] Taxi 43 reached destination, no customers to pick up
+[491] Taxi 36 reached destination, no customers to drop off
+[491] Taxi 36 reached destination, no customers to pick up
+[491] Taxi 40 reached destination, no customers to drop off
+[491] Taxi 40 reached destination, no customers to pick up
+[492] Taxi 107 reached destination, no customers to drop off
+[492] Taxi 107 reached destination, no customers to pick up
+[495] Taxi 64 reached destination, no customers to drop off
+[495] Taxi 64 reached destination, no customers to pick up
+[500] Taxi 31 reached destination, no customers to drop off
+[500] Taxi 31 reached destination, no customers to pick up
+[501] Taxi 55 reached destination, no customers to drop off
+[501] Taxi 55 reached destination, no customers to pick up
+[502] Taxi 92 reached destination, no customers to drop off
+[502] Taxi 92 reached destination, no customers to pick up
+[514] Taxi 30 reached destination, no customers to drop off
+[514] Taxi 30 reached destination, no customers to pick up
+[514] Taxi 32 reached destination, no customers to drop off
+[514] Taxi 32 reached destination, no customers to pick up
+[514] Taxi 102 reached destination, no customers to drop off
+[514] Taxi 102 reached destination, no customers to pick up
+[516] Taxi 47 reached destination, no customers to drop off
+[516] Taxi 47 reached destination, no customers to pick up
+[516] Taxi 84 says: "Honey I'm home!"
+[518] Taxi 15 says: "Honey I'm home!"
+[521] Taxi 75 reached destination, no customers to drop off
+[521] Taxi 75 reached destination, no customers to pick up
+[523] Taxi 37 says: "Honey I'm home!"
+[524] Taxi 98 reached destination, no customers to drop off
+[524] Taxi 98 reached destination, no customers to pick up
+[524] Taxi 123 says: "Honey I'm home!"
+[526] Taxi 38 reached destination, no customers to drop off
+[526] Taxi 38 reached destination, no customers to pick up
+[526] Taxi 93 reached destination, no customers to drop off
+[526] Taxi 93 reached destination, no customers to pick up
+[526] Taxi 119 says: "Honey I'm home!"
+[527] Taxi 109 reached destination, no customers to drop off
+[527] Taxi 109 reached destination, no customers to pick up
+[535] Taxi 54 says: "Honey I'm home!"
+[536] Taxi 17 reached destination, no customers to drop off
+[536] Taxi 17 reached destination, no customers to pick up
+[540] Taxi 88 reached destination, no customers to drop off
+[540] Taxi 88 reached destination, no customers to pick up
+[541] Taxi 120 reached destination, no customers to drop off
+[541] Taxi 120 reached destination, no customers to pick up
+[542] Taxi 83 reached destination, no customers to drop off
+[542] Taxi 83 reached destination, no customers to pick up
+[544] Taxi 41 says: "Honey I'm home!"
+[544] Taxi 70 reached destination, no customers to drop off
+[544] Taxi 70 reached destination and picks up: [147]
+[544] Taxi 94 says: "Honey I'm home!"
+[545] Taxi 2 says: "Honey I'm home!"
+[547] Taxi 56 reached destination, no customers to drop off
+[547] Taxi 56 reached destination, no customers to pick up
+[549] Taxi 71 reached destination, no customers to drop off
+[549] Taxi 71 reached destination, no customers to pick up
+[550] Taxi 121 reached destination, no customers to drop off
+[550] Taxi 121 reached destination, no customers to pick up
+[551] Taxi 57 reached destination, no customers to drop off
+[551] Taxi 57 reached destination, no customers to pick up
+[551] Taxi 61 reached destination, no customers to drop off
+[551] Taxi 61 reached destination, no customers to pick up
+[554] Taxi 81 reached destination, no customers to drop off
+[554] Taxi 81 reached destination, no customers to pick up
+[564] Taxi 77 reached destination, no customers to drop off
+[564] Taxi 77 reached destination, no customers to pick up
+[565] Taxi 101 reached destination, no customers to drop off
+[565] Taxi 101 reached destination, no customers to pick up
+[567] Taxi 78 reached destination, no customers to drop off
+[567] Taxi 78 reached destination, no customers to pick up
+[568] Taxi 51 reached destination, no customers to drop off
+[568] Taxi 51 reached destination, no customers to pick up
+[570] Taxi 4 says: "Honey I'm home!"
+[571] Taxi 82 says: "Honey I'm home!"
+[571] Taxi 96 reached destination, no customers to drop off
+[571] Taxi 96 reached destination, no customers to pick up
+[581] Taxi 9 says: "Honey I'm home!"
+[581] Taxi 90 reached destination, no customers to drop off
+[581] Taxi 90 reached destination, no customers to pick up
+[584] Taxi 58 says: "Honey I'm home!"
+[590] Taxi 33 reached destination, no customers to drop off
+[590] Taxi 33 reached destination, no customers to pick up
+[591] Taxi 59 reached destination, no customers to drop off
+[591] Taxi 59 reached destination, no customers to pick up
+[594] Taxi 12 says: "Honey I'm home!"
+[597] Taxi 50 says: "Honey I'm home!"
+[597] Taxi 79 reached destination, no customers to drop off
+[597] Taxi 79 reached destination, no customers to pick up
+[597] Taxi 107 says: "Honey I'm home!"
+[599] Taxi 35 reached destination, no customers to drop off
+[599] Taxi 35 reached destination, no customers to pick up
+[601] Taxi 68 says: "Honey I'm home!"
+[603] Taxi 87 reached destination, no customers to drop off
+[603] Taxi 87 reached destination, no customers to pick up
+[608] Taxi 29 says: "Honey I'm home!"
+[612] Taxi 53 reached destination, no customers to drop off
+[612] Taxi 53 reached destination, no customers to pick up
+[614] Taxi 6 says: "Honey I'm home!"
+[614] Taxi 72 reached destination, no customers to drop off
+[614] Taxi 72 reached destination, no customers to pick up
+[615] Taxi 60 reached destination, no customers to drop off
+[615] Taxi 60 reached destination, no customers to pick up
+[615] Taxi 12 reached destination, no customers to drop off
+[615] Taxi 12 reached destination, no customers to pick up
+[616] Taxi 100 reached destination, no customers to drop off
+[616] Taxi 100 reached destination, no customers to pick up
+[618] Taxi 66 reached destination, no customers to drop off
+[618] Taxi 66 reached destination and picks up: [469]
+[619] Taxi 52 reached destination, no customers to drop off
+[619] Taxi 52 reached destination, no customers to pick up
+[624] Taxi 97 reached destination, no customers to drop off
+[624] Taxi 97 reached destination, no customers to pick up
+[625] Taxi 46 reached destination, no customers to drop off
+[625] Taxi 46 reached destination, no customers to pick up
+[625] Taxi 69 reached destination, no customers to drop off
+[625] Taxi 69 reached destination, no customers to pick up
+[626] Taxi 102 says: "Honey I'm home!"
+[628] Taxi 5 says: "Honey I'm home!"
+[628] Taxi 63 reached destination, no customers to drop off
+[628] Taxi 63 reached destination, no customers to pick up
+[634] Taxi 12 says: "Honey I'm home!"
+[636] Taxi 120 says: "Honey I'm home!"
+[638] Taxi 91 reached destination, no customers to drop off
+[638] Taxi 91 reached destination, no customers to pick up
+[641] Taxi 62 reached destination, no customers to drop off
+[641] Taxi 62 reached destination and picks up: [398]
+[641] Taxi 121 says: "Honey I'm home!"
+[643] Taxi 104 reached destination, no customers to drop off
+[643] Taxi 104 reached destination and picks up: [17]
+[647] Taxi 115 reached destination, no customers to drop off
+[647] Taxi 115 reached destination, no customers to pick up
+[648] Taxi 24 says: "Honey I'm home!"
+[649] Taxi 112 reached destination, no customers to drop off
+[649] Taxi 112 reached destination, no customers to pick up
+[650] Taxi 95 reached destination, no customers to drop off
+[650] Taxi 95 reached destination, no customers to pick up
+[650] Taxi 103 reached destination, no customers to drop off
+[650] Taxi 103 reached destination, no customers to pick up
+[651] Taxi 28 says: "Honey I'm home!"
+[651] Taxi 99 reached destination, no customers to drop off
+[651] Taxi 99 reached destination, no customers to pick up
+[652] Taxi 89 reached destination, no customers to drop off
+[652] Taxi 89 reached destination, no customers to pick up
+[654] Taxi 13 says: "Honey I'm home!"
+[656] Taxi 23 says: "Honey I'm home!"
+[657] Taxi 80 says: "Honey I'm home!"
+[659] Taxi 16 says: "Honey I'm home!"
+[660] Taxi 3 says: "Honey I'm home!"
+[662] Taxi 76 says: "Honey I'm home!"
+[662] Taxi 117 reached destination, no customers to drop off
+[662] Taxi 117 reached destination, no customers to pick up
+[662] Taxi 124 reached destination, no customers to drop off
+[662] Taxi 124 reached destination, no customers to pick up
+[663] Taxi 64 says: "Honey I'm home!"
+[663] Taxi 108 reached destination, no customers to drop off
+[663] Taxi 108 reached destination and picks up: [374]
+[664] Taxi 109 says: "Honey I'm home!"
+[668] Taxi 73 says: "Honey I'm home!"
+[668] Taxi 74 reached destination, no customers to drop off
+[668] Taxi 74 reached destination, no customers to pick up
+[669] Taxi 42 reached destination, no customers to drop off
+[669] Taxi 42 reached destination and picks up: [299]
+[673] Taxi 110 reached destination, no customers to drop off
+[673] Taxi 110 reached destination, no customers to pick up
+[673] Taxi 118 reached destination, no customers to drop off
+[673] Taxi 118 reached destination, no customers to pick up
+[674] Taxi 67 reached destination, no customers to drop off
+[674] Taxi 67 reached destination, no customers to pick up
+[674] Taxi 86 reached destination, no customers to drop off
+[674] Taxi 86 reached destination, no customers to pick up
+[674] Taxi 93 says: "Honey I'm home!"
+[675] Taxi 19 says: "Honey I'm home!"
+[676] Taxi 76 reached destination, no customers to drop off
+[676] Taxi 76 reached destination and picks up: [259]
+[678] Taxi 21 says: "Honey I'm home!"
+[678] Taxi 48 says: "Honey I'm home!"
+[678] Taxi 113 reached destination, no customers to drop off
+[678] Taxi 113 reached destination, no customers to pick up
+[680] Taxi 94 reached destination, no customers to drop off
+[680] Taxi 94 reached destination, no customers to pick up
+[681] Taxi 25 says: "Honey I'm home!"
+[686] Taxi 0 says: "Honey I'm home!"
+[686] Taxi 50 reached destination, no customers to drop off
+[686] Taxi 50 reached destination and picks up: [111]
+[687] Taxi 65 reached destination, no customers to drop off
+[687] Taxi 65 reached destination, no customers to pick up
+[692] Taxi 122 reached destination, no customers to drop off
+[692] Taxi 122 reached destination, no customers to pick up
+[693] Taxi 15 reached destination, no customers to drop off
+[693] Taxi 15 reached destination and picks up: [146]
+[694] Taxi 14 says: "Honey I'm home!"
+[695] Taxi 57 says: "Honey I'm home!"
+[698] Taxi 1 says: "Honey I'm home!"
+[700] Taxi 27 says: "Honey I'm home!"
+[702] Taxi 78 says: "Honey I'm home!"
+[702] Taxi 84 reached destination, no customers to drop off
+[702] Taxi 84 reached destination and picks up: [198]
+[703] Taxi 123 reached destination, no customers to drop off
+[703] Taxi 123 reached destination, no customers to pick up
+[704] Taxi 55 says: "Honey I'm home!"
+[705] Taxi 106 reached destination, no customers to drop off
+[705] Taxi 106 reached destination and picks up: [6,462]
+[709] Taxi 107 reached destination, no customers to drop off
+[709] Taxi 107 reached destination and picks up: [123]
+[715] Taxi 47 says: "Honey I'm home!"
+[715] Taxi 116 reached destination, no customers to drop off
+[715] Taxi 116 reached destination, no customers to pick up
+[716] Taxi 39 says: "Honey I'm home!"
+[716] Taxi 114 reached destination, no customers to drop off
+[716] Taxi 114 reached destination, no customers to pick up
+[718] Taxi 34 says: "Honey I'm home!"
+[718] Taxi 88 says: "Honey I'm home!"
+[720] Taxi 7 drops off customers [6]
+[720] Taxi 7 reached destination, no customers to pick up
+[720] Taxi 43 says: "Honey I'm home!"
+[721] Taxi 83 says: "Honey I'm home!"
+[723] Taxi 111 reached destination, no customers to drop off
+[723] Taxi 111 reached destination, no customers to pick up
+[725] Taxi 77 says: "Honey I'm home!"
+[729] Taxi 18 says: "Honey I'm home!"
+[730] Taxi 92 says: "Honey I'm home!"
+[730] Taxi 85 reached destination, no customers to drop off
+[730] Taxi 85 reached destination and picks up: [257]
+[731] Taxi 44 says: "Honey I'm home!"
+[733] Taxi 56 says: "Honey I'm home!"
+[734] Taxi 36 says: "Honey I'm home!"
+[742] Taxi 10 says: "Honey I'm home!"
+[743] Taxi 37 reached destination, no customers to drop off
+[743] Taxi 37 reached destination and picks up: [132,497]
+[746] Taxi 8 says: "Honey I'm home!"
+[746] Taxi 75 says: "Honey I'm home!"
+[746] Taxi 45 reached destination, no customers to drop off
+[746] Taxi 45 reached destination and picks up: [423]
+[747] Taxi 20 says: "Honey I'm home!"
+[751] Taxi 96 says: "Honey I'm home!"
+[751] Taxi 9 reached destination, no customers to drop off
+[751] Taxi 9 reached destination and picks up: [33]
+[752] Taxi 31 says: "Honey I'm home!"
+[753] Taxi 11 says: "Honey I'm home!"
+[754] Taxi 22 says: "Honey I'm home!"
+[755] Taxi 98 says: "Honey I'm home!"
+[755] Taxi 104 drops off customers [17]
+[755] Taxi 104 reached destination, no customers to pick up
+[757] Taxi 105 reached destination, no customers to drop off
+[757] Taxi 105 reached destination, no customers to pick up
+[760] Taxi 30 says: "Honey I'm home!"
+[763] Taxi 101 says: "Honey I'm home!"
+[765] Taxi 41 reached destination, no customers to drop off
+[765] Taxi 41 reached destination, no customers to pick up
+[766] Taxi 26 says: "Honey I'm home!"
+[769] Taxi 71 says: "Honey I'm home!"
+[774] Taxi 38 says: "Honey I'm home!"
+[774] Taxi 54 reached destination, no customers to drop off
+[774] Taxi 54 reached destination and picks up: [27]
+[777] Taxi 44 reached destination, no customers to drop off
+[777] Taxi 44 reached destination and picks up: [207]
+[780] Taxi 59 says: "Honey I'm home!"
+[782] Taxi 28 reached destination, no customers to drop off
+[782] Taxi 28 reached destination and picks up: [184]
+[788] Taxi 92 reached destination, no customers to drop off
+[788] Taxi 92 reached destination, no customers to pick up
+[794] Taxi 40 says: "Honey I'm home!"
+[797] Taxi 19 reached destination, no customers to drop off
+[797] Taxi 19 reached destination, no customers to pick up
+[799] Taxi 17 says: "Honey I'm home!"
+[801] Taxi 57 reached destination, no customers to drop off
+[801] Taxi 57 reached destination and picks up: [270,491]
+[802] Taxi 33 says: "Honey I'm home!"
+[804] Taxi 89 says: "Honey I'm home!"
+[806] Taxi 90 says: "Honey I'm home!"
+[809] Taxi 94 says: "Honey I'm home!"
+[811] Taxi 68 reached destination, no customers to drop off
+[811] Taxi 68 reached destination, no customers to pick up
+[812] Taxi 81 says: "Honey I'm home!"
+[820] Taxi 2 reached destination, no customers to drop off
+[820] Taxi 2 reached destination and picks up: [455]
+[826] Taxi 61 says: "Honey I'm home!"
+[829] Taxi 58 reached destination, no customers to drop off
+[829] Taxi 58 reached destination and picks up: [137,210]
+[830] Taxi 64 reached destination, no customers to drop off
+[830] Taxi 64 reached destination and picks up: [442]
+[831] Taxi 49 reached destination, no customers to drop off
+[831] Taxi 49 reached destination, no customers to pick up
+[834] Taxi 92 says: "Honey I'm home!"
+[838] Taxi 91 says: "Honey I'm home!"
+[838] Taxi 118 says: "Honey I'm home!"
+[839] Taxi 110 says: "Honey I'm home!"
+[840] Taxi 87 says: "Honey I'm home!"
+[846] Taxi 48 reached destination, no customers to drop off
+[846] Taxi 48 reached destination and picks up: [162]
+[850] Taxi 6 reached destination, no customers to drop off
+[850] Taxi 6 reached destination and picks up: [360]
+[854] Taxi 103 says: "Honey I'm home!"
+[855] Taxi 119 reached destination, no customers to drop off
+[855] Taxi 119 reached destination, no customers to pick up
+[855] Taxi 82 reached destination, no customers to drop off
+[855] Taxi 82 reached destination, no customers to pick up
+[857] Taxi 124 says: "Honey I'm home!"
+[857] Taxi 12 reached destination, no customers to drop off
+[857] Taxi 12 reached destination and picks up: [161]
+[858] Taxi 120 reached destination, no customers to drop off
+[858] Taxi 120 reached destination and picks up: [467]
+[859] Taxi 21 reached destination, no customers to drop off
+[859] Taxi 21 reached destination, no customers to pick up
+[860] Taxi 121 reached destination, no customers to drop off
+[860] Taxi 121 reached destination, no customers to pick up
+[861] Taxi 51 says: "Honey I'm home!"
+[862] Taxi 79 says: "Honey I'm home!"
+[869] Taxi 46 says: "Honey I'm home!"
+[870] Taxi 29 reached destination, no customers to drop off
+[870] Taxi 29 reached destination and picks up: [73]
+[874] Taxi 101 reached destination, no customers to drop off
+[874] Taxi 101 reached destination and picks up: [141]
+[882] Taxi 123 says: "Honey I'm home!"
+[886] Taxi 4 reached destination, no customers to drop off
+[886] Taxi 4 reached destination and picks up: [496]
+[889] Taxi 102 reached destination, no customers to drop off
+[889] Taxi 102 reached destination and picks up: [87]
+[890] Taxi 32 says: "Honey I'm home!"
+[891] Taxi 86 says: "Honey I'm home!"
+[891] Taxi 114 says: "Honey I'm home!"
+[892] Taxi 84 drops off customers [198]
+[892] Taxi 84 reached destination, no customers to pick up
+[894] Taxi 117 says: "Honey I'm home!"
+[896] Taxi 100 says: "Honey I'm home!"
+[901] Taxi 48 drops off customers [162]
+[901] Taxi 48 reached destination, no customers to pick up
+[902] Taxi 69 says: "Honey I'm home!"
+[904] Taxi 0 reached destination, no customers to drop off
+[904] Taxi 0 reached destination, no customers to pick up
+[905] Taxi 72 says: "Honey I'm home!"
+[905] Taxi 97 says: "Honey I'm home!"
+[906] Taxi 63 says: "Honey I'm home!"
+[906] Taxi 95 says: "Honey I'm home!"
+[913] Taxi 53 says: "Honey I'm home!"
+[913] Taxi 8 reached destination, no customers to drop off
+[913] Taxi 8 reached destination, no customers to pick up
+[917] Taxi 16 reached destination, no customers to drop off
+[917] Taxi 16 reached destination, no customers to pick up
+[918] Taxi 52 says: "Honey I'm home!"
+[918] Taxi 107 drops off customers [123]
+[918] Taxi 107 reached destination, no customers to pick up
+[919] Taxi 80 reached destination, no customers to drop off
+[919] Taxi 80 reached destination and picks up: [365]
+[920] Taxi 19 says: "Honey I'm home!"
+[922] Taxi 115 says: "Honey I'm home!"
+[925] Taxi 60 says: "Honey I'm home!"
+[925] Taxi 3 reached destination, no customers to drop off
+[925] Taxi 3 reached destination, no customers to pick up
+[926] Taxi 18 reached destination, no customers to drop off
+[926] Taxi 18 reached destination and picks up: [86]
+[929] Taxi 92 reached destination, no customers to drop off
+[929] Taxi 92 reached destination, no customers to pick up
+[931] Taxi 1 reached destination, no customers to drop off
+[931] Taxi 1 reached destination and picks up: [124,400]
+[933] Taxi 25 reached destination, no customers to drop off
+[933] Taxi 25 reached destination, no customers to pick up
+[934] Taxi 36 reached destination, no customers to drop off
+[934] Taxi 36 reached destination and picks up: [201]
+[935] Taxi 30 reached destination, no customers to drop off
+[935] Taxi 30 reached destination, no customers to pick up
+[936] Taxi 122 says: "Honey I'm home!"
+[936] Taxi 51 reached destination, no customers to drop off
+[936] Taxi 51 reached destination, no customers to pick up
+[938] Taxi 112 says: "Honey I'm home!"
+[938] Taxi 20 reached destination, no customers to drop off
+[938] Taxi 20 reached destination and picks up: [68]
+[939] Taxi 93 reached destination, no customers to drop off
+[939] Taxi 93 reached destination and picks up: [167]
+[939] Taxi 55 reached destination, no customers to drop off
+[939] Taxi 55 reached destination and picks up: [95]
+[940] Taxi 10 reached destination, no customers to drop off
+[940] Taxi 10 reached destination, no customers to pick up
+[941] Taxi 99 says: "Honey I'm home!"
+[943] Taxi 24 reached destination, no customers to drop off
+[943] Taxi 24 reached destination and picks up: [58]
+[946] Taxi 35 says: "Honey I'm home!"
+[950] Taxi 50 drops off customers [111]
+[950] Taxi 50 reached destination, no customers to pick up
+[950] Taxi 88 reached destination, no customers to drop off
+[950] Taxi 88 reached destination and picks up: [460]
+[951] Taxi 23 reached destination, no customers to drop off
+[951] Taxi 23 reached destination and picks up: [472]
+[955] Taxi 109 reached destination, no customers to drop off
+[955] Taxi 109 reached destination, no customers to pick up
+[957] Taxi 15 drops off customers [146]
+[957] Taxi 15 reached destination, no customers to pick up
+[958] Taxi 71 reached destination, no customers to drop off
+[958] Taxi 71 reached destination and picks up: [211]
+[959] Taxi 73 reached destination, no customers to drop off
+[959] Taxi 73 reached destination and picks up: [436]
+[959] Taxi 46 reached destination, no customers to drop off
+[959] Taxi 46 reached destination and picks up: [301]
+[962] Taxi 75 reached destination, no customers to drop off
+[962] Taxi 75 reached destination, no customers to pick up
+[963] Taxi 41 says: "Honey I'm home!"
+[965] Taxi 74 says: "Honey I'm home!"
+[966] Taxi 39 reached destination, no customers to drop off
+[966] Taxi 39 reached destination, no customers to pick up
+[967] Taxi 83 reached destination, no customers to drop off
+[967] Taxi 83 reached destination and picks up: [421]
+[968] Taxi 21 says: "Honey I'm home!"
+[971] Taxi 12 drops off customers [161]
+[971] Taxi 12 reached destination, no customers to pick up
+[973] Taxi 66 drops off customers [469]
+[973] Taxi 66 reached destination, no customers to pick up
+[978] Taxi 113 says: "Honey I'm home!"
+[980] Taxi 90 reached destination, no customers to drop off
+[980] Taxi 90 reached destination and picks up: [325]
+[984] Taxi 108 drops off customers [374]
+[984] Taxi 108 reached destination, no customers to pick up
+[984] Taxi 43 reached destination, no customers to drop off
+[984] Taxi 43 reached destination and picks up: [361]
+[985] Taxi 78 reached destination, no customers to drop off
+[985] Taxi 78 reached destination, no customers to pick up
+[986] Taxi 27 reached destination, no customers to drop off
+[986] Taxi 27 reached destination and picks up: [243]
+[988] Taxi 5 reached destination, no customers to drop off
+[988] Taxi 5 reached destination and picks up: [320]
+[993] Taxi 92 says: "Honey I'm home!"
+[994] Taxi 85 drops off customers [257]
+[994] Taxi 85 reached destination, no customers to pick up
+[996] Taxi 104 says: "Honey I'm home!"
+[997] Taxi 100 reached destination, no customers to drop off
+[997] Taxi 100 reached destination and picks up: [69]
+[1000] Taxi 93 drops off customers [167]
+[1000] Taxi 93 reached destination, no customers to pick up
+[1002] Taxi 67 says: "Honey I'm home!"
+[1003] Taxi 84 says: "Honey I'm home!"
+[1005] Taxi 26 reached destination, no customers to drop off
+[1005] Taxi 26 reached destination, no customers to pick up
+[1006] Taxi 14 reached destination, no customers to drop off
+[1006] Taxi 14 reached destination and picks up: [439]
+[1008] Taxi 116 says: "Honey I'm home!"
+[1009] Taxi 2 drops off customers [455]
+[1009] Taxi 2 reached destination, no customers to pick up
+[1009] Taxi 28 drops off customers [184]
+[1009] Taxi 28 reached destination and picks up: [19]
+[1013] Taxi 7 says: "Honey I'm home!"
+[1013] Taxi 105 says: "Honey I'm home!"
+[1013] Taxi 40 reached destination, no customers to drop off
+[1013] Taxi 40 reached destination and picks up: [319]
+[1018] Taxi 76 drops off customers [259]
+[1018] Taxi 76 reached destination, no customers to pick up
+[1020] Taxi 51 says: "Honey I'm home!"
+[1022] Taxi 86 reached destination, no customers to drop off
+[1022] Taxi 86 reached destination, no customers to pick up
+[1023] Taxi 77 reached destination, no customers to drop off
+[1023] Taxi 77 reached destination, no customers to pick up
+[1024] Taxi 111 says: "Honey I'm home!"
+[1027] Taxi 44 drops off customers [207]
+[1027] Taxi 44 reached destination, no customers to pick up
+[1029] Taxi 124 reached destination, no customers to drop off
+[1029] Taxi 124 reached destination and picks up: [247]
+[1030] Taxi 9 drops off customers [33]
+[1030] Taxi 9 reached destination, no customers to pick up
+[1031] Taxi 54 drops off customers [27]
+[1031] Taxi 54 reached destination, no customers to pick up
+[1031] Taxi 68 says: "Honey I'm home!"
+[1035] Taxi 56 reached destination, no customers to drop off
+[1035] Taxi 56 reached destination, no customers to pick up
+[1038] Taxi 31 reached destination, no customers to drop off
+[1038] Taxi 31 reached destination and picks up: [401]
+[1042] Taxi 32 reached destination, no customers to drop off
+[1042] Taxi 32 reached destination, no customers to pick up
+[1043] Taxi 65 says: "Honey I'm home!"
+[1044] Taxi 59 reached destination, no customers to drop off
+[1044] Taxi 59 reached destination and picks up: [226]
+[1050] Taxi 120 drops off customers [467]
+[1050] Taxi 120 reached destination, no customers to pick up
+[1052] Taxi 11 reached destination, no customers to drop off
+[1052] Taxi 11 reached destination, no customers to pick up
+[1053] Taxi 13 reached destination, no customers to drop off
+[1053] Taxi 13 reached destination and picks up: [345]
+[1055] Taxi 115 reached destination, no customers to drop off
+[1055] Taxi 115 reached destination, no customers to pick up
+[1059] Taxi 110 reached destination, no customers to drop off
+[1059] Taxi 110 reached destination and picks up: [241,352]
+[1061] Taxi 47 reached destination, no customers to drop off
+[1061] Taxi 47 reached destination, no customers to pick up
+[1061] Taxi 96 reached destination, no customers to drop off
+[1061] Taxi 96 reached destination, no customers to pick up
+[1061] Taxi 38 reached destination, no customers to drop off
+[1061] Taxi 38 reached destination, no customers to pick up
+[1063] Taxi 79 reached destination, no customers to drop off
+[1063] Taxi 79 reached destination and picks up: [368]
+[1064] Taxi 98 reached destination, no customers to drop off
+[1064] Taxi 98 reached destination and picks up: [475]
+[1067] Taxi 90 drops off customers [325]
+[1067] Taxi 90 reached destination, no customers to pick up
+[1072] Taxi 10 says: "Honey I'm home!"
+[1079] Taxi 119 says: "Honey I'm home!"
+[1079] Taxi 75 says: "Honey I'm home!"
+[1081] Taxi 34 reached destination, no customers to drop off
+[1081] Taxi 34 reached destination and picks up: [413]
+[1081] Taxi 8 says: "Honey I'm home!"
+[1082] Taxi 70 drops off customers [147]
+[1082] Taxi 70 reached destination, no customers to pick up
+[1084] Taxi 99 reached destination, no customers to drop off
+[1084] Taxi 99 reached destination, no customers to pick up
+[1086] Taxi 52 reached destination, no customers to drop off
+[1086] Taxi 52 reached destination and picks up: [261]
+[1088] Taxi 82 says: "Honey I'm home!"
+[1089] Taxi 45 drops off customers [423]
+[1089] Taxi 45 reached destination, no customers to pick up
+[1090] Taxi 15 says: "Honey I'm home!"
+[1091] Taxi 117 reached destination, no customers to drop off
+[1091] Taxi 117 reached destination and picks up: [151]
+[1096] Taxi 81 reached destination, no customers to drop off
+[1096] Taxi 81 reached destination and picks up: [498]
+[1101] Taxi 118 reached destination, no customers to drop off
+[1101] Taxi 118 reached destination and picks up: [145]
+[1105] Taxi 17 reached destination, no customers to drop off
+[1105] Taxi 17 reached destination, no customers to pick up
+[1106] Taxi 6 drops off customers [360]
+[1106] Taxi 6 reached destination, no customers to pick up
+[1106] Taxi 103 reached destination, no customers to drop off
+[1106] Taxi 103 reached destination, no customers to pick up
+[1108] Taxi 86 says: "Honey I'm home!"
+[1110] Taxi 22 reached destination, no customers to drop off
+[1110] Taxi 22 reached destination, no customers to pick up
+[1112] Taxi 61 reached destination, no customers to drop off
+[1112] Taxi 61 reached destination and picks up: [429]
+[1115] Taxi 89 reached destination, no customers to drop off
+[1115] Taxi 89 reached destination, no customers to pick up
+[1115] Taxi 123 reached destination, no customers to drop off
+[1115] Taxi 123 reached destination and picks up: [269]
+[1115] Taxi 19 reached destination, no customers to drop off
+[1115] Taxi 19 reached destination, no customers to pick up
+[1117] Taxi 28 drops off customers [19]
+[1117] Taxi 28 reached destination, no customers to pick up
+[1118] Taxi 108 says: "Honey I'm home!"
+[1125] Taxi 52 drops off customers [261]
+[1125] Taxi 52 reached destination, no customers to pick up
+[1129] Taxi 3 says: "Honey I'm home!"
+[1130] Taxi 49 says: "Honey I'm home!"
+[1130] Taxi 121 says: "Honey I'm home!"
+[1131] Taxi 83 drops off customers [421]
+[1131] Taxi 83 reached destination, no customers to pick up
+[1135] Taxi 62 drops off customers [398]
+[1135] Taxi 62 reached destination, no customers to pick up
+[1136] Taxi 104 reached destination, no customers to drop off
+[1136] Taxi 104 reached destination, no customers to pick up
+[1145] Taxi 69 reached destination, no customers to drop off
+[1145] Taxi 69 reached destination and picks up: [51]
+[1145] Taxi 41 reached destination, no customers to drop off
+[1145] Taxi 41 reached destination, no customers to pick up
+[1147] Taxi 48 says: "Honey I'm home!"
+[1150] Taxi 50 says: "Honey I'm home!"
+[1150] Taxi 78 says: "Honey I'm home!"
+[1150] Taxi 30 says: "Honey I'm home!"
+[1152] Taxi 43 drops off customers [361]
+[1152] Taxi 43 reached destination, no customers to pick up
+[1154] Taxi 42 drops off customers [299]
+[1154] Taxi 42 reached destination, no customers to pick up
+[1155] Taxi 0 says: "Honey I'm home!"
+[1155] Taxi 90 says: "Honey I'm home!"
+[1160] Taxi 53 reached destination, no customers to drop off
+[1160] Taxi 53 reached destination, no customers to pick up
+[1165] Taxi 94 reached destination, no customers to drop off
+[1165] Taxi 94 reached destination and picks up: [379]
+[1166] Taxi 54 says: "Honey I'm home!"
+[1166] Taxi 33 reached destination, no customers to drop off
+[1166] Taxi 33 reached destination and picks up: [280]
+[1167] Taxi 109 says: "Honey I'm home!"
+[1167] Taxi 72 reached destination, no customers to drop off
+[1167] Taxi 72 reached destination and picks up: [39]
+[1167] Taxi 115 says: "Honey I'm home!"
+[1170] Taxi 91 reached destination, no customers to drop off
+[1170] Taxi 91 reached destination and picks up: [334]
+[1172] Taxi 112 reached destination, no customers to drop off
+[1172] Taxi 112 reached destination, no customers to pick up
+[1173] Taxi 63 reached destination, no customers to drop off
+[1173] Taxi 63 reached destination, no customers to pick up
+[1175] Taxi 87 reached destination, no customers to drop off
+[1175] Taxi 87 reached destination, no customers to pick up
+[1176] Taxi 28 says: "Honey I'm home!"
+[1179] Taxi 120 says: "Honey I'm home!"
+[1180] Taxi 85 says: "Honey I'm home!"
+[1180] Taxi 75 reached destination, no customers to drop off
+[1180] Taxi 75 reached destination and picks up: [69,335]
+[1182] Taxi 88 drops off customers [460]
+[1182] Taxi 88 reached destination, no customers to pick up
+[1185] Taxi 114 reached destination, no customers to drop off
+[1185] Taxi 114 reached destination, no customers to pick up
+[1186] Taxi 51 reached destination, no customers to drop off
+[1186] Taxi 51 reached destination, no customers to pick up
+[1186] Taxi 3 reached destination, no customers to drop off
+[1186] Taxi 3 reached destination and picks up: [21]
+[1187] Taxi 92 reached destination, no customers to drop off
+[1187] Taxi 92 reached destination and picks up: [196,486]
+[1190] Taxi 64 drops off customers [442]
+[1190] Taxi 64 reached destination, no customers to pick up
+[1193] Taxi 68 reached destination, no customers to drop off
+[1193] Taxi 68 reached destination and picks up: [333]
+[1198] Taxi 20 drops off customers [68]
+[1198] Taxi 20 reached destination, no customers to pick up
+[1199] Taxi 35 reached destination, no customers to drop off
+[1199] Taxi 35 reached destination and picks up: [220]
+[1200] Taxi 77 says: "Honey I'm home!"
+[1206] Taxi 120 reached destination, no customers to drop off
+[1206] Taxi 120 reached destination and picks up: [218]
+[1209] Taxi 60 reached destination, no customers to drop off
+[1209] Taxi 60 reached destination and picks up: [498]
+[1211] Taxi 100 drops off customers [69]
+[1211] Taxi 100 reached destination, no customers to pick up
+[1212] Taxi 99 says: "Honey I'm home!"
+[1216] Taxi 16 says: "Honey I'm home!"
+[1216] Taxi 46 drops off customers [301]
+[1216] Taxi 46 reached destination, no customers to pick up
+[1217] Taxi 66 says: "Honey I'm home!"
+[1218] Taxi 24 drops off customers [58]
+[1218] Taxi 24 reached destination, no customers to pick up
+[1219] Taxi 30 reached destination, no customers to drop off
+[1219] Taxi 30 reached destination, no customers to pick up
+[1221] Taxi 55 drops off customers [95]
+[1221] Taxi 55 reached destination, no customers to pick up
+[1229] Taxi 113 reached destination, no customers to drop off
+[1229] Taxi 113 reached destination and picks up: [388]
+[1231] Taxi 25 says: "Honey I'm home!"
+[1233] Taxi 84 reached destination, no customers to drop off
+[1233] Taxi 84 reached destination and picks up: [133]
+[1235] Taxi 52 says: "Honey I'm home!"
+[1235] Taxi 82 reached destination, no customers to drop off
+[1235] Taxi 82 reached destination and picks up: [266]
+[1236] Taxi 71 drops off customers [211]
+[1236] Taxi 71 reached destination, no customers to pick up
+[1239] Taxi 116 reached destination, no customers to drop off
+[1239] Taxi 116 reached destination and picks up: [432]
+[1240] Taxi 85 reached destination, no customers to drop off
+[1240] Taxi 85 reached destination and picks up: [389]
+[1245] Taxi 12 says: "Honey I'm home!"
+[1246] Taxi 38 says: "Honey I'm home!"
+[1246] Taxi 122 reached destination, no customers to drop off
+[1246] Taxi 122 reached destination, no customers to pick up
+[1247] Taxi 7 reached destination, no customers to drop off
+[1247] Taxi 7 reached destination and picks up: [67]
+[1247] Taxi 15 reached destination, no customers to drop off
+[1247] Taxi 15 reached destination and picks up: [331]
+[1250] Taxi 104 says: "Honey I'm home!"
+[1251] Taxi 39 says: "Honey I'm home!"
+[1254] Taxi 36 drops off customers [201]
+[1254] Taxi 36 reached destination, no customers to pick up
+[1255] Taxi 67 reached destination, no customers to drop off
+[1255] Taxi 67 reached destination and picks up: [88]
+[1256] Taxi 32 says: "Honey I'm home!"
+[1259] Taxi 109 reached destination, no customers to drop off
+[1259] Taxi 109 reached destination, no customers to pick up
+[1264] Taxi 86 reached destination, no customers to drop off
+[1264] Taxi 86 reached destination and picks up: [273]
+[1265] Taxi 21 reached destination, no customers to drop off
+[1265] Taxi 21 reached destination and picks up: [195]
+[1265] Taxi 8 reached destination, no customers to drop off
+[1265] Taxi 8 reached destination, no customers to pick up
+[1269] Taxi 107 says: "Honey I'm home!"
+[1270] Taxi 68 drops off customers [333]
+[1270] Taxi 68 reached destination, no customers to pick up
+[1271] Taxi 26 says: "Honey I'm home!"
+[1271] Taxi 33 drops off customers [280]
+[1271] Taxi 33 reached destination, no customers to pick up
+[1272] Taxi 74 reached destination, no customers to drop off
+[1272] Taxi 74 reached destination and picks up: [440]
+[1275] Taxi 95 reached destination, no customers to drop off
+[1275] Taxi 95 reached destination and picks up: [253]
+[1277] Taxi 11 says: "Honey I'm home!"
+[1280] Taxi 105 reached destination, no customers to drop off
+[1280] Taxi 105 reached destination and picks up: [274]
+[1281] Taxi 97 reached destination, no customers to drop off
+[1281] Taxi 97 reached destination and picks up: [272]
+[1283] Taxi 52 reached destination, no customers to drop off
+[1283] Taxi 52 reached destination and picks up: [456]
+[1284] Taxi 30 says: "Honey I'm home!"
+[1285] Taxi 49 reached destination, no customers to drop off
+[1285] Taxi 49 reached destination, no customers to pick up
+[1289] Taxi 88 says: "Honey I'm home!"
+[1290] Taxi 14 drops off customers [439]
+[1290] Taxi 14 reached destination, no customers to pick up
+[1291] Taxi 96 says: "Honey I'm home!"
+[1292] Taxi 83 says: "Honey I'm home!"
+[1294] Taxi 2 says: "Honey I'm home!"
+[1296] Taxi 4 drops off customers [496]
+[1296] Taxi 4 reached destination, no customers to pick up
+[1296] Taxi 101 drops off customers [141]
+[1296] Taxi 101 reached destination, no customers to pick up
+[1297] Taxi 89 says: "Honey I'm home!"
+[1300] Taxi 45 says: "Honey I'm home!"
+[1300] Taxi 99 reached destination, no customers to drop off
+[1300] Taxi 99 reached destination and picks up: [416]
+[1301] Taxi 48 reached destination, no customers to drop off
+[1301] Taxi 48 reached destination, no customers to pick up
+[1301] Taxi 77 reached destination, no customers to drop off
+[1301] Taxi 77 reached destination and picks up: [69,231,335]
+[1303] Taxi 69 drops off customers [51]
+[1303] Taxi 69 reached destination, no customers to pick up
+[1308] Taxi 119 reached destination, no customers to drop off
+[1308] Taxi 119 reached destination and picks up: [367]
+[1309] Taxi 41 says: "Honey I'm home!"
+[1311] Taxi 9 says: "Honey I'm home!"
+[1312] Taxi 90 reached destination, no customers to drop off
+[1312] Taxi 90 reached destination and picks up: [143]
+[1317] Taxi 56 says: "Honey I'm home!"
+[1319] Taxi 73 drops off customers [436]
+[1319] Taxi 73 reached destination, no customers to pick up
+[1319] Taxi 107 reached destination, no customers to drop off
+[1319] Taxi 107 reached destination, no customers to pick up
+[1320] Taxi 109 says: "Honey I'm home!"
+[1324] Taxi 103 says: "Honey I'm home!"
+[1324] Taxi 115 reached destination, no customers to drop off
+[1324] Taxi 115 reached destination and picks up: [189]
+[1325] Taxi 67 drops off customers [88]
+[1325] Taxi 67 reached destination, no customers to pick up
+[1327] Taxi 6 says: "Honey I'm home!"
+[1328] Taxi 32 reached destination, no customers to drop off
+[1328] Taxi 32 reached destination and picks up: [391]
+[1329] Taxi 93 says: "Honey I'm home!"
+[1329] Taxi 78 reached destination, no customers to drop off
+[1329] Taxi 78 reached destination and picks up: [468]
+[1330] Taxi 23 drops off customers [472]
+[1330] Taxi 23 reached destination, no customers to pick up
+[1330] Taxi 98 drops off customers [475]
+[1330] Taxi 98 reached destination and picks up: [268]
+[1332] Taxi 10 reached destination, no customers to drop off
+[1332] Taxi 10 reached destination, no customers to pick up
+[1337] Taxi 108 reached destination, no customers to drop off
+[1337] Taxi 108 reached destination and picks up: [430]
+[1338] Taxi 20 says: "Honey I'm home!"
+[1340] Taxi 18 drops off customers [86]
+[1340] Taxi 18 reached destination, no customers to pick up
+[1341] Taxi 70 says: "Honey I'm home!"
+[1345] Taxi 11 reached destination, no customers to drop off
+[1345] Taxi 11 reached destination and picks up: [408]
+[1346] Taxi 25 reached destination, no customers to drop off
+[1346] Taxi 25 reached destination, no customers to pick up
+[1348] Taxi 124 drops off customers [247]
+[1348] Taxi 124 reached destination, no customers to pick up
+[1349] Taxi 76 says: "Honey I'm home!"
+[1349] Taxi 43 says: "Honey I'm home!"
+[1350] Taxi 19 says: "Honey I'm home!"
+[1352] Taxi 100 says: "Honey I'm home!"
+[1352] Taxi 0 reached destination, no customers to drop off
+[1352] Taxi 0 reached destination, no customers to pick up
+[1360] Taxi 71 says: "Honey I'm home!"
+[1360] Taxi 50 reached destination, no customers to drop off
+[1360] Taxi 50 reached destination and picks up: [242]
+[1360] Taxi 30 reached destination, no customers to drop off
+[1360] Taxi 30 reached destination and picks up: [213]
+[1361] Taxi 47 says: "Honey I'm home!"
+[1362] Taxi 118 drops off customers [145]
+[1362] Taxi 118 reached destination, no customers to pick up
+[1365] Taxi 62 says: "Honey I'm home!"
+[1366] Taxi 111 reached destination, no customers to drop off
+[1366] Taxi 111 reached destination and picks up: [42]
+[1366] Taxi 65 reached destination, no customers to drop off
+[1366] Taxi 65 reached destination, no customers to pick up
+[1368] Taxi 107 says: "Honey I'm home!"
+[1370] Taxi 26 reached destination, no customers to drop off
+[1370] Taxi 26 reached destination, no customers to pick up
+[1372] Taxi 117 drops off customers [151]
+[1372] Taxi 117 reached destination, no customers to pick up
+[1374] Taxi 53 says: "Honey I'm home!"
+[1375] Taxi 29 drops off customers [73]
+[1375] Taxi 29 reached destination, no customers to pick up
+[1375] Taxi 14 says: "Honey I'm home!"
+[1376] Taxi 17 says: "Honey I'm home!"
+[1377] Taxi 44 says: "Honey I'm home!"
+[1378] Taxi 83 reached destination, no customers to drop off
+[1378] Taxi 83 reached destination, no customers to pick up
+[1379] Taxi 51 says: "Honey I'm home!"
+[1383] Taxi 81 drops off customers [498]
+[1383] Taxi 81 reached destination, no customers to pick up
+[1387] Taxi 32 drops off customers [391]
+[1387] Taxi 32 reached destination, no customers to pick up
+[1388] Taxi 7 drops off customers [67]
+[1388] Taxi 7 reached destination, no customers to pick up
+[1390] Taxi 24 says: "Honey I'm home!"
+[1393] Taxi 12 reached destination, no customers to drop off
+[1393] Taxi 12 reached destination and picks up: [296]
+[1401] Taxi 84 drops off customers [133]
+[1401] Taxi 84 reached destination, no customers to pick up
+[1401] Taxi 41 reached destination, no customers to drop off
+[1401] Taxi 41 reached destination, no customers to pick up
+[1403] Taxi 21 drops off customers [195]
+[1403] Taxi 21 reached destination, no customers to pick up
+[1403] Taxi 88 reached destination, no customers to drop off
+[1403] Taxi 88 reached destination and picks up: [22]
+[1408] Taxi 28 reached destination, no customers to drop off
+[1408] Taxi 28 reached destination, no customers to pick up
+[1409] Taxi 54 reached destination, no customers to drop off
+[1409] Taxi 54 reached destination and picks up: [233]
+[1412] Taxi 80 drops off customers [365]
+[1412] Taxi 80 reached destination, no customers to pick up
+[1413] Taxi 16 reached destination, no customers to drop off
+[1413] Taxi 16 reached destination and picks up: [349]
+[1413] Taxi 100 reached destination, no customers to drop off
+[1413] Taxi 100 reached destination, no customers to pick up
+[1416] Taxi 42 says: "Honey I'm home!"
+[1416] Taxi 25 says: "Honey I'm home!"
+[1418] Taxi 46 says: "Honey I'm home!"
+[1418] Taxi 121 reached destination, no customers to drop off
+[1418] Taxi 121 reached destination and picks up: [403]
+[1423] Taxi 52 drops off customers [456]
+[1423] Taxi 52 reached destination, no customers to pick up
+[1425] Taxi 96 reached destination, no customers to drop off
+[1425] Taxi 96 reached destination, no customers to pick up
+[1426] Taxi 49 says: "Honey I'm home!"
+[1430] Taxi 39 reached destination, no customers to drop off
+[1430] Taxi 39 reached destination and picks up: [277]
+[1431] Taxi 32 says: "Honey I'm home!"
+[1432] Taxi 34 drops off customers [413]
+[1432] Taxi 34 reached destination, no customers to pick up
+[1434] Taxi 66 reached destination, no customers to drop off
+[1434] Taxi 66 reached destination and picks up: [63]
+[1434] Taxi 56 reached destination, no customers to drop off
+[1434] Taxi 56 reached destination, no customers to pick up
+[1435] Taxi 5 drops off customers [320]
+[1435] Taxi 5 reached destination, no customers to pick up
+[1435] Taxi 35 drops off customers [220]
+[1435] Taxi 35 reached destination, no customers to pick up
+[1435] Taxi 25 reached destination, no customers to drop off
+[1435] Taxi 25 reached destination, no customers to pick up
+[1436] Taxi 102 drops off customers [87]
+[1436] Taxi 102 reached destination, no customers to pick up
+[1437] Taxi 22 says: "Honey I'm home!"
+[1437] Taxi 83 says: "Honey I'm home!"
+[1438] Taxi 103 reached destination, no customers to drop off
+[1438] Taxi 103 reached destination, no customers to pick up
+[1439] Taxi 123 drops off customers [269]
+[1439] Taxi 123 reached destination, no customers to pick up
+[1440] Times up!
+[1440] Remaining customers: [1041-13,1038-0,1038-370,1022-20,1018-114,1016-159,988-153,984-425,984-433,982-358,980-385,977-32,976-135,974-238,973-223,971-139,962-281,962-452,960-488,959-351,955-410,954-200,954-321,953-55,953-362,952-381,950-438,949-61,942-244,936-298,935-96,934-434,932-25,932-188,931-486,930-300,927-10,925-149,924-154,922-168,916-110,915-417,914-339,914-487,910-172,909-291,908-166,878-35,877-318,875-245,874-180,871-65,853-136,853-376,853-470,852-78,848-422,847-155,844-152,832-100,832-185,831-420,831-485,829-30,824-9,823-255,823-337,821-493,819-54,815-105,815-304,782-112,777-261,773-59,773-192,772-448,772-451,771-444,768-453,766-290,765-52,765-386,763-330,760-445,757-441,744-208,740-393,737-48,736-340,727-395,726-428,725-271,725-283,710-263,708-315,706-53,680-286,645-483,644-484,642-481,638-118,638-140,638-311,621-187,617-181,616-412,614-29,613-178,611-23,599-115,588-295,587-2,561-164,559-465,558-390,557-323,555-7,554-28,550-90,550-131,550-400,549-102,548-43,548-91,542-137,541-342,538-49,538-466,537-31,534-396,534-461,533-256,530-160,528-482,522-216,520-227,513-174,509-240,508-117,508-134,506-415,505-369,504-402,503-47,501-346,499-437,496-490,493-212,486-116,483-119,482-411,480-92,479-406,478-424,474-214,473-72,472-275,470-228,470-343,468-230,462-94,461-260,459-113,457-170,453-93,451-171,449-307,443-397,441-158,423-222]
 

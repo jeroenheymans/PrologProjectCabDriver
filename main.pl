@@ -39,6 +39,8 @@ main(_):-
     loop(0, CustomersToPickUpSorted).
     
 loop(1440, RemainingCustomers):-
+	listLength(RemainingCustomers, L),
+	write('# customers remaining: '),writeln(L),
     printTimesUp(RemainingCustomers).
           
 loop(Clock, []):-

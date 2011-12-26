@@ -6,29 +6,7 @@
     * taxi = max 4 customers
     * time to calculate distance from 1 to 2499 was 27m10s without optimalisations (after heuristic, reduced to second!)
     * startnode = (25,25) = Node 1275
-    
-********************
-* MAIN LAYOUT LOOP *
-********************
-loop:
-    increase clock
-    loop over all running taxis:
-        decrease distance to travel between 2 nodes
-        if distance = 0 
-        then change node 
-             if node = finish
-             then drop customer
-                  if customer to be picked up close by (less distance than from depot)
-                  then calculate path to new customer
-                       start taxi
-                  else calculate path for return
-             else if customer on node with same destination (can be changed later to "node on path") and in pickuptime
-                  then pick up customer
-             else continue on path
-        else nothing
-        for taxis on node: check if there could be someone picked up
-    get all customers that can be picked up now
-    put customers in taxi
+    * remaining customers (26/12, no deep optimizations): 245
     
 ************************
 * NEW MAIN LAYOUT LOOP *
