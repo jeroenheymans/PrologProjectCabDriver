@@ -18,13 +18,18 @@
 
 :-dynamic clock/1.
 
+test(t(X,Y),Z):-
+	Z is X+Y.
+
 % Test function, used for testing small parts of code before
 % putting it in the rest of the code
     %CustomersToPickUp = [1038-0,233-1,587-2],
 testmain:-
-    getDeparturesForPickupCustomers(CustomersToPickUp),
-    keysort(CustomersToPickUp, CustomersToPickUpSorted),
-    writeln(CustomersToPickUpSorted).
+	test(t(1,2),X),
+	writeln(X).
+    %getDeparturesForPickupCustomers(CustomersToPickUp),
+    %keysort(CustomersToPickUp, CustomersToPickUpSorted),
+    %writeln(CustomersToPickUpSorted).
 
 % Main function, needs to be executed for this program
 main(_):-
@@ -33,7 +38,7 @@ main(_):-
     assert(clock(0)),
     loop(0, CustomersToPickUpSorted).
     
-loop(4000, RemainingCustomers):-
+loop(20000, RemainingCustomers):-
     printTimesUp(RemainingCustomers).
           
 loop(Clock, []):-
@@ -45,17 +50,17 @@ loop(Clock, []):-
 loop(Clock, RemainingCustomers):-
     incrementClock(Clock, NewClock),
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
-    printCustomersToPickUpNow(CustomersNowToPickUp),
+    %printCustomersToPickUpNow(CustomersNowToPickUp),
     getAvailableTaxis(AvailableTaxis),
     sendTaxisToCustomers(CustomersNowToPickUp, AvailableTaxis, NoTaxisSend),
     (\+NoTaxisSend = []
-    -> (writeln('$$$$$$$$$$$$$$$$$$$$$$$$$$$$'),
-    writeln(NoTaxisSend),
-    writeln('$$$$$$$$$$$$$$$$$$$$$$$$$$$$'))
-    ; true),
+    -> (append(CustomersToPickUpLater, NoTaxisSend, CustomersToPickUp))
+    	%writeln(NoTaxisSend),
+    	%writeln(CustomersToPickUp))
+    ; CustomersToPickUp = CustomersToPickUpLater),
     getTaxisInTransport(TaxisInTransport),
     moveTaxis(TaxisInTransport),
-    loop(NewClock, CustomersToPickUpLater).
+    loop(NewClock, CustomersToPickUp).
     
 incrementClock(Clock, NewClock):-
     retract(clock(Clock)),

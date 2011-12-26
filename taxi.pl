@@ -160,7 +160,7 @@ sendTaxisToCustomers([], Taxis, []).
 %	+Taxi = taxi to assign
 %	+Taxis = other taxis left
 %	-NotSentCustomers = customers that can't be assigned to taxis
-sendTaxisToCustomers([Customer|RestCustomers], [Taxi|Taxis], NotSentCustomers):-
+sendTaxisToCustomers([LeaveTime-Customer|RestCustomers], [Taxi|Taxis], NotSentCustomers):-
     customer(Customer, _, _, StartID, _),
     startNode(NodeID),
     minimumDistance(NodeID, StartID, Path, _),

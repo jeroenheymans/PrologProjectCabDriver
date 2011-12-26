@@ -53,8 +53,8 @@ customersToPickupNow(_, [], [], []).
 % Split the list in 2 parts.
 % Here we put the current customer (head of RemainingCustomers) in
 % the list of CustomersNowToPickUp as the leavingtime is equal to the clock
-customersToPickupNow(Clock, [LeaveTime-CID|Remaining], [CID|PickUpNow], PickUpLater):- 
-    LeaveTime =:= Clock, !, 
+customersToPickupNow(Clock, [LeaveTime-CID|Remaining], [LeaveTime-CID|PickUpNow], PickUpLater):- 
+    LeaveTime =< Clock, !, 
     customersToPickupNow(Clock, Remaining, PickUpNow, PickUpLater).
     
 % Split the list in 2 parts.
