@@ -8,6 +8,9 @@
 %   Distance = distance to travel to next node
 %   Path = remaining path to do
 :- dynamic transport/6.
+
+% availableTaxi(TaxiID, NodeID)
+:- dynamic availableTaxi/2.
     
 % Take an exisiting taxi and put the customers in it
 % LATER: change the taxi so more customers can fit!
@@ -175,7 +178,20 @@ sendTaxisToCustomers([LeaveTime-Customer|RestCustomers], [Taxi|Taxis], NotSentCu
 %	-AvailableTaxis = list of taxis not assigned
 getAvailableTaxis(AvailableTaxis):-
 	findall(Taxi,
-			(taxi(TaxiID),
+			(availableTaxi(TaxiID, _),
 			 \+transport(TaxiID,_,_,_,_,_),
 			 Taxi = TaxiID),
 			AvailableTaxis).
+			
+getAllTaxis(Taxis):-
+	findall(Taxi,
+			(taxi(TaxiID),
+			 Taxi = TaxiID),
+			Taxis).
+			
+initTaxis([]).		
+
+initTaxis([Taxi|Taxis]):-
+	startNode(NodeID),
+	assert(availableTaxi(Taxi, NodeID)),
+	initTaxis(Taxis).

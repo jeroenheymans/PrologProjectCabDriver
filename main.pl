@@ -36,6 +36,8 @@ main(_):-
     getDeparturesForPickupCustomers(CustomersToPickUp),
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
     assert(clock(0)),
+    getAllTaxis(Taxis),
+    initTaxis(Taxis),
     loop(0, CustomersToPickUpSorted).
     
 loop(1440, RemainingCustomers):-
