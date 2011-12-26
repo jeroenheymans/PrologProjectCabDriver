@@ -8,12 +8,6 @@
 %   Distance = distance to travel to next node
 %   Path = remaining path to do
 :- dynamic transport/6.
-
-% Tries to find a taxi that is not yet on the move
-%   -Taxi = ID of the found empty taxi
-pickEmptyTaxi(Taxi):-
-    taxi(Taxi),
-    \+transport(Taxi,_,_,_,_,_).
     
 % Take an exisiting taxi and put the customers in it
 % LATER: change the taxi so more customers can fit!
@@ -167,7 +161,6 @@ sendTaxisToCustomers([], Taxis, []).
 %	+Taxis = other taxis left
 %	-NotSentCustomers = customers that can't be assigned to taxis
 sendTaxisToCustomers([Customer|RestCustomers], [Taxi|Taxis], NotSentCustomers):-
-    write('Emtpy taxi: '),writeln(Taxi),
     customer(Customer, _, _, StartID, _),
     startNode(NodeID),
     minimumDistance(NodeID, StartID, Path, _),
