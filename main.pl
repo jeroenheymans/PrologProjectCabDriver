@@ -46,6 +46,7 @@ loop(Clock, RemainingCustomers):-
     incrementClock(Clock, NewClock),
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
     printCustomersToPickUpNow(CustomersNowToPickUp),
+    getAvailableTaxis(AvailableTaxis),
     sendTaxisToCustomers(CustomersNowToPickUp),
     getTaxisInTransport(TaxisInTransport),
     moveTaxis(TaxisInTransport),

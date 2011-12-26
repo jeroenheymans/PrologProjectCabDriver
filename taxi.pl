@@ -160,3 +160,10 @@ sendTaxisToCustomers([Customer|RestCustomers]):-
     minimumDistance(NodeID, StartID, Path, _),
     startTaxi(Taxi, StartID, Path),
     sendTaxisToCustomers(RestCustomers).
+    
+getAvailableTaxis(AvailableTaxis):-
+	findall(Taxi,
+			(taxi(TaxiID),
+			 \+transport(TaxiID,_,_,_,_,_),
+			 Taxi = TaxiID),
+			AvailableTaxis).
