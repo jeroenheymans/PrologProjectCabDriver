@@ -156,8 +156,7 @@ sendTaxisToCustomers(Customers, []):-
 sendTaxisToCustomers([], Taxis).
 
 % TODO: check if there are enough empty taxi's
-sendTaxisToCustomers([Customer|RestCustomers], Taxis):-
-    pickEmptyTaxi(Taxi),
+sendTaxisToCustomers([Customer|RestCustomers], [Taxi|Taxis]):-
     write('Emtpy taxi: '),writeln(Taxi),
     customer(Customer, _, _, StartID, _),
     startNode(NodeID),
