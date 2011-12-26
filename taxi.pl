@@ -149,20 +149,23 @@ startTaxi(Taxi, WhereTo, [First|Path]):-
     edge(First, Second, Distance),
     assert(transport(Taxi, [], Second, WhereTo, Distance, Rest)).
     
-sendTaxisToCustomers(Customers, []):-
-	\+ Customers = [],
+sendTaxisToCustomers(Customers, [], _):-
+	writeln('sendTaxisToCustomers 1'),
+	%\+ Customers = [],
 	writeln('*********').
 
-sendTaxisToCustomers([], Taxis).
+sendTaxisToCustomers([], Taxis, []):-
+	writeln('sendTaxisToCustomers 2').
 
 % TODO: check if there are enough empty taxi's
-sendTaxisToCustomers([Customer|RestCustomers], [Taxi|Taxis]):-
+sendTaxisToCustomers([Customer|RestCustomers], [Taxi|Taxis], []):-
+	writeln('sendTaxisToCustomers 3'),
     write('Emtpy taxi: '),writeln(Taxi),
     customer(Customer, _, _, StartID, _),
     startNode(NodeID),
     minimumDistance(NodeID, StartID, Path, _),
     startTaxi(Taxi, StartID, Path),
-    sendTaxisToCustomers(RestCustomers, Taxis).
+    sendTaxisToCustomers(RestCustomers, Taxis, []).
     
 getAvailableTaxis(AvailableTaxis):-
 	findall(Taxi,

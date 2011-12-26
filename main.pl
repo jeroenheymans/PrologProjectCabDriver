@@ -33,7 +33,7 @@ main(_):-
     assert(clock(0)),
     loop(0, CustomersToPickUpSorted).
     
-loop(1440, RemainingCustomers):-
+loop(4000, RemainingCustomers):-
     printTimesUp(RemainingCustomers).
           
 loop(Clock, []):-
@@ -47,7 +47,12 @@ loop(Clock, RemainingCustomers):-
     customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater),
     printCustomersToPickUpNow(CustomersNowToPickUp),
     getAvailableTaxis(AvailableTaxis),
-    sendTaxisToCustomers(CustomersNowToPickUp, AvailableTaxis),
+    sendTaxisToCustomers(CustomersNowToPickUp, AvailableTaxis, NoTaxisSend),
+    (\+NoTaxisSend = []
+    -> (writeln('$$$$$$$$$$$$$$$$$$$$$$$$$$$$'),
+    writeln(NoTaxisSend),
+    writeln('$$$$$$$$$$$$$$$$$$$$$$$$$$$$'))
+    ; true),
     getTaxisInTransport(TaxisInTransport),
     moveTaxis(TaxisInTransport),
     loop(NewClock, CustomersToPickUpLater).
