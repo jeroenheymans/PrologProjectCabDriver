@@ -38,7 +38,7 @@ main(_):-
     assert(clock(0)),
     loop(0, CustomersToPickUpSorted).
     
-loop(20000, RemainingCustomers):-
+loop(1440, RemainingCustomers):-
     printTimesUp(RemainingCustomers).
           
 loop(Clock, []):-

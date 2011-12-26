@@ -43,8 +43,11 @@ dropOffCustomers([Customer|Customers], NodeID, _):-
 %   +NodeID = ID of the node where we want to pick up
 %   -PickUpCustomers = the list of customers to pick up
 getCustomersToPickUp(NodeID, PickUpCustomers):-
+	clock(Clock),
     findall(Customer,
-            (customer(CID, _, _, NodeID, _),
+            (customer(CID, ETOP, LTOP, NodeID, _),
+             Clock >= ETOP,
+             Clock =< LTOP,
              Customer = CID),
             PickUpCustomers).
          

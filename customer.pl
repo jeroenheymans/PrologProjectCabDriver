@@ -9,10 +9,11 @@ nextCustomer([CustomerPickup-CustomerID|NewCustomers], CustomerPickup-CustomerID
 % starting point of the customer. Used as preprocessing
 %   CID = customer ID
 %   Distance = time to get to customer from parking lot
-distanceFromStartToCustomer(CID,Distance):-
+distanceFromStartToCustomer(CID,NewDistance):-
     customer(CID, _, _, CustomerStart, _),
     startNode(ParkingLot),
-    minimumDistance(ParkingLot, CustomerStart, _, Distance).
+    minimumDistance(ParkingLot, CustomerStart, _, Distance),
+    NewDistance is Distance - 1.
     
 % Get list of all the customers that are going to the same
 % destination as given customer.
