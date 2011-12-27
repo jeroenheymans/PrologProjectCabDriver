@@ -55,7 +55,7 @@ planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, [LeavingTime-Customer|Custom
     TotalTime is Time + TimeToCustomer + Length,
     append(Path, PathToCustomer, MidPath),
     append(MidPath, PathToDestination, TotalPath),
-    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, Customers, NewCustomers).
+    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, Customers, NewRCustomers).
     
 planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, [CurrentNode|Other], RCustomers, NewRCustomers):- 
 	write('Passing node '),writeln(CurrentNode),
