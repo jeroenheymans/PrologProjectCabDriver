@@ -9,7 +9,8 @@
 
 % Necessary includes
 %:-['city_smaller.pl'].
-:-['city.pl'].
+%:-['city.pl'].
+:-['city_smallest.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
 :-['taxi.pl'].
@@ -48,10 +49,10 @@ newloop([LeavingTime-CID|Customers], [Taxi|Taxis]):-
 	startNode(PID),
 	write('Customer '),writeln(CID),
 	minimumDistance(PID, SID, Path, Length),
-	planTaxiRoute(Taxi, [CID], Path, ETOP, [], Customers),
+	planTaxiRoute(Taxi, [CID], Path, ETOP, [SID], Customers),
 	newloop(Customers, Taxis).
 
-planTaxiRoute(Taxi, Customers, Path, ETOP, [], RemainingCustomers):-
+planTaxiRoute(Taxi, Customers, Path, ETOP, [], RemainingCustomers).
 	
 
 planTaxiRoute(Taxi, Customers, Path, ETOP, [Node], RemainingCustomers):-
@@ -67,6 +68,7 @@ planTaxiRoute(Taxi, Customers, Path, Clock, [Node|RestPath], RemainingCustomers)
 	%customer(CID, ETOP, LTOP, Node, Destination)
 	RestPath = [NextNode|_],
 	getCustomersOnNode(Node, CustomersOnNode),
+	write('At current node: '),writeln(CustomersOnNode),
 	write('Next node will be: '),writeln(NextNode),
 	planTaxiRoute(Taxi, Customers, Path, Clock, RestPath, RemainingCustomers).
 
