@@ -19,9 +19,11 @@
 
 % Main function, needs to be executed for this program
 main(_):-
-    getDeparturesForPickupCustomers(CustomersToPickUp),
-    keysort(CustomersToPickUp, CustomersToPickUpSorted),
-    getAllTaxis(Taxis),
+    %getDeparturesForPickupCustomers(CustomersToPickUp),
+    %keysort(CustomersToPickUp, CustomersToPickUpSorted),
+    %getAllTaxis(Taxis),
+    Taxis = [0],
+    CustomersToPickUpSorted = [19-6],
     loop(Taxis, CustomersToPickUpSorted).
     
 loop([], Customers):-
@@ -31,29 +33,35 @@ loop([Taxi|Taxis], Customers):-
 	planTaxiRoute(Taxi, Customers, NewCustomers),
 	loop(Taxis, NewCustomers).
 	
-planTaxiRoute(Taxi, [LeavingTime-Customer|Customers], NewCustomers):-
+planTaxiRoute(Taxi, [LeavingTime-Customer|Customers], Customers):-
     write('Start planning taxi route for customer '),writeln(Customer),
-	customer(Customer, ETOP, _, StartID, _),
+	customer(Customer, ETOP, _, StartID, Destination),
     startNode(NodeID),
-    minimumDistance(NodeID, StartID, Path, _),
-    planTaxiRouteInner(Taxi, StartID, Path, ETOP, [Customer], [StartID], Customers, NewCustomers).
+    minimumDistance(NodeID, StartID, PathToCustomer, _),
+    minimumDistance(StartID, Destination, PathToDestination, Length),
+    TotalTime is ETOP + Length,
+    append(PathToCustomer, PathToDestination, TotalPath),
+    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], [Destination], Customers, NewCustomers).
     
 planTaxiRouteInner(Taxi, Destination, Path, Time, [], _, RCustomers, NewRCustomers):-
 	writeln('Need to take another customer!').
     
-planTaxiRouteInner(Taxi, Destination, Path, Time, [Customer|CIT], [CurrentNode|Other], RCustomers, NewRCustomers):- 
+planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, [CurrentNode|Other], RCustomers, NewRCustomers):- 
 	write('Passing node '),writeln(CurrentNode),
-	planTaxiRouteInner(Taxi, Destination, Path, Time, [Customer|CIT], Other, RCustomers, NewRCustomers).
+	planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, Other, RCustomers, NewRCustomers).
 	
 % CIT = CustomersInTaxi
 % RCustomers = RemainingCustomers
 % Path = already followed path
 % Time = time when reaching finish
 % Customer = first customer in taxi (the one where we are going to
-planTaxiRouteInner(Taxi, CurrentNode, Path, Time, [Customer|CIT], [CurrentNode], RCustomers, NewRCustomers):-
-	customer(Customer, _, _, CurrentNode, Destination),
-	minimumDistance(CurrentNode, Destination, CPath, Length),
-	NewTime is Time + Length,
-	append(Path, CPath, NewPath),
-	write('Calculated new path '),writeln(CPath),
-	planTaxiRouteInner(Taxi, Destination, NewPath, NewTime, [Customer|CIT], CPath, RCustomers, NewRCustomers).
+planTaxiRouteInner(Taxi, CurrentNode, Path, Time, CIT, [], RCustomers, NewRCustomers):-
+	%writeln(Customer),
+	writeln(CIT),
+	writeln(CurrentNode).
+	%customer(Customer, _, _, CurrentNode, Destination),
+	%minimumDistance(CurrentNode, Destination, CPath, Length),
+	%NewTime is Time + Length,
+	%append(Path, CPath, NewPath),
+	%write('Calculated new path '),writeln(CPath),
+	%planTaxiRouteInner(Taxi, Destination, NewPath, NewTime, [Customer|CIT], CPath, RCustomers, NewRCustomers).
