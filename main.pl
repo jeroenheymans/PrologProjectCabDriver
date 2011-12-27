@@ -55,7 +55,6 @@ planTaxiRouteInner(Taxi, Destination, Path, Time, [], _, [], []):-
 	writeln('Need to take another customer!').
     
 planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, Customers, NewRCustomers):-
-	writeln('Need to take another customer!'),
 	getBestCustomer(Customers, NodeID, Time, Customer),
 	exclude(areIdentical(Customer), Customers, NewCustomers),
 	(Customer = []

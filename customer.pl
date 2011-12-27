@@ -80,3 +80,17 @@ distanceFromNodeToCustomer(NodeID, CID, NewDistance):-
     customer(CID, _, _, CustomerStart, _),
     minimumDistance(NodeID, CustomerStart, _, Distance),
     NewDistance is Distance - 1.
+    
+getBestCustomerImproved(Customers, NodeID, Time, BestCustomer, NewCustomers):-
+	getBestCustomerImprovedInner(Customers, NodeID, Time, BestCustomer, [], NewCustomers).
+    
+getBestCustomerImprovedInner([], _, _, _, NewCustomers, NewCustomers).
+
+getBestCustomerImprovedInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp, NewCustomers):-
+	customer(Customer, ETOP, LTOP, Start, _),
+	minimumDistance(NodeID, Start, _, Distance),
+	((ETOP=<Time+Distance,Time+Distance=<LTOP)
+	 -> (BestCustomer = Customer,
+	 	 append(Temp, RestCustomers, NewCustomers))
+	 ;	getBestCustomerImprovedInner(RestCustomers, NodeID, Time, BestCustomer, [Customer|Temp], NewCustomers)).
+	
