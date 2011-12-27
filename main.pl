@@ -63,8 +63,11 @@ planTaxiRoute(Taxi, Customers, Path, ETOP, [Node], RemainingCustomers):-
 % time taxi will end this path
 % Last path (can be used to walk through
 % remaining customers
-planTaxiRoute(Taxi, Customers, Path, ETOP, [Node|RestPath], RemainingCustomers):-
-	planTaxiRoute(Taxi, Customers, Path, ETOP, RestPath, RemainingCustomers).
+planTaxiRoute(Taxi, Customers, Path, Clock, [Node|RestPath], RemainingCustomers):-
+	%customer(CID, ETOP, LTOP, Node, Destination)
+	RestPath = [NextNode|_],
+	write('Next node will be: '),writeln(NextNode),
+	planTaxiRoute(Taxi, Customers, Path, Clock, RestPath, RemainingCustomers).
 
 % Main function, needs to be executed for this program
 main(_):-
