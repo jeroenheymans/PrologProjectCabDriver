@@ -40,6 +40,15 @@ endloop
 * IDEAS (noted if it is done, todo or ???) *
 ********************************************
 
+TODO
+preprocessingloop:
+take the most near customer
+send taxi to him, already calculated the path
+when taxi arrives, "pick" user up and look what his destination is
+during driving to destination, check if we pass another customer that can be picked up
+	criteria: same destination OR follows the same path until C1 is dropped off
+do this until time gets to close to 1440
+
 TODO 
 when calculated a path and transporting a customer, check at every node if
 there is a customer that can be picked up and must go to the same destination?
