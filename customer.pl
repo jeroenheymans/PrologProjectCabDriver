@@ -73,5 +73,21 @@ getCustomersOnNode(Node, Customers):-
 			  Customer = CID),
 			Customers).
     
-getBestCustomer(Customers, NodeID, Time, Customer, NewCustomers):-
-	Customers = [_-Customer|NewCustomers].
+getBestCustomer([BestCustomer],NodeID,_,BestCustomer,BestDistance,[]):-
+	distanceFromNodeToCustomer(NodeID, BestCustomer, BestDistance).
+    
+getBestCustomer([Customer|Customers], NodeID, Time, BestCustomer, BestDistance, NewCustomers):-
+	getBestCustomer(Customers, NodeID, Time, BestCustomer, BestDistance, OtherCustomers),
+	distanceFromNodeToCustomer(NodeID, Customer, Distance),
+	(Distance =< BestDistance
+	-> (NewBestCustomer = Customer,
+		NewBestDistance = Distance,
+		append(OtherCustomers, [BestCustomer], NewCustomers))
+	;  (NewBestCustomer = BestCustomer,
+		NewBestDistance = BestDistance,
+		append(OtherCustomers, [Customer], NewCustomers))).
+	
+distanceFromNodeToCustomer(NodeID, CID, NewDistance):-
+    customer(CID, _, _, CustomerStart, _),
+    minimumDistance(NodeID, CustomerStart, _, Distance),
+    NewDistance is Distance - 1.
