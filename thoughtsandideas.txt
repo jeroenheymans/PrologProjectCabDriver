@@ -41,6 +41,13 @@ endloop
 ********************************************
 
 TODO
+instead of checking to all the customers if we should go there, why not only 
+check the neighbors and possibly wait some time to pick them up?
+for example when we drop a customer off on node A with neighbors a, b, c, ...,
+check the neighbors for the best next customer (less time to wait) and send the
+taxi over there
+
+TODO
 preprocessingloop:
 	take the most near customer with new taxi
 	send taxi to him
