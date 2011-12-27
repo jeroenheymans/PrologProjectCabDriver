@@ -31,5 +31,29 @@ loop([Taxi|Taxis], Customers):-
 	planTaxiRoute(Taxi, Customers, NewCustomers),
 	loop(Taxis, NewCustomers).
 	
-planTaxiRoute(Taxi, Customers, NewCustomers):-
-	NewCustomers = Customers.
+planTaxiRoute(Taxi, [LeavingTime-Customer|Customers], NewCustomers):-
+    write('Start planning taxi route for customer '),writeln(Customer),
+	customer(Customer, ETOP, _, StartID, _),
+    startNode(NodeID),
+    minimumDistance(NodeID, StartID, Path, _),
+    planTaxiRouteInner(Taxi, StartID, Path, ETOP, [Customer], [StartID], Customers, NewCustomers).
+    
+planTaxiRouteInner(Taxi, Destination, Path, Time, [], _, RCustomers, NewRCustomers):-
+	writeln('Need to take another customer!').
+    
+planTaxiRouteInner(Taxi, Destination, Path, Time, [Customer|CIT], [CurrentNode|Other], RCustomers, NewRCustomers):- 
+	write('Passing node '),writeln(CurrentNode),
+	planTaxiRouteInner(Taxi, Destination, Path, Time, [Customer|CIT], Other, RCustomers, NewRCustomers).
+	
+% CIT = CustomersInTaxi
+% RCustomers = RemainingCustomers
+% Path = already followed path
+% Time = time when reaching finish
+% Customer = first customer in taxi (the one where we are going to
+planTaxiRouteInner(Taxi, CurrentNode, Path, Time, [Customer|CIT], [CurrentNode], RCustomers, NewRCustomers):-
+	customer(Customer, _, _, CurrentNode, Destination),
+	minimumDistance(CurrentNode, Destination, CPath, Length),
+	NewTime is Time + Length,
+	append(Path, CPath, NewPath),
+	write('Calculated new path '),writeln(CPath),
+	planTaxiRouteInner(Taxi, Destination, NewPath, NewTime, [Customer|CIT], CPath, RCustomers, NewRCustomers).
