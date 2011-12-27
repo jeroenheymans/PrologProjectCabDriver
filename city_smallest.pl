@@ -1,5 +1,6 @@
 % TAXIS
 taxi(0).
+taxi(1).
 
 % NODES
 node(0, 0, 0).

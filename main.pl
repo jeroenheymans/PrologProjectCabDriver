@@ -9,8 +9,8 @@
 
 % Necessary includes
 %:-['city_smaller.pl'].
-%:-['city.pl'].
-:-['city_smallest.pl'].
+:-['city.pl'].
+%:-['city_smallest.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
 :-['taxi.pl'].
@@ -28,8 +28,7 @@ main(_):-
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
     deleteLeavingTimes(CustomersToPickUpSorted,Customers),
     writeln(Customers),
-    %getAllTaxis(Taxis),
-    Taxis = [0],
+    getAllTaxis(Taxis),
     %CustomersToPickUpSorted = [19-6, 30-9],
     loop(Taxis, Customers).
     
@@ -50,12 +49,18 @@ planTaxiRoute(Taxi, [Customer|Customers], NewCustomers):-
     append(PathToCustomer, PathToDestination, TotalPath),
     planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, Customers, NewCustomers).
     
+areIdentical(X, Y):-X==Y.
+    
 planTaxiRouteInner(Taxi, Destination, Path, Time, [], _, [], []):-
 	writeln('Need to take another customer!').
     
 planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, Customers, NewRCustomers):-
 	writeln('Need to take another customer!'),
-	getBestCustomer(Customers, NodeID, Time, Customer, BestDistance, NewCustomers),
+	getBestCustomer(Customers, NodeID, Time, Customer),
+	exclude(areIdentical(Customer), Customers, NewCustomers),
+	(Customer = []
+	-> NewRCustomers = NewCustomers
+	; (
 	write('Taking new customer: '),writeln(Customer),
 	customer(Customer, ETOP, _, StartID, Destination),
     minimumDistance(NodeID, StartID, PathToCustomer, TimeToCustomer),
@@ -63,10 +68,9 @@ planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, Customers, NewRCustomers):-
     TotalTime is Time + TimeToCustomer + Length,
     append(Path, PathToCustomer, MidPath),
     append(MidPath, PathToDestination, TotalPath),
-    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, NewCustomers, NewRCustomers).
+    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, NewCustomers, NewRCustomers))).
     
 planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, [CurrentNode|Other], RCustomers, NewRCustomers):- 
-	write('Passing node '),writeln(CurrentNode),
 	planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, Other, RCustomers, NewRCustomers).
 	
 % CIT = CustomersInTaxi
