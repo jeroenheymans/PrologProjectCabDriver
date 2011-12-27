@@ -28,4 +28,8 @@ loop([], Customers):-
 	write('Remaining customers: '),writeln(Customers).
     
 loop([Taxi|Taxis], Customers):-
-	loop(Taxis, Customers).
+	planTaxiRoute(Taxi, Customers, NewCustomers),
+	loop(Taxis, NewCustomers).
+	
+planTaxiRoute(Taxi, Customers, NewCustomers):-
+	NewCustomers = Customers.
