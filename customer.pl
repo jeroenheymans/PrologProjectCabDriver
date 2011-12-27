@@ -81,32 +81,17 @@ distanceFromNodeToCustomers(NodeID, Time, [Customer|Customers], ResultCustomers)
 	distanceFromNodeToCustomer(NodeID, Customer, NewTime),
 	append(NewCustomers, [NewTime-Customer], ResultCustomers).
 	
-getBestCustomerImproved(Customers, NodeID, Time, BestCustomer):-
+getBestCustomer(Customers, NodeID, Time, BestCustomer):-
 	distanceFromNodeToCustomers(NodeID, Time, Customers, CustomersTime),
-	getBestCustomerImprovedInner(Time, CustomersTime, BestCustomer).
+	getBestCustomerInner(Time, CustomersTime, BestCustomer).
 	
-getBestCustomerImprovedInner(_, [], []).
+getBestCustomerInner(_, [], []).
 	
-getBestCustomerImprovedInner(Time, [CTime-CID|Rest], BestCustomer):-
+getBestCustomerInner(Time, [CTime-CID|Rest], BestCustomer):-
 	customer(CID, ETOP, LTOP, _, _),
 	((ETOP=<Time+CTime,Time+CTime=<LTOP)
 	 -> BestCustomer = CID
-	 ; getBestCustomerImprovedInner(Time, Rest, BestCustomer)).	
-    
-getBestCustomer([BestCustomer],NodeID,_,BestCustomer,BestDistance,[]):-
-	customer(BestCustomer, ETOP, LTOP, _, _),
-	distanceFromNodeToCustomer(NodeID, BestCustomer, BestDistance).
-    
-getBestCustomer([Customer|Customers], NodeID, Time, NewBestCustomer, NewBestDistance, NewCustomers):-
-	getBestCustomer(Customers, NodeID, Time, BestCustomer, BestDistance, OtherCustomers),
-	distanceFromNodeToCustomer(NodeID, Customer, Distance),
-	(Distance =< BestDistance
-	-> (NewBestCustomer = Customer,
-		NewBestDistance = Distance,
-		append(OtherCustomers, [BestCustomer], NewCustomers))
-	;  (NewBestCustomer = BestCustomer,
-		NewBestDistance = BestDistance,
-		append(OtherCustomers, [Customer], NewCustomers))).
+	 ; getBestCustomerInner(Time, Rest, BestCustomer)).	
 	
 distanceFromNodeToCustomer(NodeID, CID, NewDistance):-
     customer(CID, _, _, CustomerStart, _),
