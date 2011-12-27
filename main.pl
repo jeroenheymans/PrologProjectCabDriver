@@ -16,15 +16,22 @@
 :-['taxi.pl'].
 :-['functions.pl'].
 :-['print.pl'].
+    
+deleteLeavingTimes([], []).
+    
+deleteLeavingTimes([_-Customer|Customers], [Customer|NewCustomers]):-
+	deleteLeavingTimes(Customers, NewCustomers).
 
 % Main function, needs to be executed for this program
 main(_):-
     getDeparturesForPickupCustomers(CustomersToPickUp),
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
+    deleteLeavingTimes(CustomersToPickUpSorted,Customers),
+    writeln(Customers),
     %getAllTaxis(Taxis),
     Taxis = [0],
     %CustomersToPickUpSorted = [19-6, 30-9],
-    loop(Taxis, CustomersToPickUpSorted).
+    loop(Taxis, Customers).
     
 loop([], Customers):-
 	write('Remaining customers: '),writeln(Customers).
@@ -33,7 +40,7 @@ loop([Taxi|Taxis], Customers):-
 	planTaxiRoute(Taxi, Customers, NewCustomers),
 	loop(Taxis, NewCustomers).
 	
-planTaxiRoute(Taxi, [LeavingTime-Customer|Customers], NewCustomers):-
+planTaxiRoute(Taxi, [Customer|Customers], NewCustomers):-
     write('Start planning taxi route for customer '),writeln(Customer),
 	customer(Customer, ETOP, _, StartID, Destination),
     startNode(NodeID),
@@ -48,7 +55,7 @@ planTaxiRouteInner(Taxi, Destination, Path, Time, [], _, [], []):-
     
 planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, Customers, NewRCustomers):-
 	writeln('Need to take another customer!'),
-	getBestCustomer(Customers, NodeID, Time, Customer, NewCustomers),
+	getBestCustomer(Customers, NodeID, Time, Customer, BestDistance, NewCustomers),
 	write('Taking new customer: '),writeln(Customer),
 	customer(Customer, ETOP, _, StartID, Destination),
     minimumDistance(NodeID, StartID, PathToCustomer, TimeToCustomer),
@@ -68,7 +75,6 @@ planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, [CurrentNode|Other], RCus
 % Time = time when reaching finish
 % Customer = first customer in taxi (the one where we are going to
 planTaxiRouteInner(Taxi, FinishNode, Path, Time, CIT, [FinishNode], RCustomers, NewRCustomers):-
-	%writeln(Customer),
 	writeln(CIT),
 	writeln(FinishNode),
 	dropOffCustomers(CIT, FinishNode, DroppedOff, NewCIT),
