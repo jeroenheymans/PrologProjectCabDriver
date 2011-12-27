@@ -89,18 +89,6 @@ moveTaxi(TaxiID, Customers, _, FinishID, 1, []):-
 %   +Path = []
 moveTaxi(TaxiID, Customers, NodeID, FinishID, 1, [NextNodeID|NewPath]):-
     edge(NodeID,NextNodeID,NewDistance),
-    clock(Clock),
-    findall(Customer,
-    		(customer(CID,ETOP,LTOP,NextNodeID,FinishID),
-    		 ETOP =< Clock,
-    		 Clock =< LTOP,
-    		 Customer = CID),
-    		CustomersHere),
-    (\+CustomersHere = []
-    -> (writeln('$$$$$$$$$$$$$$$$$$$$$$$$$$$$'),
-   		writeln(CustomersHere),
-    	writeln('$$$$$$$$$$$$$$$$$$$$$$$$$$$$'))
-    ; true),
     assert(transport(TaxiID, Customers, NextNodeID, FinishID, NewDistance, NewPath)).
           
 % Between two nodes

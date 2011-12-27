@@ -40,6 +40,13 @@ endloop
 * IDEAS (noted if it is done, todo or ???) *
 ********************************************
 
+TODO
+when sending taxi's to customers, keep a list of unassigned customers (the ones
+where there is no taxi available). put that list back in the list of customers still
+to assign. the list of customers to pick up every "now" should be the customers
+where the starttime is exactly now AND the ones not yet received a taxi (and that
+it still is within the ETOP-LTOP range)
+
 TODO 
 when calculated a path and transporting a customer, check at every node if
 there is a customer that can be picked up and must go to the same destination?
@@ -50,6 +57,11 @@ there is a customer that can be picked up and must go to the same destination?
  ! don't forget the times of pickup
  OTHER POSSIBILITY: when transporting, check neighbors of current node to see if
  there is an user that also can be picked up by making small detour?
+ 
+TODO
+when there is no taxi available, customer must wait. is that possible?
+ => when looping, why not take all the customers that need to be picked up in given period?
+ why simply send taxi every minute when we can send several at the same time to different locations?
 
 TODO? 
 maybe preprocess the edges to a minimum spanning tree? This way, we have an absolute
@@ -61,18 +73,6 @@ calculating the path with Dijkstra
 IMPOSSIBLE
 look for 2+ customers starting at the same node and that have same destination? 
  => don't exist so no use to do this!
- 
-DONE
-when there is no taxi available, customer must wait. is that possible?
- => when looping, why not take all the customers that need to be picked up in given period?
- why simply send taxi every minute when we can send several at the same time to different locations?
-
-DONE
-when sending taxi's to customers, keep a list of unassigned customers (the ones
-where there is no taxi available). put that list back in the list of customers still
-to assign. the list of customers to pick up every "now" should be the customers
-where the starttime is exactly now AND the ones not yet received a taxi (and that
-it still is within the ETOP-LTOP range)
 
 DONE
 sort customers, don't take randomly
