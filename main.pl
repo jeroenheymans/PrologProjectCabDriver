@@ -46,8 +46,9 @@ planTaxiRoute(Taxi, [LeavingTime-Customer|Customers], NewCustomers):-
 planTaxiRouteInner(Taxi, Destination, Path, Time, [], _, [], []):-
 	writeln('Need to take another customer!').
     
-planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, [LeavingTime-Customer|Customers], NewRCustomers):-
+planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, Customers, NewRCustomers):-
 	writeln('Need to take another customer!'),
+	getBestCustomer(Customers, NodeID, Time, Customer, NewCustomers),
 	write('Taking new customer: '),writeln(Customer),
 	customer(Customer, ETOP, _, StartID, Destination),
     minimumDistance(NodeID, StartID, PathToCustomer, TimeToCustomer),
@@ -55,7 +56,7 @@ planTaxiRouteInner(Taxi, NodeID, Path, Time, [], _, [LeavingTime-Customer|Custom
     TotalTime is Time + TimeToCustomer + Length,
     append(Path, PathToCustomer, MidPath),
     append(MidPath, PathToDestination, TotalPath),
-    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, Customers, NewRCustomers).
+    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, NewCustomers, NewRCustomers).
     
 planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, [CurrentNode|Other], RCustomers, NewRCustomers):- 
 	write('Passing node '),writeln(CurrentNode),

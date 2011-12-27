@@ -73,3 +73,5 @@ getCustomersOnNode(Node, Customers):-
 			  Customer = CID),
 			Customers).
     
+getBestCustomer(Customers, NodeID, Time, Customer, NewCustomers):-
+	Customers = [_-Customer|NewCustomers].
