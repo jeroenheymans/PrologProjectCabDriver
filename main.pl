@@ -48,11 +48,11 @@ newloop([LeavingTime-CID|Customers], [Taxi|Taxis]):-
 	startNode(PID),
 	write('Customer '),writeln(CID),
 	minimumDistance(PID, SID, Path, Length),
-	planTaxiRoute(Taxi, [CID], Path, ETOP, Path, Customers),
+	planTaxiRoute(Taxi, [CID], Path, ETOP, [], Customers),
 	newloop(Customers, Taxis).
 
 planTaxiRoute(Taxi, Customers, Path, ETOP, [], RemainingCustomers):-
-	writeln('Send him home').
+	
 
 planTaxiRoute(Taxi, Customers, Path, ETOP, [Node], RemainingCustomers):-
 	writeln('Someone left on this spot?').
@@ -66,6 +66,7 @@ planTaxiRoute(Taxi, Customers, Path, ETOP, [Node], RemainingCustomers):-
 planTaxiRoute(Taxi, Customers, Path, Clock, [Node|RestPath], RemainingCustomers):-
 	%customer(CID, ETOP, LTOP, Node, Destination)
 	RestPath = [NextNode|_],
+	getCustomersOnNode(Node, CustomersOnNode),
 	write('Next node will be: '),writeln(NextNode),
 	planTaxiRoute(Taxi, Customers, Path, Clock, RestPath, RemainingCustomers).
 
