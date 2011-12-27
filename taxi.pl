@@ -28,18 +28,14 @@ getTaxisInTransport(Taxis):-
            Taxi = TaxiID),
           Taxis).   
           
-% Endcondition for dropOffCustomers/3
-dropOffCustomers([], _, _).
+dropOffCustomers([],_,_,_,_).
+          
+dropOffCustomers([Customer|RestCustomers], NewCustomers, Node, DroppedOff, NewDroppedOff):-
+	customer(Customer,_,_,_,Node),
+	dropOffCustomers(RestCustomers, NewCustomers, Node, DroppedOff, [Customer|NewDroppedOff]).
 
-% Drop off every customer in the taxi
-% TODO: keep track of the dropped off customers?
-%   +Customer = customer ID to drop off
-%   +Customers = still to drop off
-%   +NodeID = the ID of the node where we drop off
-%   +_ = unused, why??? TODO: fix this!
-dropOffCustomers([Customer|Customers], NodeID, _):-
-    customer(Customer, _, _, _, NodeID),
-    dropOffCustomers(Customers, NodeID, _).
+dropOffCustomers([Customer|RestCustomers], NewCustomers, Node, DroppedOff, NewDroppedOff):-
+	dropOffCustomers(RestCustomers, [Customer|NewCustomers], Node, DroppedOff, NewDroppedOff).
     
 % Get a list of all the customers that we can pick
 % up at given node ID

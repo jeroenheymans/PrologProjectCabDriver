@@ -49,13 +49,15 @@ newloop([LeavingTime-CID|Customers], [Taxi|Taxis]):-
 	startNode(PID),
 	write('Customer '),writeln(CID),
 	minimumDistance(PID, SID, Path, Length),
-	planTaxiRoute(Taxi, [CID], Path, ETOP, [SID], Customers),
+	planTaxiRoute(Taxi, [CID], Path, ETOP, [SID], Customers, []),
 	newloop(Customers, Taxis).
 
-planTaxiRoute(Taxi, Customers, Path, ETOP, [], RemainingCustomers).
+planTaxiRoute(Taxi, Customers, Path, Clock, [], RemainingCustomers, DroppedOff).
 	
 
-planTaxiRoute(Taxi, Customers, Path, ETOP, [Node], RemainingCustomers):-
+planTaxiRoute(Taxi, Customers, Path, Clock, [Node], RemainingCustomers, DroppedOff):-
+	dropOffCustomers(Customers, NewCustomers, Node, DroppedOff, NewDroppedOff),
+	takeNextDestination(Customers, Node, RemainingCustomers, NewPath),
 	writeln('Someone left on this spot?').
 	
 % TaxiID
@@ -64,13 +66,15 @@ planTaxiRoute(Taxi, Customers, Path, ETOP, [Node], RemainingCustomers):-
 % time taxi will end this path
 % Last path (can be used to walk through
 % remaining customers
-planTaxiRoute(Taxi, Customers, Path, Clock, [Node|RestPath], RemainingCustomers):-
+planTaxiRoute(Taxi, Customers, Path, Clock, [Node|RestPath], RemainingCustomers, DroppedOff):-
 	%customer(CID, ETOP, LTOP, Node, Destination)
 	RestPath = [NextNode|_],
 	getCustomersOnNode(Node, CustomersOnNode),
 	write('At current node: '),writeln(CustomersOnNode),
 	write('Next node will be: '),writeln(NextNode),
-	planTaxiRoute(Taxi, Customers, Path, Clock, RestPath, RemainingCustomers).
+	planTaxiRoute(Taxi, Customers, Path, Clock, RestPath, RemainingCustomers, DroppedOff).
+
+takeNextDestination([Customer|CustomersInTaxi], []).
 
 % Main function, needs to be executed for this program
 main(_):-
