@@ -64,33 +64,33 @@ distanceFromNodeToCustomers(NodeID, Time, [Customer|Customers], ResultCustomers)
 	distanceFromNodeToCustomer(NodeID, Customer, NewTime),
 	append(NewCustomers, [NewTime-Customer], ResultCustomers).
 	
-getBestCustomer(Customers, NodeID, Time, BestCustomer):-
+getBestCustomerOld(Customers, NodeID, Time, BestCustomer):-
 	distanceFromNodeToCustomers(NodeID, Time, Customers, CustomersTime),
 	getBestCustomerInner(Time, CustomersTime, BestCustomer).
 	
-getBestCustomerInner(_, [], []).
+getBestCustomerOldInner(_, [], []).
 	
-getBestCustomerInner(Time, [CTime-CID|Rest], BestCustomer):-
+getBestCustomerOldInner(Time, [CTime-CID|Rest], BestCustomer):-
 	customer(CID, ETOP, LTOP, _, _),
 	((ETOP=<Time+CTime,Time+CTime=<LTOP)
 	 -> BestCustomer = CID
-	 ; getBestCustomerInner(Time, Rest, BestCustomer)).	
+	 ; getBestCustomerOldInner(Time, Rest, BestCustomer)).	
 	
 distanceFromNodeToCustomer(NodeID, CID, NewDistance):-
     customer(CID, _, _, CustomerStart, _),
     minimumDistance(NodeID, CustomerStart, _, Distance),
     NewDistance is Distance - 1.
     
-getBestCustomerImproved(Customers, NodeID, Time, BestCustomer, NewCustomers):-
-	getBestCustomerImprovedInner(Customers, NodeID, Time, BestCustomer, [], NewCustomers).
+getBestCustomer(Customers, NodeID, Time, BestCustomer, NewCustomers):-
+	getBestCustomerInner(Customers, NodeID, Time, BestCustomer, [], NewCustomers).
     
-getBestCustomerImprovedInner([], _, _, _, NewCustomers, NewCustomers).
+getBestCustomerInner([], _, _, _, NewCustomers, NewCustomers).
 
-getBestCustomerImprovedInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp, NewCustomers):-
+getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp, NewCustomers):-
 	customer(Customer, ETOP, LTOP, Start, _),
 	minimumDistance(NodeID, Start, _, Distance),
 	((ETOP=<Time+Distance,Time+Distance=<LTOP)
 	 -> (BestCustomer = Customer,
 	 	 append(Temp, RestCustomers, NewCustomers))
-	 ;	getBestCustomerImprovedInner(RestCustomers, NodeID, Time, BestCustomer, [Customer|Temp], NewCustomers)).
+	 ;	getBestCustomerInner(RestCustomers, NodeID, Time, BestCustomer, [Customer|Temp], NewCustomers)).
 	
