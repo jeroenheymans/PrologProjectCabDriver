@@ -42,11 +42,14 @@ endloop
 
 TODO
 preprocessingloop:
-take the most near customer
-send taxi to him, already calculated the path
-when taxi arrives, "pick" user up and look what his destination is
-during driving to destination, check if we pass another customer that can be picked up
-	criteria: same destination OR follows the same path until C1 is dropped off
+	take the most near customer with new taxi
+	send taxi to him
+	when taxi arrives, pick user up and look what his destination is
+	during driving to destination, check if we pass another customer that can be picked up
+		criteria: same destination OR follows the same path until C1 is dropped off
+	if destination is reached, drop off customer
+	if customers still in taxi, continue
+	if no customers in taxi and time is not yet close to 1440, restart loop
 do this until time gets to close to 1440
 
 TODO 
