@@ -41,7 +41,7 @@ planTaxiRoute(Taxi, [LeavingTime-Customer|Customers], Customers):-
     minimumDistance(StartID, Destination, PathToDestination, Length),
     TotalTime is ETOP + Length,
     append(PathToCustomer, PathToDestination, TotalPath),
-    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], [Destination], Customers, NewCustomers).
+    planTaxiRouteInner(Taxi, Destination, TotalPath, TotalTime, [Customer], PathToDestination, Customers, NewCustomers).
     
 planTaxiRouteInner(Taxi, Destination, Path, Time, [], _, RCustomers, NewRCustomers):-
 	writeln('Need to take another customer!').
@@ -55,10 +55,11 @@ planTaxiRouteInner(Taxi, Destination, Path, Time, CIT, [CurrentNode|Other], RCus
 % Path = already followed path
 % Time = time when reaching finish
 % Customer = first customer in taxi (the one where we are going to
-planTaxiRouteInner(Taxi, CurrentNode, Path, Time, CIT, [], RCustomers, NewRCustomers):-
+planTaxiRouteInner(Taxi, FinishNode, Path, Time, CIT, [FinishNode], RCustomers, NewRCustomers):-
 	%writeln(Customer),
 	writeln(CIT),
-	writeln(CurrentNode).
+	writeln(FinishNode).
+	dropOffCustomers(CIT, NewCIT, FinishNode).
 	%customer(Customer, _, _, CurrentNode, Destination),
 	%minimumDistance(CurrentNode, Destination, CPath, Length),
 	%NewTime is Time + Length,

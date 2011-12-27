@@ -28,14 +28,25 @@ getTaxisInTransport(Taxis):-
            Taxi = TaxiID),
           Taxis).   
           
-dropOffCustomers([],_,_,_,_).
-          
-dropOffCustomers([Customer|RestCustomers], NewCustomers, Node, DroppedOff, NewDroppedOff):-
-	customer(Customer,_,_,_,Node),
-	dropOffCustomers(RestCustomers, NewCustomers, Node, DroppedOff, [Customer|NewDroppedOff]).
+% Stopcondition for customersToPickupNow        
+% customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater)
+dropOffCustomers([], _, [], []).
 
-dropOffCustomers([Customer|RestCustomers], NewCustomers, Node, DroppedOff, NewDroppedOff):-
-	dropOffCustomers(RestCustomers, [Customer|NewCustomers], Node, DroppedOff, NewDroppedOff).
+% Split the list in 2 parts.
+% Here we put the current customer (head of RemainingCustomers) in
+% the list of CustomersNowToPickUp as the leavingtime is equal to the clock
+dropOffCustomers([Customer|Customers], Node, [Customer|PickUpNow], PickUpLater):- 
+    customer(Customer, _, _, _, CNode),
+    CNode =:= Node,
+    dropOffCustomers(Customers, Node, PickUpNow, PickUpLater).
+    
+% Split the list in 2 parts.
+% Here we put the current customer (head of RemainingCustomers) in
+% the list of CustomersToPickUpLater as the leavingtime isn't equal to the clock
+dropOffCustomers([Customer|Customers], Node, PickUpNow, [Customer|PickUpLater]) :- 
+	customer(Customer, _, _, _, CNode),
+    CNode =\= Node,
+    dropOffCustomers(Customers, Node, PickUpNow, PickUpLater).
     
 % Get a list of all the customers that we can pick
 % up at given node ID
