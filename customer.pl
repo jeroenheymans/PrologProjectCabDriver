@@ -1,9 +1,4 @@
 % Functions concerning the customers
-
-% Takes the next customer to transport
-%   NewCustomers = newly list of customers with first deleted
-%   First = first customer formatted: TaxiTimeToDepart-CustomerID
-nextCustomer([CustomerPickup-CustomerID|NewCustomers], CustomerPickup-CustomerID, NewCustomers).
     
 % Calculate the distance from the parking lot to the 
 % starting point of the customer. Used as preprocessing
@@ -14,18 +9,6 @@ distanceFromStartToCustomer(CID,NewDistance):-
     startNode(ParkingLot),
     minimumDistance(ParkingLot, CustomerStart, _, Distance),
     NewDistance is Distance - 1.
-    
-% Get list of all the customers that are going to the same
-% destination as given customer.
-%   CID1 = Customer ID of given customer
-%   Customers = list of customers as result
-getCustomersSameDestination(CID1, Customers):-
-    customer(CID1,_,_,_,Destination),
-    findall(Customer,
-            ( customer(CID2,_,_,_,Destination),
-              \+CID1=CID2,
-              Customer=CID2 ),
-            Customers).
             
 % Calculate the departure times necessary for the taxi's to
 % pickup the customers on time. For example, if the user wants

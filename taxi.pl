@@ -11,22 +11,6 @@
 
 % availableTaxi(TaxiID, NodeID)
 :- dynamic availableTaxi/2.
-    
-% Take an exisiting taxi and put the customers in it
-% LATER: change the taxi so more customers can fit!
-%   +Customers = IDs of the customers to put in taxi
-%   +Taxi = ID of the taxi to put the customers in    
-putCustomersInTaxi(Customers, Taxi):-
-    retract(transport(Taxi, _, NodeID, FinishID, Distance, Path)),
-    assert(transport(Taxi, Customers, NodeID, FinishID, Distance, Path)).
-
-% Get all the taxi's that are currently transporting
-%   -Taxis = all the taxi ID's
-getTaxisInTransport(Taxis):-
-    findall(Taxi,
-          (transport(TaxiID, _, _, _, _, _),
-           Taxi = TaxiID),
-          Taxis).   
           
 % Stopcondition for customersToPickupNow        
 % customersToPickupNow(NewClock, RemainingCustomers, CustomersNowToPickUp, CustomersToPickUpLater)
