@@ -41,6 +41,9 @@ endloop
 ********************************************
 
 TODO
+send taxis out and try to fill them to the max before sending them on a route to drop off every customer
+
+TODO
 instead of checking to all the customers if we should go there, why not only 
 check the neighbors and possibly wait some time to pick them up?
 for example when we drop a customer off on node A with neighbors a, b, c, ...,
