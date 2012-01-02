@@ -1,4 +1,10 @@
 % Functions concerning the customers
+
+getAllCustomers(Customers):-
+	findall(Customer,
+			(customer(CID,ETOP,_,_,_),
+			 Customer = ETOP-CID),
+			Customers).
     
 % Calculate the distance from the parking lot to the 
 % starting point of the customer. Used as preprocessing
