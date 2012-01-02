@@ -28,19 +28,7 @@ test(CID1):-
 	write(CID1),write('&'),write(CID2),write(' ('),write(Time),write(') :'),write(ETOP1),write('-'),write(LTOP2),write('-'),write(NewETOP2),write('-'),writeln(NewLTOP2).
     
 main(_):-
-	loop(0,0).
-	
-loop(50,49):-
-	writeln('Finish!').
-	
-loop(50, J):-
-	NewJ is J + 1,
-	loop(0, NewJ).
-
-loop(I, J):-
-	NewI is I + 1,
-	((node(Node, I, J), customer(CID, _, _, Node, _))
-	-> (write(I),write('-'),writeln(J))
-	; true),
-	loop(NewI, J).
+	getAllCustomers(Customers),
+	keysort(Customers, SortedCustomers),
+	writeln(SortedCustomers).
 
