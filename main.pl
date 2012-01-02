@@ -50,7 +50,15 @@ loop([ETOP-Customer|Customers], [Taxi|Taxis]):-
 loopInner([C1,C2,C3,C4], _, _, [C1,C2,C3,C4]).
 
 loopInner(Customers, Path, OtherCustomers, CustomersInTaxi):-
-	customer(CID, _, _, _, _),
+	MinimumDistance is 999999,
+	Customers = [First|_],
+	customer(First, FirstETOP, FirstLTOP, FirstNode, _),
+	customer(CID, ETOP, LTOP, Node, _),
 	\+ memberchk(CID, Customers),
+	memberchk(CID, OtherCustomers),
+	minimumDistance(FirstNode, Node, Path, Length),
+	NewETOP is ETOP - Length,
+	NewLTOP is LTOP - Length,
 	!,
-	loopInner([CID|Customers], Path, OtherCustomers, CustomersInTaxi).
+	deleteFromList(CID, OtherCustomers, NewOtherCustomers),
+	loopInner([CID|Customers], Path, NewOtherCustomers, CustomersInTaxi).
