@@ -43,8 +43,14 @@ loop([ETOP-Customer|Customers], [Taxi|Taxis]):-
 	customer(Customer, ETOP, LTOP, StartID, DestID),
 	startNode(DepotID),
 	minimumDistance(DepotID, StartID, Path, Length),
-	loopInner(taxiJob([Customer], Path, Customers)),
+	loopInner([Customer], Path, Customers, CustomersInTaxi),
+	writeln(CustomersInTaxi),
 	loop(Customers, Taxis).
+	
+loopInner([C1,C2,C3,C4], _, _, [C1,C2,C3,C4]).
 
-loopInner(taxiJob(Customers, Path, OtherCustomers)):-
-	true.
+loopInner(Customers, Path, OtherCustomers, CustomersInTaxi):-
+	customer(CID, _, _, _, _),
+	\+ memberchk(CID, Customers),
+	!,
+	loopInner([CID|Customers], Path, OtherCustomers, CustomersInTaxi).
