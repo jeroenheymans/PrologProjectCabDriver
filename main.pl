@@ -27,8 +27,21 @@ test(CID1):-
 	(NewETOP2 =< LTOP1 , NewLTOP2 >= ETOP1),
 	write(CID1),write('&'),write(CID2),write(' ('),write(Time),write(') :'),write(ETOP1),write('-'),write(LTOP2),write('-'),write(NewETOP2),write('-'),writeln(NewLTOP2).
     
-main(_):-
+main:-
 	getAllCustomers(Customers),
 	keysort(Customers, SortedCustomers),
-	writeln(SortedCustomers).
+	getAllTaxis(Taxis),
+	loop(SortedCustomers, Taxis).
+	
+loop([], _):-
+	writeln('Everybody is delivered').
+
+loop(_, []):-
+	writeln('No taxis left').
+
+loop([ETOP-Customer|Customers], [Taxi|Taxis]):-
+	customer(Customer, ETOP, LTOP, StartID, DestID),
+	startNode(DepotID),
+	minimumDistance(DepotID, StartID, Path, Length),
+	loop(Customers, Taxis).
 
