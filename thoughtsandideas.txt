@@ -42,6 +42,12 @@ endloop
 
 TODO
 send taxis out and try to fill them to the max before sending them on a route to drop off every customer
+to implement:
+	- when taxi is full, try to find best path to drop everybody off
+	- try to find the best 4 customers to pick up first
+		- customers with approx. same ETOP-LTOP
+criteria for taxi to pick up customers:
+	- there is a route between all the customers that taxi can follow within the time constraints
 
 TODO
 instead of checking to all the customers if we should go there, why not only 

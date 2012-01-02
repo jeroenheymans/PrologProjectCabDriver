@@ -16,6 +16,28 @@
 :-['taxi.pl'].
 :-['functions.pl'].
 :-['print.pl'].
+
+test:-
+	customer(CID1, _, _, X, _),
+	customer(CID2, _, _, Y, _),
+	CID1 =\= CID2,
+	X == Y,
+	write(CID1),write('-'),writeln(CID2).
     
 main(_):-
-	writeln('New main').
+	loop(0,0).
+	
+loop(50,49):-
+	writeln('Finish!').
+	
+loop(50, J):-
+	NewJ is J + 1,
+	loop(0, NewJ).
+
+loop(I, J):-
+	NewI is I + 1,
+	((node(Node, I, J), customer(CID, _, _, Node, _))
+	-> (write(I),write('-'),writeln(J))
+	; true),
+	loop(NewI, J).
+	
