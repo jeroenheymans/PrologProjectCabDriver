@@ -19,8 +19,7 @@
 %   Length = the Length of the found path
 % It calls dijkstra algorithm. 
 minimumDistance(Start, Finish, ShortestPath, Length) :-
-  dijkstra([0-[Start]], Finish, RestShort, Length),
-  reverse(RestShort, ShortestPath).
+  dijkstra([0-[Start]], Finish, ShortestPath, Length).
 
 % Dijkstra algorithm. We have reached the final so it is time to stop
 %   Length = total Length already traveled
