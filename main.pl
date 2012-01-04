@@ -12,7 +12,7 @@
 
 % Necessary includes
 %:-['city_smaller.pl'].
-:-consult('city.pl').
+:-reconsult('city.pl').
 %:-['city_smallest.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
@@ -29,15 +29,21 @@ loop([]):-
 
 loop([Taxi|Taxis]):-
 	retract(taxi(Taxi)),
+	customer(Customer, ETOP, LTOP, StartID, DestID),
 	retract(customer(Customer, ETOP, LTOP, StartID, DestID)),
 	loopInner([Customer], InTaxi),
+	writeln(InTaxi),
 	loop(Taxis).
 	
 loopInner([C1,C2,C3,C4], [C1,C2,C3,C4]).
 
+loopInner([First|Customers], InTaxi):-
+	customer(CustomerID, CETOP, CLTOP, CStartID, CDestID),
+	customer(FirstID, FETOP, FLTOP, FStartID, FDestID),
+	minimumDistance(FStartID, CStartID, Path, Time),
+	retract(customer(CustomerID, _, _, _, _)),
+	append([First|Customers], [CustomerID], NewCustomers),
+	loopInner(NewCustomers, InTaxi).
+
 loopInner(Customers, InTaxi):-
-	(customer(Customer, ETOP, LTOP, StartID, DestID)
-	-> (retract(customer(Customer, ETOP, LTOP, StartID, DestID)),
-		append(Customers, [Customer], NewCustomers),
-		loopInner(NewCustomers, InTaxi))
-	; InTaxi = Customers).
+	InTaxi = Customers.
