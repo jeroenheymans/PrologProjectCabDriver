@@ -7,9 +7,12 @@
 %   consult(main) or reconsult(main)
 %   main.
 
+:- dynamic taxi/1.
+:- dynamic customer/5.
+
 % Necessary includes
 %:-['city_smaller.pl'].
-:-['city.pl'].
+:-consult('city.pl').
 %:-['city_smallest.pl'].
 :-['routeCalculation.pl'].
 :-['customer.pl'].
@@ -28,37 +31,28 @@ test(CID1):-
 	write(CID1),write('&'),write(CID2),write(' ('),write(Time),write(') :'),write(ETOP1),write('-'),write(LTOP2),write('-'),write(NewETOP2),write('-'),writeln(NewLTOP2).
     
 main:-
-	getAllCustomers(Customers),
-	keysort(Customers, SortedCustomers),
 	getAllTaxis(Taxis),
-	loop(SortedCustomers, Taxis).
+	loop(Taxis).
 	
-loop([], _):-
-	writeln('Everybody is delivered').
+loop([]):-
+	write('No taxis left').
 
-loop(_, []):-
-	writeln('No taxis left').
-
-loop([ETOP-Customer|Customers], [Taxi|Taxis]):-
-	customer(Customer, ETOP, LTOP, StartID, DestID),
-	startNode(DepotID),
-	minimumDistance(DepotID, StartID, Path, Length),
-	loopInner([Customer], Path, Customers, CustomersInTaxi),
-	writeln(CustomersInTaxi),
-	loop(Customers, Taxis).
+loop([Taxi|Taxis]):-
+	retract(taxi(Taxi)),
+	write('Picked taxi '),writeln(Taxi),
+	retract(customer(Customer, ETOP, LTOP, StartID, DestID)),
+	loopInner([Customer], InTaxi),
+	write('In taxi: '),writeln(InTaxi),
+	%loopInner([Customer], Path, Customers, CustomersInTaxi),
+	%writeln(CustomersInTaxi).
+	loop(Taxis).
 	
-loopInner([C1,C2,C3,C4], _, _, [C1,C2,C3,C4]).
+loopInner([C1,C2,C3,C4], [C1,C2,C3,C4]).
 
-loopInner(Customers, Path, OtherCustomers, CustomersInTaxi):-
-	MinimumDistance is 999999,
-	Customers = [First|_],
-	customer(First, FirstETOP, FirstLTOP, FirstNode, _),
-	customer(CID, ETOP, LTOP, Node, _),
-	\+ memberchk(CID, Customers),
-	memberchk(CID, OtherCustomers),
-	minimumDistance(FirstNode, Node, Path, Length),
-	NewETOP is ETOP - Length,
-	NewLTOP is LTOP - Length,
-	!,
-	deleteFromList(CID, OtherCustomers, NewOtherCustomers),
-	loopInner([CID|Customers], Path, NewOtherCustomers, CustomersInTaxi).
+loopInner(Customers, InTaxi):-
+	(customer(Customer, ETOP, LTOP, StartID, DestID)
+	-> (
+	retract(customer(Customer, ETOP, LTOP, StartID, DestID)),
+	append(Customers, [Customer], NewCustomers),
+	loopInner(NewCustomers, InTaxi))
+	; InTaxi = Customers).
