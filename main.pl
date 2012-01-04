@@ -31,19 +31,23 @@ loop([Taxi|Taxis]):-
 	retract(taxi(Taxi)),
 	customer(Customer, ETOP, LTOP, StartID, DestID),
 	retract(customer(Customer, ETOP, LTOP, StartID, DestID)),
-	loopInner([Customer], InTaxi),
+	startNode(Depot),
+	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
+	loopInner([Customer], ETOP, InTaxi, Path),
 	writeln(InTaxi),
+	writeln(Path),
 	loop(Taxis).
 	
-loopInner([C1,C2,C3,C4], [C1,C2,C3,C4]).
+loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], _).
 
-loopInner([First|Customers], InTaxi):-
+loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath]):-
 	customer(CustomerID, CETOP, CLTOP, CStartID, CDestID),
-	customer(FirstID, FETOP, FLTOP, FStartID, FDestID),
-	minimumDistance(FStartID, CStartID, Path, Time),
+	CustomerID =\= FirstID,
+	minimumDistance(FStartID, CStartID, Path, PathTime),
 	retract(customer(CustomerID, _, _, _, _)),
-	append([First|Customers], [CustomerID], NewCustomers),
-	loopInner(NewCustomers, InTaxi).
+	append([CustomerID], [FirstID|Customers], NewCustomers),
+	append(Path, [FStartID|TaxiPath], NewTaxiPath),
+	loopInner(NewCustomers, Time, InTaxi, NewTaxiPath).
 
-loopInner(Customers, InTaxi):-
+loopInner(Customers, _, InTaxi, _):-
 	InTaxi = Customers.
