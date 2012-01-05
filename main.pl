@@ -38,7 +38,7 @@ loop([Taxi|Taxis]):-
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath),
 	writeln(InTaxi),
-	writeln(EndPath),
+	%writeln(EndPath),
 	loop(Taxis).
 	
 % Taxi is filled with 4 customers so copy the path we got as the endpath
@@ -47,9 +47,8 @@ loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], EndPath, EndPath).
 % Taxi is not yet filled with 4. Get the info where the taxi stand, take a
 % new customer and calculate the route to him to pick him up
 loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
-	customer(CustomerID, _, _, CStartID, _),
+	pickNextCustomer(Time, FStartID, CustomerID, Path),
 	retract(customer(CustomerID, _, _, _, _)),
-	minimumDistance(FStartID, CStartID, Path, _),
 	append([CustomerID], [FirstID|Customers], NewCustomers),
 	append(Path, [FStartID|TaxiPath], NewTaxiPath),
 	loopInner(NewCustomers, Time, InTaxi, NewTaxiPath, EndPath).
@@ -60,3 +59,9 @@ loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
 % who the customers are in our taxi
 loopInner(Customers, _, InTaxi, EndPath, EndPath):-
 	InTaxi = Customers.
+	
+pickNextCustomer(Time, Node, Customer, Path):-
+	customer(Customer, ETOP, _, CStartID, _),
+	ETOP >= Time,
+	minimumDistance(Node, CStartID, Path, _).
+	
