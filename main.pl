@@ -66,24 +66,7 @@ loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
 % who the customers are in our taxi
 loopInner(Customers, _, InTaxi, EndPath, EndPath):-
 	InTaxi = Customers.
-	
-% Picks next customer, is not yet the best customer, just the first one
-% that looks interesting
-pickNextCustomer(Time, Node, Customer, Path, NewTime):-
-	customer(Customer, ETOP, LTOP, CStartID, _),
-	ETOP >= Time,
-	minimumDistance(Node, CStartID, Path, PathTime),
-	NewTime = Time + PathTime,
-	NewTime =< LTOP.
-	
-getMinETOP(Customer, ETOP):-
-	findall(Customer,
-		(customer(CID, CETOP, _, _, _),
-		 Customer = CETOP-CID),
-		Customers),
-	keysort(Customers, NewCustomers),
-	NewCustomers = [ETOP-Customer|_].
-	
+
 getAllTaxiJobs(Jobs):-
 	findall(Job,
 		(retract(taxiJob(InTaxi, Path)),
