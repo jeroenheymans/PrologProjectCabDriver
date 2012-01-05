@@ -9,6 +9,7 @@
 
 :- dynamic taxi/1.
 :- dynamic customer/5.
+:- dynamic taxiJob/2.
 
 % Necessary includes
 %:-['city_smaller.pl'].
@@ -26,6 +27,8 @@ main:-
 	
 loop([]):-
 	write('No taxis left'),
+	getAllTaxiJobs(TaxiJobs),
+	writeln(TaxiJobs),
 	getAllCustomers(CustomersLeft),
 	writeln(CustomersLeft).
 
@@ -40,6 +43,7 @@ loop([Taxi|Taxis]):-
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath),
+	assert(taxiJob(InTaxi, EndPath)),
 	writeln(InTaxi),
 	%writeln(EndPath),
 	loop(Taxis).
@@ -51,7 +55,6 @@ loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], EndPath, EndPath).
 % new customer and calculate the route to him to pick him up
 loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
 	pickNextCustomer(Time, FStartID, Customer, Path, NewTime),
-	%customer(Customer, 
 	retract(customer(Customer, _, _, _, _)),
 	append([Customer], [FirstID|Customers], NewCustomers),
 	append(Path, [FStartID|TaxiPath], NewTaxiPath),
@@ -80,4 +83,10 @@ getMinETOP(Customer, ETOP):-
 		Customers),
 	keysort(Customers, NewCustomers),
 	NewCustomers = [ETOP-Customer|_].
+	
+getAllTaxiJobs(Jobs):-
+	findall(Job,
+		(retract(taxiJob(InTaxi, Path)),
+		 Job = InTaxi),
+		 Jobs).
 	
