@@ -25,7 +25,9 @@ main:-
 	loop(Taxis).
 	
 loop([]):-
-	write('No taxis left').
+	write('No taxis left'),
+	getAllCustomers(CustomersLeft),
+	writeln(CustomersLeft).
 
 % Loop over all the taxi's
 % Pick a new customer, add him to the taxi and calculate the route
