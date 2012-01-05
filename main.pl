@@ -34,6 +34,7 @@ loop([]):-
 % to the customer. Then start loopInner/5
 loop([Taxi|Taxis]):-
 	retract(taxi(Taxi)),
+	getMinETOP(Customer, ETOP),
 	customer(Customer, ETOP, LTOP, StartID, DestID),
 	retract(customer(Customer, ETOP, LTOP, StartID, DestID)),
 	startNode(Depot),
@@ -49,11 +50,12 @@ loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], EndPath, EndPath).
 % Taxi is not yet filled with 4. Get the info where the taxi stand, take a
 % new customer and calculate the route to him to pick him up
 loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
-	pickNextCustomer(Time, FStartID, CustomerID, Path),
-	retract(customer(CustomerID, _, _, _, _)),
-	append([CustomerID], [FirstID|Customers], NewCustomers),
+	pickNextCustomer(Time, FStartID, Customer, Path, NewTime),
+	%customer(Customer, 
+	retract(customer(Customer, _, _, _, _)),
+	append([Customer], [FirstID|Customers], NewCustomers),
 	append(Path, [FStartID|TaxiPath], NewTaxiPath),
-	loopInner(NewCustomers, Time, InTaxi, NewTaxiPath, EndPath).
+	loopInner(NewCustomers, NewTime, InTaxi, NewTaxiPath, EndPath).
 
 % Take is also not yet filled but if we get here, this means we can't
 % fill the taxi completely (no more customers left, no good customers to 
@@ -62,9 +64,20 @@ loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
 loopInner(Customers, _, InTaxi, EndPath, EndPath):-
 	InTaxi = Customers.
 	
-pickNextCustomer(Time, Node, Customer, Path):-
+% Picks next customer, is not yet the best customer, just the first one
+% that looks interesting
+pickNextCustomer(Time, Node, Customer, Path, NewTime):-
 	customer(Customer, ETOP, LTOP, CStartID, _),
 	ETOP >= Time,
 	minimumDistance(Node, CStartID, Path, PathTime),
-	Time + PathTime =< LTOP.
+	NewTime = Time + PathTime,
+	NewTime =< LTOP.
+	
+getMinETOP(Customer, ETOP):-
+	findall(Customer,
+		(customer(CID, CETOP, _, _, _),
+		 Customer = CETOP-CID),
+		Customers),
+	keysort(Customers, NewCustomers),
+	NewCustomers = [ETOP-Customer|_].
 	
