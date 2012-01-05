@@ -62,7 +62,7 @@ getCustomersOnNode(Node, Customers):-
 			  Customer = CID),
 			Customers).
 			
-distanceFromNodeToCustomers(NodeID, Time, [Customer], [NewTime-Customer]):-
+distanceFromNodeToCustomers(NodeID, _, [Customer], [NewTime-Customer]):-
 	distanceFromNodeToCustomer(NodeID, Customer, NewTime).
 			
 distanceFromNodeToCustomers(NodeID, Time, [Customer|Customers], ResultCustomers):-

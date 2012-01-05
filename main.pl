@@ -27,6 +27,9 @@ main:-
 loop([]):-
 	write('No taxis left').
 
+% Loop over all the taxi's
+% Pick a new customer, add him to the taxi and calculate the route
+% to the customer. Then start loopInner/5
 loop([Taxi|Taxis]):-
 	retract(taxi(Taxi)),
 	customer(Customer, ETOP, LTOP, StartID, DestID),
@@ -38,15 +41,22 @@ loop([Taxi|Taxis]):-
 	writeln(EndPath),
 	loop(Taxis).
 	
+% Taxi is filled with 4 customers so copy the path we got as the endpath
 loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], EndPath, EndPath).
 
+% Taxi is not yet filled with 4. Get the info where the taxi stand, take a
+% new customer and calculate the route to him to pick him up
 loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
-	customer(CustomerID, CETOP, CLTOP, CStartID, CDestID),
+	customer(CustomerID, _, _, CStartID, _),
 	retract(customer(CustomerID, _, _, _, _)),
-	minimumDistance(FStartID, CStartID, Path, PathTime),
+	minimumDistance(FStartID, CStartID, Path, _),
 	append([CustomerID], [FirstID|Customers], NewCustomers),
 	append(Path, [FStartID|TaxiPath], NewTaxiPath),
 	loopInner(NewCustomers, Time, InTaxi, NewTaxiPath, EndPath).
 
+% Take is also not yet filled but if we get here, this means we can't
+% fill the taxi completely (no more customers left, no good customers to 
+% pick up, ...). This makes sure we still get the path and that we know
+% who the customers are in our taxi
 loopInner(Customers, _, InTaxi, EndPath, EndPath):-
 	InTaxi = Customers.

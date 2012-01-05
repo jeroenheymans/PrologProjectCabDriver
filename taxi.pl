@@ -161,7 +161,7 @@ sendTaxisToCustomers(Customers, [], Customers).
 % All customers are assigned to a taxi
 % 	+Customers = []
 %	+Taxis = list of unassigned taxi's
-sendTaxisToCustomers([], Taxis, []).
+sendTaxisToCustomers([], _, []).
 
 % We loop over the customers and taxis to assign them
 %	+Customer = customer to assign
@@ -169,7 +169,7 @@ sendTaxisToCustomers([], Taxis, []).
 %	+Taxi = taxi to assign
 %	+Taxis = other taxis left
 %	-NotSentCustomers = customers that can't be assigned to taxis
-sendTaxisToCustomers([LeaveTime-Customer|RestCustomers], [Taxi|Taxis], NotSentCustomers):-
+sendTaxisToCustomers([_-Customer|RestCustomers], [Taxi|Taxis], NotSentCustomers):-
     customer(Customer, _, _, StartID, _),
     startNode(NodeID),
     minimumDistance(NodeID, StartID, Path, _),
