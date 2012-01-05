@@ -106,6 +106,7 @@ getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp,
 % Picks next customer, is not yet the best customer, just the first one
 % that looks interesting
 pickNextCustomer(Time, Node, Customer, Path, NewTime):-
+	customerAvailable(Customer),
 	customer(Customer, ETOP, LTOP, CStartID, _),
 	ETOP >= Time,
 	minimumDistance(Node, CStartID, Path, PathTime),
@@ -115,7 +116,8 @@ pickNextCustomer(Time, Node, Customer, Path, NewTime):-
 % Get the customer with the lowest available ETOP value
 getMinETOP(Customer, ETOP):-
 	findall(Customer,
-		(customer(CID, CETOP, _, _, _),
+		(customerAvailable(CID),
+		 customer(CID, CETOP, _, _, _),
 		 Customer = CETOP-CID),
 		Customers),
 	keysort(Customers, NewCustomers),

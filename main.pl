@@ -10,25 +10,34 @@
 :- dynamic taxi/1.
 :- dynamic customer/5.
 :- dynamic taxiJob/3.
+:- dynamic customerAvailable/1.
 
 % Necessary includes
 %:-['city_smaller.pl'].
 :-reconsult('city.pl').
-%:-['city_smallest.pl'].
+%:-reconsult('city_smallest.pl').
 :-['routeCalculation.pl'].
 :-['customer.pl'].
 :-['taxi.pl'].
 :-['functions.pl'].
 :-['print.pl'].
+
+setAllCustomersAvailable:-
+	findall(Customer,
+		(customer(CID, _, _, _, _),
+		 assert(customerAvailable(CID)),
+		 Customer = CID),
+		 _).
     
 main:-
 	getAllTaxis(Taxis),
+	setAllCustomersAvailable,
 	loop(Taxis).
 	
 loop([]):-
 	write('No taxis left'),
-	getAllCustomers(CustomersLeft),
-	write('Customers left: '),writeln(CustomersLeft),
+	%getAllCustomers(CustomersLeft),
+	%write('Customers left: '),writeln(CustomersLeft),
 	getAllTaxiJobs(Jobs),
 	transportLoop(Jobs).
 
@@ -38,8 +47,9 @@ loop([]):-
 loop([Taxi|Taxis]):-
 	retract(taxi(Taxi)),
 	getMinETOP(Customer, ETOP),
+	customerAvailable(Customer),
 	customer(Customer, ETOP, LTOP, StartID, DestID),
-	retract(customer(Customer, ETOP, LTOP, StartID, DestID)),
+	retract(customerAvailable(Customer)),
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath),
@@ -55,7 +65,7 @@ loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], EndPath, EndPath):-
 % new customer and calculate the route to him to pick him up
 loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath):-
 	pickNextCustomer(Time, FStartID, Customer, Path, NewTime),
-	retract(customer(Customer, _, _, _, _)),
+	retract(customerAvailable(Customer)),
 	append([Customer], [FirstID|Customers], NewCustomers),
 	append(Path, [FStartID|TaxiPath], NewTaxiPath),
 	loopInner(NewCustomers, NewTime, InTaxi, NewTaxiPath, EndPath).
@@ -85,5 +95,8 @@ transportLoop([Taxi|Jobs]):-
 routeLoop(_, []).
 	
 routeLoop(Customers, [Node|Path]):-
-	getCustomersOnNode(Customers, Node, OnNode),
-	routeLoop(Customers, Path).
+	getCustomersOnNode(Customers, Node, OnNode, NotOnNode),
+	(OnNode = []
+	 -> true
+	 ; (write('On node '),write(Node),write(': '),writeln(OnNode))),
+	routeLoop(NotOnNode, Path).
