@@ -95,7 +95,7 @@ transportLoop([Taxi|Jobs]):-
 routeLoop(_, []).
 	
 routeLoop(Customers, [Node|Path]):-
-	getCustomersOnNode(Customers, Node, OnNode, NotOnNode),
+	getCustomersPickupOnNode(Customers, Node, OnNode, NotOnNode),
 	(OnNode = []
 	 -> true
 	 ; (write('On node '),write(Node),write(': '),writeln(OnNode))),

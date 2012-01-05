@@ -54,15 +54,15 @@ customersToPickupNow(Clock, [LeaveTime-CID|Remaining], PickUpNow, [LeaveTime-CID
     LeaveTime =\= Clock, 
     customersToPickupNow(Clock, Remaining, PickUpNow, PickUpLater).
     
-getCustomersOnNode([], _, [], []).   
+getCustomersPickupOnNode([], _, [], []).   
  
 % Get all the customers standing on a specific node
-getCustomersOnNode([Customer|Customers], Node, [Customer|OnNode], NotOnNode):-
+getCustomersPickupOnNode([Customer|Customers], Node, [Customer|OnNode], NotOnNode):-
 	customer(Customer, _, _, Node, _),
-	getCustomersOnNode(Customers, Node, OnNode, NotOnNode).
+	getCustomersPickupOnNode(Customers, Node, OnNode, NotOnNode).
 	
-getCustomersOnNode([Customer|Customers], Node, OnNode, [Customer|NotOnNode]):-
-	getCustomersOnNode(Customers, Node, OnNode, NotOnNode).	
+getCustomersPickupOnNode([Customer|Customers], Node, OnNode, [Customer|NotOnNode]):-
+	getCustomersPickupOnNode(Customers, Node, OnNode, NotOnNode).	
 			
 distanceFromNodeToCustomers(NodeID, _, [Customer], [NewTime-Customer]):-
 	distanceFromNodeToCustomer(NodeID, Customer, NewTime).
