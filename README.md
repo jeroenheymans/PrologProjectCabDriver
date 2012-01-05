@@ -1,9 +1,10 @@
--------
+Prolog Project: Cab Driver
+==========================
+
 General
 -------
 This is the project for the 1st Master course Declarative Programming on the Vrije Universiteit Brussel.
 
------------
 Description
 -----------
 You are the owner of the world famous taxi company “El Caberino”. As the crisis also hit your company you are looking to lower your costs by improving the scheduling of your taxis. 
@@ -22,7 +23,6 @@ Customers specify a timespan in which they can be pickup up. The NodeId specifie
 
 Time is described by an integer between 0 and 1440 (there are 1440 minutes in one day). The distance is denoted by the time the taxi needs to travel that edge. All the taxis drive equally fast (and do not drive faster than they are allowed to).
 
------------------------
 Functional requirements
 -----------------------
 Basic Program
@@ -39,7 +39,6 @@ Extensions
  Increase the difficulty of the program by either generating more customers, a larger city, etc.
  Allow customers to be added dynamicly.
  
----------------------------
 Non-functional requirements
 ---------------------------
 The program and the database have to be written in SWI-prolog and should run on the computer rooms of IG. For those of you that make their project at home and/or with a different prolog, make sure that your code is fully functional on the target system. Your code must work when run using SWI-prolog in the computer rooms! 
@@ -48,7 +47,6 @@ With respect to the program's design: the more modular, reusable and extensible 
 
 Make sure that your source files are standard unix text files, e.g. lines are separated by newline characters only. Comment your source code.
 
---------
 Deadline
 --------
 The firm deadline for this project is 13 January 2012 at midnight . The defense will follow in one of the following weeks. You should send me the following deliverables by email: 
