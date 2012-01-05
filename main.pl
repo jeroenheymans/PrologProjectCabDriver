@@ -48,7 +48,8 @@ loop([Taxi|Taxis]):-
 	loop(Taxis).
 	
 % Taxi is filled with 4 customers so copy the path we got as the endpath
-loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], EndPath, EndPath).
+loopInner([C1,C2,C3,C4], _, [C1,C2,C3,C4], EndPath, EndPath):-
+	true. % fill this with calculation of the path to drop off these 4 customers
 
 % Taxi is not yet filled with 4. Get the info where the taxi stand, take a
 % new customer and calculate the route to him to pick him up
@@ -81,4 +82,8 @@ transportLoop([Taxi|Jobs]):-
 	routeLoop(Customers, Path),
 	transportLoop(Jobs).
 	
-routeLoop(_,_).
+routeLoop(_, []).
+	
+routeLoop(Customers, [Node|Path]):-
+	getCustomersOnNode(Customers, Node, OnNode),
+	routeLoop(Customers, Path).
