@@ -61,7 +61,8 @@ loopInner(Customers, _, InTaxi, EndPath, EndPath):-
 	InTaxi = Customers.
 	
 pickNextCustomer(Time, Node, Customer, Path):-
-	customer(Customer, ETOP, _, CStartID, _),
+	customer(Customer, ETOP, LTOP, CStartID, _),
 	ETOP >= Time,
-	minimumDistance(Node, CStartID, Path, _).
+	minimumDistance(Node, CStartID, Path, PathTime),
+	Time + PathTime =< LTOP.
 	
