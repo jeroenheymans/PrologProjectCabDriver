@@ -9,7 +9,7 @@
 
 :- dynamic taxi/1.
 :- dynamic customer/5.
-:- dynamic taxiJob/2.
+:- dynamic taxiJob/3.
 
 % Necessary includes
 %:-['city_smaller.pl'].
@@ -27,10 +27,10 @@ main:-
 	
 loop([]):-
 	write('No taxis left'),
-	getAllTaxiJobs(TaxiJobs),
-	writeln(TaxiJobs),
 	getAllCustomers(CustomersLeft),
-	writeln(CustomersLeft).
+	write('Customers left: '),writeln(CustomersLeft),
+	getAllTaxiJobs(Jobs),
+	transportLoop(Jobs).
 
 % Loop over all the taxi's
 % Pick a new customer, add him to the taxi and calculate the route
@@ -43,9 +43,8 @@ loop([Taxi|Taxis]):-
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath),
-	assert(taxiJob(InTaxi, EndPath)),
-	writeln(InTaxi),
-	%writeln(EndPath),
+	assert(taxiJob(Taxi, InTaxi, EndPath)),
+	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).
 	
 % Taxi is filled with 4 customers so copy the path we got as the endpath
@@ -69,7 +68,17 @@ loopInner(Customers, _, InTaxi, EndPath, EndPath):-
 
 getAllTaxiJobs(Jobs):-
 	findall(Job,
-		(retract(taxiJob(InTaxi, Path)),
-		 Job = InTaxi),
-		 Jobs).
+		(taxiJob(Taxi, _, _),
+		 Job = Taxi),
+		 Jobs).	
+		 
+transportLoop([]):-
+	writeln('That is all folks!').
+		 
+transportLoop([Taxi|Jobs]):-
+	taxiJob(Taxi, Customers, Path),
+	write('Route for taxi '),write(Taxi),writeln(':'),
+	routeLoop(Customers, Path),
+	transportLoop(Jobs).
 	
+routeLoop(_,_).
