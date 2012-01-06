@@ -29,7 +29,20 @@ setAllCustomersAvailable:-
 		 Customer = CID),
 		 _).
 		 
-calculateDropOffPath(_, _, _).
+orderClosestCustomersInner([], _, []).
+
+orderClosestCustomersInner([Customer|Customers], Node, [Distance-Customer|NewCustomers]):-
+	orderClosestCustomersInner(Customers, Node, NewCustomers),
+	customer(Customer, _, _, _, CNode),
+	minimumDistance(Node, CNode, _, Distance).	
+		 
+orderClosestCustomers(Customers, Node, NewCustomers):-
+	orderClosestCustomersInner(Customers, Node, UnorderedCustomers),
+	keysort(UnorderedCustomers, OrderedCustomers),
+	removeKeys(OrderedCustomers, NewCustomers).
+		 
+calculateDropOffPath(Customers, Node, Path):-
+	orderClosestCustomers(Customers, Node, NewCustomers).
     
 main:-
 	getAllTaxis(Taxis),
