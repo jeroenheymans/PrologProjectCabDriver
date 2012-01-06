@@ -42,7 +42,9 @@ orderClosestCustomers(Customers, Node, NewCustomers):-
 	removeKeys(OrderedCustomers, NoKeysOrderedCustomers),
 	reverse(NoKeysOrderedCustomers, NewCustomers).
 
-routeBetweenCustomers([], _, Path, Path).
+routeBetweenCustomers([], Node, Path, NewPath):-
+	Temp = [Node|Path],
+	reverse(Temp, NewPath).
 	
 routeBetweenCustomers([Customer|Customers], Node, Path, EndPath):-
 	customer(Customer, _, _, _, EndNode),
