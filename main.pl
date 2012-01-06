@@ -35,7 +35,7 @@ main:-
 	loop(Taxis).
 	
 loop([]):-
-	write('No taxis left'),
+	writeln('No taxis left'),
 	%getAllCustomers(CustomersLeft),
 	%write('Customers left: '),writeln(CustomersLeft),
 	getAllTaxiJobs(Jobs),
@@ -53,7 +53,8 @@ loop([Taxi|Taxis]):-
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath),
-	assert(taxiJob(Taxi, InTaxi, EndPath)),
+	reverse(EndPath, NewPath),
+	assert(taxiJob(Taxi, InTaxi, NewPath)),
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).
 	
@@ -89,6 +90,7 @@ transportLoop([]):-
 transportLoop([Taxi|Jobs]):-
 	taxiJob(Taxi, Customers, Path),
 	write('Route for taxi '),write(Taxi),writeln(':'),
+	(Taxi =:= 0 -> writeln(Path) ; true),
 	routeLoop(Customers, Path),
 	transportLoop(Jobs).
 	
