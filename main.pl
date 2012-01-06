@@ -39,10 +39,20 @@ orderClosestCustomersInner([Customer|Customers], Node, [Distance-Customer|NewCus
 orderClosestCustomers(Customers, Node, NewCustomers):-
 	orderClosestCustomersInner(Customers, Node, UnorderedCustomers),
 	keysort(UnorderedCustomers, OrderedCustomers),
-	removeKeys(OrderedCustomers, NewCustomers).
+	removeKeys(OrderedCustomers, NoKeysOrderedCustomers),
+	reverse(NoKeysOrderedCustomers, NewCustomers).
+
+routeBetweenCustomers([], _, Path, Path).
+	
+routeBetweenCustomers([Customer|Customers], Node, Path, EndPath):-
+	customer(Customer, _, _, _, EndNode),
+	minimumDistance(Node, EndNode, [NewNode|P], Time),
+	append(P, Path, NewPath),
+	routeBetweenCustomers(Customers, NewNode, NewPath, EndPath).
 		 
 calculateDropOffPath(Customers, Node, Path):-
-	orderClosestCustomers(Customers, Node, NewCustomers).
+	orderClosestCustomers(Customers, Node, NewCustomers),
+	routeBetweenCustomers(NewCustomers, Node, [], Path).
     
 main:-
 	getAllTaxis(Taxis),
