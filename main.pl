@@ -28,6 +28,8 @@ setAllCustomersAvailable:-
 		 assert(customerAvailable(CID)),
 		 Customer = CID),
 		 _).
+		 
+calculateDropOffPath(_, _, _).
     
 main:-
 	getAllTaxis(Taxis),
@@ -53,6 +55,8 @@ loop([Taxi|Taxis]):-
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath),
+	[CurrentNode|_] = EndPath,
+	calculateDropOffPath(InTaxi, CurrentNode, DropOffPath), 
 	reverse(EndPath, NewPath),
 	assert(taxiJob(Taxi, InTaxi, NewPath)),
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
