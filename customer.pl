@@ -105,6 +105,11 @@ getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp,
 	
 % Picks next customer, is not yet the best customer, just the first one
 % that looks interesting
+% 	+Time = current time at which the taxi can start 
+%	+Node = node where taxi is
+%	-Customer = the next customer to pick
+%	-Path = the path to this customer
+%	-NewTime = time it takes to get to the customer
 pickNextCustomer(Time, Node, Customer, Path, NewTime):-
 	customerAvailable(Customer),
 	customer(Customer, ETOP, LTOP, CStartID, _),
@@ -114,6 +119,8 @@ pickNextCustomer(Time, Node, Customer, Path, NewTime):-
 	NewTime =< LTOP.
 	
 % Get the customer with the lowest available ETOP value
+%	-Customer = the best customer
+%	-ETOP = customer his ETOP
 getMinETOP(Customer, ETOP):-
 	findall(Customer,
 		(customerAvailable(CID),
