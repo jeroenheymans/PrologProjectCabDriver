@@ -43,8 +43,7 @@ orderClosestCustomers(Customers, Node, NewCustomers):-
 	reverse(NoKeysOrderedCustomers, NewCustomers).
 
 routeBetweenCustomers([], Node, Path, NewPath):-
-	Temp = [Node|Path],
-	reverse(Temp, NewPath).
+	NewPath = [Node|Path].
 	
 routeBetweenCustomers([Customer|Customers], Node, Path, EndPath):-
 	customer(Customer, _, _, _, EndNode),
@@ -81,8 +80,11 @@ loop([Taxi|Taxis]):-
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath),
 	[CurrentNode|_] = EndPath,
-	calculateDropOffPath(InTaxi, CurrentNode, DropOffPath), 
-	reverse(EndPath, NewPath),
+	calculateDropOffPath(InTaxi, CurrentNode, [Top|DropOffPath]), 
+	append([Top|DropOffPath], EndPath, [_|Temp]),
+	minimumDistance(Top, Depot, P, _),
+	append(P, Temp, Temp2),
+	reverse(Temp2, NewPath),
 	assert(taxiJob(Taxi, InTaxi, NewPath)),
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).
