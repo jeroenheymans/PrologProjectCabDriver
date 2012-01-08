@@ -122,7 +122,6 @@ loop([Taxi|Taxis]):-
 	append(P, Temp, Temp2),
 	reverse(Temp2, NewPath),
 	FinalTime is NewTime + Time,
-	FinalTime =< 1440,
 	assert(taxiJob(Taxi, InTaxi, NewPath, FinalTime)),
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).
