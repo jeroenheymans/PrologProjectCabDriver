@@ -11,6 +11,7 @@
 :- dynamic customer/5.
 :- dynamic taxiJob/4.
 :- dynamic customerAvailable/1.
+:- dynamic taxiAvailable/1.
 
 % Necessary includes
 %:-['city_smaller.pl'].
@@ -28,6 +29,13 @@ setAllCustomersAvailable:-
 		(customer(CID, _, _, _, _),
 		 assert(customerAvailable(CID)),
 		 Customer = CID),
+		 _).
+		 
+setAllTaxisAvailable:-
+	findall(Taxi,
+		(taxi(ID),
+		 assert(taxiAvailable(ID)),
+		 Taxi = ID),
 		 _).
 		 
 % Inner function for orderClosestCustomers/3
@@ -91,40 +99,13 @@ calculateDropOffPath(Customers, Node, Time, Path, NewTime):-
 	routeBetweenCustomers(NewCustomers, Node, [], Path, Time, NewTime).
     
 main:-
-	getAllTaxis(Taxis),
 	setAllCustomersAvailable,
-	loop(Taxis).
+	setAllTaxisAvailable,
+	loop.
 	
-loop([]):-
-	writeln('No taxis left'),
-	getAllAvailableCustomers(CustomersLeft),
-	listLength(CustomersLeft, Total),
-	write('Customers left ('),write(Total),write('): '),writeln(CustomersLeft),
-	getAllTaxiJobs(Jobs),
-	transportLoop(Jobs).
-
-% Loop over all the taxi's
-% Pick a new customer, add him to the taxi and calculate the route
-% to the customer. Then start loopInner/5
-loop([Taxi|Taxis]):-
-	retract(taxi(Taxi)),
-	getMinETOP(Customer, ETOP),
-	customerAvailable(Customer),
-	customer(Customer, ETOP, LTOP, StartID, DestID),
-	retract(customerAvailable(Customer)),
-	startNode(Depot),
-	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
-	loopInner([Customer], ETOP, InTaxi, Path, EndPath, EndTime),
-	[CurrentNode|_] = EndPath,
-	calculateDropOffPath(InTaxi, CurrentNode, EndTime, [Top|DropOffPath], NewTime), 
-	append([Top|DropOffPath], EndPath, [_|Temp]),
-	minimumDistance(Top, Depot, P, Time),
-	append(P, Temp, Temp2),
-	reverse(Temp2, NewPath),
-	FinalTime is NewTime + Time,
-	assert(taxiJob(Taxi, InTaxi, NewPath, FinalTime)),
-	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
-	loop(Taxis).
+loop:-
+	forall(taxiAvailable(Taxi),
+	writeln(Taxi)).
 	
 % Taxi is filled with 4 customers so copy the path we got as the endpath
 % 	+C1,C2,C3,C4 = the customers in the taxi
