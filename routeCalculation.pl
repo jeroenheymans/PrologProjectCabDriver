@@ -47,7 +47,7 @@ bestCandidate(Paths, BestCandidate, Finish) :-
       \+isVisited(Paths, Node2),           % we only want non-visited P2's
       node(Finish,N1X,N1Y),
       node(Node2,N2X,N2Y),
-      square(abs(N1X-N2X)+abs(N1Y-N2Y),Heuristic),
+      square(abs(N1X-N2X)+abs(N1Y-N2Y), Heuristic),
       NewCost is Distance + Heuristic,
       NewLength is Length+Distance,        % we have an unvisited P2, we calculate total distance
       NewNode=NewCost-[NewLength-[Node2,Node1|Path]] % we make new node in list

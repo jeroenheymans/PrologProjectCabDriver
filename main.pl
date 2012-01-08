@@ -97,8 +97,9 @@ main:-
 	
 loop([]):-
 	writeln('No taxis left'),
-	%getAllCustomers(CustomersLeft),
-	%write('Customers left: '),writeln(CustomersLeft),
+	getAllAvailableCustomers(CustomersLeft),
+	listLength(CustomersLeft, Total),
+	write('Customers left ('),write(Total),write('): '),writeln(CustomersLeft),
 	getAllTaxiJobs(Jobs),
 	transportLoop(Jobs).
 
@@ -121,6 +122,7 @@ loop([Taxi|Taxis]):-
 	append(P, Temp, Temp2),
 	reverse(Temp2, NewPath),
 	FinalTime is NewTime + Time,
+	FinalTime =< 1440,
 	assert(taxiJob(Taxi, InTaxi, NewPath, FinalTime)),
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).

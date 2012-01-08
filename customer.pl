@@ -5,6 +5,12 @@ getAllCustomers(Customers):-
 			(customer(CID,ETOP,_,_,_),
 			 Customer = ETOP-CID),
 			Customers).
+			
+getAllAvailableCustomers(Customers):-
+	findall(Customer,
+			(customerAvailable(CID),
+			 Customer = CID),
+			Customers).
     
 % Calculate the distance from the parking lot to the 
 % starting point of the customer. Used as preprocessing
@@ -103,6 +109,18 @@ getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp,
 	 ;	getBestCustomerInner(RestCustomers, NodeID, Time, BestCustomer, [Customer|Temp], NewCustomers)).
 	
 	
+getNeighborhoodCustomers(Node, Time, Customers):-
+	findall(Customer,
+		((edge(Node, CStartID, _);(edge(Node, X, _),edge(X,CStartID, _))),
+		customer(CID, ETOP, LTOP, CStartID, _),
+		customerAvailable(CID),
+		ETOP >= Time,
+		minimumDistance(Node, CStartID, Path, PathTime),
+		NewTime is Time + PathTime,
+		NewTime =< LTOP,
+		Customer = NewTime-[CID-Path]),
+		Customers).
+	
 % Picks next customer, is not yet the best customer, just the first one
 % that looks interesting
 % 	+Time = current time at which the taxi can start 
@@ -111,12 +129,8 @@ getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp,
 %	-Path = the path to this customer
 %	-NewTime = time it takes to get to the customer
 pickNextCustomer(Time, Node, Customer, Path, NewTime):-
-	customerAvailable(Customer),
-	customer(Customer, ETOP, LTOP, CStartID, _),
-	ETOP >= Time,
-	minimumDistance(Node, CStartID, Path, PathTime),
-	NewTime = Time + PathTime,
-	NewTime =< LTOP.
+	getNeighborhoodCustomers(Node, Time, Customers),
+	keysort(Customers, [NewTime-[Customer-Path]|_]).
 	
 % Get the customer with the lowest available ETOP value
 %	-Customer = the best customer
