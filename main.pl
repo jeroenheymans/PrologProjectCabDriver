@@ -101,11 +101,14 @@ calculateDropOffPath(Customers, Node, Time, Path, NewTime):-
 main:-
 	setAllCustomersAvailable,
 	setAllTaxisAvailable,
-	loop.
+	loop,
+	writeln('Done').
 	
 loop:-
-	forall(taxiAvailable(Taxi),
-	writeln(Taxi)).
+	forall(taxiAvailable(Taxi),(
+		retract(taxiAvailable(Taxi)),
+		writeln(Taxi)
+	)).
 	
 % Taxi is filled with 4 customers so copy the path we got as the endpath
 % 	+C1,C2,C3,C4 = the customers in the taxi
