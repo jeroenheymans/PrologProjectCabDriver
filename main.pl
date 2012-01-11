@@ -10,7 +10,7 @@
 :- dynamic taxi/1.
 :- dynamic customer/5.
 :- dynamic taxiJob/4.
-:- dynamic customerAvailable/1.
+:- dynamic customerAvailable/2.
 :- dynamic taxiAvailable/1.
 
 % Necessary includes
@@ -25,11 +25,16 @@
 
 % Set all customers that we know as available
 setAllCustomersAvailable:-
+	startNode(Start),
 	findall(Customer,
-		(customer(CID, _, _, _, _),
-		 assert(customerAvailable(CID)),
+		(customer(CID, ETOP, LTOP, Begin, Dest),
+		 minimumDistance(Begin, Dest, _, Time1),
+		 minimumDistance(Dest, Start, _, Time2), 
+		 NewLTOP is ETOP + Time1 + Time2,
+		 NewLTOP =< 1440, % change to LTOP?
+		 assert(customerAvailable(CID, NewLTOP)),
 		 Customer = CID),
-		 _).
+	_).
 		 
 setAllTaxisAvailable:-
 	findall(Taxi,
@@ -129,7 +134,7 @@ loopInner([C1,C2,C3,C4], EndTime, [C1,C2,C3,C4], EndPath, EndPath, EndTime):-
 %	-EndTime = final time it took to pick up all the customers
 loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath, EndTime):-
 	pickNextCustomer(Time, FStartID, Customer, Path, NewTime),
-	retract(customerAvailable(Customer)),
+	retract(customerAvailable(Customer,_)),
 	append([Customer], [FirstID|Customers], NewCustomers),
 	append(Path, [FStartID|TaxiPath], NewTaxiPath),
 	loopInner(NewCustomers, NewTime, InTaxi, NewTaxiPath, EndPath, EndTime).
