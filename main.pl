@@ -17,22 +17,22 @@
 :-['print.pl'].
 
 :-dynamic clock/1.
+:-dynamic customerAvailable/3.
 
-test(t(X,Y),Z):-
-	Z is X+Y.
-
-% Test function, used for testing small parts of code before
-% putting it in the rest of the code
-    %CustomersToPickUp = [1038-0,233-1,587-2],
-testmain:-
-	test(t(1,2),X),
-	writeln(X).
-    %getDeparturesForPickupCustomers(CustomersToPickUp),
-    %keysort(CustomersToPickUp, CustomersToPickUpSorted),
-    %writeln(CustomersToPickUpSorted).
-
+setAllCustomersAvailable:-
+	startNode(Start),
+	findall(Customer,
+		(customer(CID, ETOP, LTOP, Begin, Dest),
+		 minimumDistance(Begin, Dest, _, Time1),
+		 minimumDistance(Dest, Start, _, Time2),
+		 ETOP + Time1 + Time2 =< 1440,
+		 assert(customerAvailable(CID, Time1, Time2)),
+		 Customer = CID),
+		 _).
+		 
 % Main function, needs to be executed for this program
-main(_):-
+main:-
+	setAllCustomersAvailable,
     getDeparturesForPickupCustomers(CustomersToPickUp),
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
     assert(clock(0)),
@@ -40,7 +40,7 @@ main(_):-
     initTaxis(Taxis),
     loop(0, CustomersToPickUpSorted).
     
-loop(1440, RemainingCustomers):-
+loop(5000, RemainingCustomers):-
 	listLength(RemainingCustomers, L),
 	write('# customers remaining: '),writeln(L),
     printTimesUp(RemainingCustomers).

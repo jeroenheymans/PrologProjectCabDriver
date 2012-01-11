@@ -40,7 +40,8 @@ getCustomersSameDestination(CID1, Customers):-
 % with [DepartureTime - CustomerID]
 getDeparturesForPickupCustomers(CustomersToPickUp):-
     findall(Customer,
-            ( customer(CID,ETOP,_,_,_),
+            ( customerAvailable(CID, _, _),
+              customer(CID,ETOP,_,_,_),
               distanceFromStartToCustomer(CID, Distance),
               NewDistance is ETOP - Distance,
               Customer = NewDistance-CID
