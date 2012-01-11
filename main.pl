@@ -10,7 +10,7 @@
 :- dynamic taxi/1.
 :- dynamic customer/5.
 :- dynamic taxiJob/4.
-:- dynamic customerAvailable/1.
+:- dynamic customerAvailable/3.
 
 % Necessary includes
 %:-['city_smaller.pl'].
@@ -26,11 +26,11 @@
 setAllCustomersAvailable:-
 	startNode(Start),
 	findall(Customer,
-		(customer(CID, _, LTOP, Begin, Dest),
+		(customer(CID, ETOP, LTOP, Begin, Dest),
 		 minimumDistance(Begin, Dest, _, Time1),
 		 minimumDistance(Dest, Start, _, Time2),
 		 ETOP + Time1 + Time2 =< 1440,
-		 assert(customerAvailable(CID)),
+		 assert(customerAvailable(CID, Time1, Time2)),
 		 Customer = CID),
 		 _).
 		 
@@ -113,9 +113,9 @@ loop([]):-
 loop([Taxi|Taxis]):-
 	retract(taxi(Taxi)),
 	getMinETOP(Customer, ETOP),
-	customerAvailable(Customer),
+	customerAvailable(Customer, _, _),
 	customer(Customer, ETOP, LTOP, StartID, DestID),
-	retract(customerAvailable(Customer)),
+	retract(customerAvailable(Customer, _, _)),
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
 	loopInner([Customer], ETOP, InTaxi, Path, EndPath, EndTime),
@@ -149,7 +149,7 @@ loopInner([C1,C2,C3,C4], EndTime, [C1,C2,C3,C4], EndPath, EndPath, EndTime):-
 %	-EndTime = final time it took to pick up all the customers
 loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], EndPath, EndTime):-
 	pickNextCustomer(Time, FStartID, Customer, Path, NewTime),
-	retract(customerAvailable(Customer)),
+	retract(customerAvailable(Customer, _, _)),
 	append([Customer], [FirstID|Customers], NewCustomers),
 	append(Path, [FStartID|TaxiPath], NewTaxiPath),
 	loopInner(NewCustomers, NewTime, InTaxi, NewTaxiPath, EndPath, EndTime).
