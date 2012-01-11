@@ -122,7 +122,8 @@ loop([Taxi|Taxis]):-
 	retract(customerAvailable(Customer, waiting, _, _)),
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
-	loopInner([Customer], ETOP, InTaxi, Path, Path1, Time1, EndDropoffPath, EndPath, EndTime, DropOffTime),
+	%loopInner([Customer], ETOP, InTaxi, Path, Path1, Time1, EndDropoffPath, EndPath, EndTime, DropOffTime),
+	loopInner([Customer], InTaxi, ETOP, Time1, FinalTime, Path, Path1, EndPath),
 	(Customer =:= 1 -> writeln(EndDropoffPath) ; true),
 	[CurrentNode|_] = EndPath,
 	%calculateDropOffPath(InTaxi, CurrentNode, EndTime, [Top|DropOffPath], NewTime), 
@@ -135,15 +136,15 @@ loop([Taxi|Taxis]):-
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).
 	
-%loopInner(Intaxi, IntaxiResult, FromTime, ToTime, FromPath, ToPath, Resultpath) 
-	
-% Taxi is filled with 4 customers so copy the path we got as the endpath
-% 	+C1,C2,C3,C4 = the customers in the taxi
-%	+EndTime = Time that all customers are picked up
-%	+EndPath = Path to pick up all the customers, starting at depot
-loopInner([C1,C2,C3,C4], EndTime, [C1,C2,C3,C4], EndPath, EndDropoffPath, DropOffTime, EndDropoffPath, EndPath, EndTime, DropOffTime):-
-	true.
+%loopInner(Intaxi, IntaxiResult, FromTime, ToTime, FinalTime, FromPath, ToPath, FinalPath) 
 
+loopInner([C1, C2, C3, C4], [C1, C2, C3, C4], FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
+	minimumDistance(From, To, FromToPath, FromToTime),
+	FinalTime is FromTime + ToTime + FromToTime,
+	append(FromPath, FromToPath, Temp),
+	reverse(ToPath, ToPathReverse),
+	append(Temp, ToPathReverse, FinalPath).
+	
 % Taxi is not yet filled with 4. Get the info where the taxi stand, take a
 % new customer and calculate the route to him to pick him up
 % 	+FirstID = ID of the previous picked up customer
@@ -154,17 +155,26 @@ loopInner([C1,C2,C3,C4], EndTime, [C1,C2,C3,C4], EndPath, EndDropoffPath, DropOf
 %	+TaxiPath = path the taxi has already done
 %	-EndPath = final path the taxi needs to do
 %	-EndTime = final time it took to pick up all the customers
-loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], [Top|DropoffPath], TempTime, EndDropoffPath, EndPath, EndTime, DropOffTime):-
+loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
 	customerAvailable(_, _, _, _),
-	pickNextCustomer(Time, FStartID, Customer, Path, NewTime),
-	customer(Customer, _, _, _, Dest),
-	minimumDistance(Dest, Top, AddDropOff, DropTime),
-	NewTempTime is TempTime + DropTime,
-	NewTime =< 1440 - NewTempTime,
+	pickNextCustomer(FromTime, From, Customer, [Top|AddFromPath], NewFromTime),
+	customer(Customer, _, _, _, Destination),
+	minimumDistance(Destination, To, AddToPath, AddToTime), %reverse
+	NewToTime is ToTime + AddToTime,
+	minimumDistance(Top, Destination, MiddlePath, MiddleTime),
+	NewToTime + MiddleTime + NewFromTime =< 1440,
 	retract(customerAvailable(Customer, _, _, _)),
-	append([Customer], [FirstID|Customers], NewCustomers),
-	append(Path, [FStartID|TaxiPath], NewTaxiPath),
-	loopInner(NewCustomers, NewTime, InTaxi, NewTaxiPath, [AddDropOff|DropoffPath], NewTempTime, EndDropoffPath, EndPath, EndTime, DropOffTime).
+	append(ToPath, AddToPath, NewToPath),
+	append(FromPath, AddFromPath, NewFromPath), % hier gaat nog ne reverse moeten wss
+	append([Customer], Customers, NewCustomers),
+	loopInner(NewCustomers, InTaxi, NewFromTime, NewToTime, FinalTime, NewFromPath, NewToPath, FinalPath).
+
+loopInner(InTaxi, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
+	minimumDistance(From, To, FromToPath, FromToTime),
+	FinalTime is FromTime + ToTime + FromToTime,
+	append(FromPath, FromToPath, Temp),
+	reverse(ToPath, ToPathReverse),
+	append(Temp, ToPathReverse, FinalPath).
 
 % Take is also not yet filled but if we get here, this means we can't
 % fill the taxi completely (no more customers left, no good customers to 
@@ -173,8 +183,6 @@ loopInner([FirstID|Customers], Time, InTaxi, [FStartID|TaxiPath], [Top|DropoffPa
 %	-InTaxi = final result of all picked up customers
 %	-EndPath = final path the taxi needs to do
 %	-EndTime = final time it took to pick up all the customers
-loopInner(Customers, EndTime, InTaxi, EndPath, EndDropoffPath, DropOffTime, EndDropoffPath, EndPath, EndTime, DropOffTime):-
-	InTaxi = Customers.
 
 getAllTaxiJobs(Jobs):-
 	findall(Job,
