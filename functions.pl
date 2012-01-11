@@ -1,6 +1,6 @@
 % Functions that don't really fit anywhere specifically
 
-startNode(Id):-node(Id,25,25).
+startNode(Id):-node(Id,24,24).
 
 square(Number,Result):-Result is Number*Number.
 

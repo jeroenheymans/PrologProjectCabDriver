@@ -24,8 +24,12 @@
 
 % Set all customers that we know as available
 setAllCustomersAvailable:-
+	startNode(Start),
 	findall(Customer,
-		(customer(CID, _, _, _, _),
+		(customer(CID, _, LTOP, Begin, Dest),
+		 minimumDistance(Begin, Dest, _, Time1),
+		 minimumDistance(Dest, Start, _, Time2),
+		 ETOP + Time1 + Time2 =< 1440,
 		 assert(customerAvailable(CID)),
 		 Customer = CID),
 		 _).
