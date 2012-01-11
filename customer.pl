@@ -8,7 +8,7 @@ getAllCustomers(Customers):-
 			
 getAllAvailableCustomers(Customers):-
 	findall(Customer,
-			(customerAvailable(CID, _, _),
+			(customerAvailable(CID, waiting, _, _),
 			 Customer = CID),
 			Customers).
     
@@ -113,7 +113,7 @@ getNeighborhoodCustomers(Node, Time, Customers):-
 	findall(Customer,
 		((edge(Node, CStartID, _);(edge(Node, X, _),edge(X,CStartID, _))),
 		customer(CID, ETOP, LTOP, CStartID, _),
-		customerAvailable(CID, _, _),
+		customerAvailable(CID, waiting, _, _),
 		ETOP >= Time,
 		minimumDistance(Node, CStartID, Path, PathTime),
 		NewTime is Time + PathTime,
@@ -137,7 +137,7 @@ pickNextCustomer(Time, Node, Customer, Path, NewTime):-
 %	-ETOP = customer his ETOP
 getMinETOP(Customer, ETOP):-
 	findall(Customer,
-		(customerAvailable(CID, _, _),
+		(customerAvailable(CID, waiting, _, _),
 		 customer(CID, CETOP, _, _, _),
 		 Customer = CETOP-CID),
 		Customers),
