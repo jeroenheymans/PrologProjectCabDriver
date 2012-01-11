@@ -7,6 +7,8 @@
 %   consult(main) or reconsult(main)
 %   main.
 
+:- dynamic customerAvailable/1.
+
 % Necessary includes
 %:-['city_smaller.pl'].
 :-['city.pl'].
@@ -16,6 +18,13 @@
 :-['taxi.pl'].
 :-['functions.pl'].
 :-['print.pl'].
+
+setAllCustomersAvailable:-
+	findall(Customer,
+		(customer(CID, _, _, _, _),
+		 assert(customerAvailable(CID)),
+		 Customer = CID),
+		 _).
     
 deleteLeavingTimes([], []).
     
@@ -24,6 +33,7 @@ deleteLeavingTimes([_-Customer|Customers], [Customer|NewCustomers]):-
 
 % Main function, needs to be executed for this program
 main(_):-
+	setAllCustomersAvailable,
     getDeparturesForPickupCustomers(CustomersToPickUp),
     keysort(CustomersToPickUp, CustomersToPickUpSorted),
     deleteLeavingTimes(CustomersToPickUpSorted,Customers),

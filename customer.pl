@@ -88,6 +88,7 @@ getBestCustomerInner([], _, _, _, NewCustomers, NewCustomers).
 
 getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp, NewCustomers):-
 	customer(Customer, ETOP, LTOP, Start, _),
+	ETOP=<Time,
 	minimumDistance(NodeID, Start, _, Distance),
 	((ETOP=<Time+Distance,Time+Distance=<LTOP)
 	 -> (BestCustomer = Customer,
