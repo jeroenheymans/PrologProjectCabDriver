@@ -5,8 +5,29 @@
     * distance = time
     * taxi = max 4 customers
     * time to calculate distance from 1 to 2499 was 27m10s without optimalisations (after heuristic, reduced to second!)
-    * startnode = (25,25) = Node 1275
+    * startnode = (24,24) = Node 1224
     * remaining customers (26/12, no deep optimizations): 245
+    
+********************
+* ANOTHER NEW LOOP *
+********************
+Main loop:
+	- get first customerAvailable
+	- put in taxi
+	- calculate start->customer save in taxipath
+	- calculate customerBegin->customerEnd save in dropoffpath
+	- loop taxi
+	- taxi complete => save the final job
+	- reloop
+	
+Loop taxi:
+	- get best customer
+	- calculate first customerBegin -> best customerBegin
+	- calculate first customerEnd -> best customerEnd
+	- if within timecriteria, add best customer to list of customers
+	- reloop
+	Stop loop when no good customers found
+	
     
 ************************
 * NEW MAIN LAYOUT LOOP *
