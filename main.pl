@@ -99,9 +99,11 @@ loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|T
 loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
 	minimumDistance(From, To, FromToPath, FromToTime),
 	FinalTime is FromTime + ToTime + FromToTime,
-	append(FromPath, FromToPath, Temp),
-	reverse(ToPath, ToPathReverse),
-	append(Temp, ToPathReverse, FinalPath),
+	reverse(FromPath, FromPathReverse),
+	reverse(FromToPath, FromToPathReverse),
+	append(FromPathReverse, FromToPathReverse, Temp),
+	append(Temp, ToPath, FinalPath),
+	writeln(FinalPath),
 	InTaxi = Customers.
 		 
 transportLoop([]):-
