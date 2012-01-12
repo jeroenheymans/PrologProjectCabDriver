@@ -120,15 +120,11 @@ searchBf([Current|Rest], Ctr, Result):-
 	searchBf(NewSearchspace, NewCtr, Result).
 	
 getNeighborhoodCustomers(Node, Time, Customers):-
+	searchBf([Node], 2000, Nodes),
 	findall(Customer,
-		((edge(Node, CStartID, _);
-		 (edge(Node, X, _),edge(X,CStartID, _));
-		 (edge(Node, X, _),edge(X,Y,_),edge(Y,CStartID,_));
-		 (edge(Node, X, _),edge(X,Y,_),edge(Y,Z,_),edge(Z,CStartID,_));
-		 (edge(Node, X, _),edge(X,Y,_),edge(Y,Z,_),edge(Z,A,_),edge(A,CStartID,_))
-		 ),
-		customer(CID, ETOP, LTOP, CStartID, _),
+		(member(CStartID, Nodes),
 		customerAvailable(CID, waiting, _, _),
+		customer(CID, ETOP, LTOP, CStartID, _),
 		ETOP >= Time,
 		minimumDistance(Node, CStartID, Path, PathTime),
 		NewTime is Time + PathTime,
