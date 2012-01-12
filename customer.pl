@@ -148,3 +148,75 @@ getMinETOP(Customer, ETOP):-
 	keysort(Customers, NewCustomers),
 	NewCustomers = [ETOP-Customer|_].
 	
+% Set all customers that we know as available
+setAllCustomersAvailable:-
+	startNode(Start),
+	findall(Customer,
+		(customer(CID, ETOP, LTOP, Begin, Dest),
+		 minimumDistance(Begin, Dest, Path1, Time1),
+		 minimumDistance(Dest, Start, Path2, Time2),
+		 ETOP + Time1 + Time2 =< 1440,
+		 reverse(Path2, Temp),
+		 assert(customerAvailable(CID, waiting, [Path1-Time1], [Temp-Time2])),
+		 Customer = CID),
+		 _).
+		 
+% Inner function for orderClosestCustomers/3
+% stopcondition
+orderClosestCustomersInner([], _, []).
+
+% Inner function for orderClosestCustomers/3
+%	+Customer = current customer
+%	+Customers = other customers still to calculate
+%	+Node = node where we are now
+%	-Distance = distance to dropoff from Customer starting from Node
+%	-NewCustomers = calculated customers
+orderClosestCustomersInner([Customer|Customers], Node, [Distance-Customer|NewCustomers]):-
+	orderClosestCustomersInner(Customers, Node, NewCustomers),
+	customer(Customer, _, _, _, CNode),
+	minimumDistance(Node, CNode, _, Distance).	
+		 
+% Order to the closest customers
+%	+Customers = customers to order
+%	+Node = node where we are now
+%	-NewCustomers = ordered customers
+orderClosestCustomers(Customers, Node, NewCustomers):-
+	orderClosestCustomersInner(Customers, Node, UnorderedCustomers),
+	keysort(UnorderedCustomers, OrderedCustomers),
+	removeKeys(OrderedCustomers, NoKeysOrderedCustomers),
+	reverse(NoKeysOrderedCustomers, NewCustomers).
+
+% Calculate route between customers, endcondition
+%	+Customers = []
+%	+Node = node where we are now
+%	+Path = path we already followed
+%	-NewPath = final path
+%	+Time = time it already is
+%	-NewTime = Time = final time
+routeBetweenCustomers([], Node, Path, NewPath, Time, Time):-
+	NewPath = [Node|Path].
+	
+% Calculate route between customers
+% 	+Customer = customer to calculate his path
+%	+Customers = other customers still to calculate
+%	+Node = node where we are now
+%	+Path = path we already followed
+%	-EndPath = final path we have to follow
+%	+Time = time it already is
+%	-NewTime = final time necessary to follow EndPath
+routeBetweenCustomers([Customer|Customers], Node, Path, EndPath, Time, NewTime):-
+	customer(Customer, _, _, _, EndNode),
+	minimumDistance(Node, EndNode, [NewNode|P], PathTime),
+	append(P, Path, NewPath),
+	TempTime is Time + PathTime,
+	routeBetweenCustomers(Customers, NewNode, NewPath, EndPath, TempTime, NewTime).
+		 
+% Calculate the drop off path as soon as we picked up customers
+% 	+Customer = customers to drop off
+%	+Node = node where we are now
+%	+Time = time it is now
+%	-Path = path we take to drop off customers
+%	-NewTime = time it takes to follow the Path
+calculateDropOffPath(Customers, Node, Time, Path, NewTime):-
+	orderClosestCustomers(Customers, Node, NewCustomers),
+	routeBetweenCustomers(NewCustomers, Node, [], Path, Time, NewTime).

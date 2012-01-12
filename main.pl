@@ -21,79 +21,6 @@
 :-['taxi.pl'].
 :-['functions.pl'].
 :-['print.pl'].
-
-% Set all customers that we know as available
-setAllCustomersAvailable:-
-	startNode(Start),
-	findall(Customer,
-		(customer(CID, ETOP, LTOP, Begin, Dest),
-		 minimumDistance(Begin, Dest, Path1, Time1),
-		 minimumDistance(Dest, Start, Path2, Time2),
-		 ETOP + Time1 + Time2 =< 1440,
-		 reverse(Path2, Temp),
-		 assert(customerAvailable(CID, waiting, [Path1-Time1], [Temp-Time2])),
-		 Customer = CID),
-		 _).
-		 
-% Inner function for orderClosestCustomers/3
-% stopcondition
-orderClosestCustomersInner([], _, []).
-
-% Inner function for orderClosestCustomers/3
-%	+Customer = current customer
-%	+Customers = other customers still to calculate
-%	+Node = node where we are now
-%	-Distance = distance to dropoff from Customer starting from Node
-%	-NewCustomers = calculated customers
-orderClosestCustomersInner([Customer|Customers], Node, [Distance-Customer|NewCustomers]):-
-	orderClosestCustomersInner(Customers, Node, NewCustomers),
-	customer(Customer, _, _, _, CNode),
-	minimumDistance(Node, CNode, _, Distance).	
-		 
-% Order to the closest customers
-%	+Customers = customers to order
-%	+Node = node where we are now
-%	-NewCustomers = ordered customers
-orderClosestCustomers(Customers, Node, NewCustomers):-
-	orderClosestCustomersInner(Customers, Node, UnorderedCustomers),
-	keysort(UnorderedCustomers, OrderedCustomers),
-	removeKeys(OrderedCustomers, NoKeysOrderedCustomers),
-	reverse(NoKeysOrderedCustomers, NewCustomers).
-
-% Calculate route between customers, endcondition
-%	+Customers = []
-%	+Node = node where we are now
-%	+Path = path we already followed
-%	-NewPath = final path
-%	+Time = time it already is
-%	-NewTime = Time = final time
-routeBetweenCustomers([], Node, Path, NewPath, Time, Time):-
-	NewPath = [Node|Path].
-	
-% Calculate route between customers
-% 	+Customer = customer to calculate his path
-%	+Customers = other customers still to calculate
-%	+Node = node where we are now
-%	+Path = path we already followed
-%	-EndPath = final path we have to follow
-%	+Time = time it already is
-%	-NewTime = final time necessary to follow EndPath
-routeBetweenCustomers([Customer|Customers], Node, Path, EndPath, Time, NewTime):-
-	customer(Customer, _, _, _, EndNode),
-	minimumDistance(Node, EndNode, [NewNode|P], PathTime),
-	append(P, Path, NewPath),
-	TempTime is Time + PathTime,
-	routeBetweenCustomers(Customers, NewNode, NewPath, EndPath, TempTime, NewTime).
-		 
-% Calculate the drop off path as soon as we picked up customers
-% 	+Customer = customers to drop off
-%	+Node = node where we are now
-%	+Time = time it is now
-%	-Path = path we take to drop off customers
-%	-NewTime = time it takes to follow the Path
-calculateDropOffPath(Customers, Node, Time, Path, NewTime):-
-	orderClosestCustomers(Customers, Node, NewCustomers),
-	routeBetweenCustomers(NewCustomers, Node, [], Path, Time, NewTime).
     
 main:-
 	getAllTaxis(Taxis),
@@ -117,21 +44,14 @@ loop([]):-
 loop([Taxi|Taxis]):-
 	retract(taxi(Taxi)),
 	getMinETOP(Customer, ETOP),
-	customerAvailable(Customer, waiting, _, [Path1-Time1]),
+	customerAvailable(Customer, waiting, _, [Path1-Time1]),!,
 	customer(Customer, ETOP, LTOP, StartID, DestID),
 	retract(customerAvailable(Customer, waiting, _, _)),
 	startNode(Depot),
 	minimumDistance(Depot, StartID, Path, _), % check on minimumtime
-	%loopInner([Customer], ETOP, InTaxi, Path, Path1, Time1, EndDropoffPath, EndPath, EndTime, DropOffTime),
 	loopInner([Customer], InTaxi, ETOP, Time1, FinalTime, Path, Path1, EndPath),
 	(Customer =:= 1 -> writeln(EndDropoffPath) ; true),
 	[CurrentNode|_] = EndPath,
-	%calculateDropOffPath(InTaxi, CurrentNode, EndTime, [Top|DropOffPath], NewTime), 
-	%append([Top|DropOffPath], EndPath, [_|Temp]),
-	%minimumDistance(Top, Depot, P, Time),
-	%append(P, Temp, Temp2),
-	%reverse(Temp2, NewPath),
-	%FinalTime is NewTime + Time,
 	assert(taxiJob(Taxi, InTaxi, NewPath, FinalTime)),
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).
@@ -178,20 +98,6 @@ loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|T
 	reverse(ToPath, ToPathReverse),
 	append(Temp, ToPathReverse, FinalPath),
 	InTaxi = Customers.
-
-% Take is also not yet filled but if we get here, this means we can't
-% fill the taxi completely (no more customers left, no good customers to 
-% pick up, ...). This makes sure we still get the path and that we know
-% who the customers are in our taxi
-%	-InTaxi = final result of all picked up customers
-%	-EndPath = final path the taxi needs to do
-%	-EndTime = final time it took to pick up all the customers
-
-getAllTaxiJobs(Jobs):-
-	findall(Job,
-		(taxiJob(Taxi, _, _, _),
-		 Job = Taxi),
-		 Jobs).	
 		 
 transportLoop([]):-
 	writeln('That is all folks!').

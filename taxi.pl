@@ -198,3 +198,9 @@ initTaxis([Taxi|Taxis]):-
 	startNode(NodeID),
 	assert(availableTaxi(Taxi, NodeID)),
 	initTaxis(Taxis).
+	
+getAllTaxiJobs(Jobs):-
+	findall(Job,
+		(taxiJob(Taxi, _, _, _),
+		 Job = Taxi),
+		 Jobs).	
