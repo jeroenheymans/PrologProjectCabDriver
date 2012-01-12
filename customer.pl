@@ -108,6 +108,8 @@ getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp,
 	 	 append(Temp, RestCustomers, NewCustomers))
 	 ;	getBestCustomerInner(RestCustomers, NodeID, Time, BestCustomer, [Customer|Temp], NewCustomers)).
 	
+neighbor(Node1, Node2):-edge(Node1, Node2, _).
+neighbor(Node1, Node2):-neighbor(Node1, Node3),edge(Node3, Node2,_).
 	
 getNeighborhoodCustomers(Node, Time, Customers):-
 	findall(Customer,
