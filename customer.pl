@@ -110,13 +110,23 @@ getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp,
 	
 neighbor(Node1, Node2):-edge(Node1, Node2, _).
 neighbor(Node1, Node2):-neighbor(Node1, Node3),edge(Node3, Node2,_).
+
+searchBf(Nodes, 0, Nodes):-!.
+searchBf([Current|Rest], Ctr, Result):-
+	NewCtr is Ctr - 1,
+	findall(E, (edge(Current, Neighbor, _), \+member(Neighbor, Rest), E = Neighbor), Neighbors),
+	append(Rest, Neighbors, Temp),
+	append(Temp, [Current], NewSearchspace),
+	searchBf(NewSearchspace, NewCtr, Result).
 	
 getNeighborhoodCustomers(Node, Time, Customers):-
 	findall(Customer,
 		((edge(Node, CStartID, _);
 		 (edge(Node, X, _),edge(X,CStartID, _));
 		 (edge(Node, X, _),edge(X,Y,_),edge(Y,CStartID,_));
-		 (edge(Node, X, _),edge(X,Y,_),edge(Y,Z,_),edge(Z,CStartID,_))),
+		 (edge(Node, X, _),edge(X,Y,_),edge(Y,Z,_),edge(Z,CStartID,_));
+		 (edge(Node, X, _),edge(X,Y,_),edge(Y,Z,_),edge(Z,A,_),edge(A,CStartID,_))
+		 ),
 		customer(CID, ETOP, LTOP, CStartID, _),
 		customerAvailable(CID, waiting, _, _),
 		ETOP >= Time,
