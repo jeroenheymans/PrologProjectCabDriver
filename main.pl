@@ -156,8 +156,10 @@ loopInner([C1, C2, C3, C4], [C1, C2, C3, C4], FromTime, ToTime, FinalTime, [From
 %	-EndPath = final path the taxi needs to do
 %	-EndTime = final time it took to pick up all the customers
 loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
-	customerAvailable(_, _, _, _),
-	pickNextCustomer(FromTime, From, Customer, [Top|AddFromPath], NewFromTime),
+	%pickNextCustomer(FromTime, From, Customer, [Top|AddFromPath], NewFromTime),
+	pickNextCustomer(FromTime, From, PickUpCustomers),
+	member(NewFromTime-[Customer-[Top|AddFromPath]], PickUpCustomers),
+	\+member(Customer, Customers),
 	customer(Customer, _, _, _, Destination),
 	minimumDistance(Destination, To, AddToPath, AddToTime), %reverse
 	NewToTime is ToTime + AddToTime,
@@ -169,12 +171,13 @@ loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|T
 	append([Customer], Customers, NewCustomers),
 	loopInner(NewCustomers, InTaxi, NewFromTime, NewToTime, FinalTime, NewFromPath, NewToPath, FinalPath).
 
-loopInner(InTaxi, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
+loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
 	minimumDistance(From, To, FromToPath, FromToTime),
-	FinalTime is FromTime + ToTime + FromToTime,
+	FinalTime is FromTime + ToTime,
 	append(FromPath, FromToPath, Temp),
 	reverse(ToPath, ToPathReverse),
-	append(Temp, ToPathReverse, FinalPath).
+	append(Temp, ToPathReverse, FinalPath),
+	InTaxi = Customers.
 
 % Take is also not yet filled but if we get here, this means we can't
 % fill the taxi completely (no more customers left, no good customers to 

@@ -111,14 +111,18 @@ getBestCustomerInner([Customer|RestCustomers], NodeID, Time, BestCustomer, Temp,
 	
 getNeighborhoodCustomers(Node, Time, Customers):-
 	findall(Customer,
-		((edge(Node, CStartID, _);(edge(Node, X, _),edge(X,CStartID, _))),
+		((edge(Node, CStartID, _);
+		 (edge(Node, X, _),edge(X,CStartID, _));
+		 (edge(Node, X, _),edge(X,Y,_),edge(Y,CStartID,_));
+		 (edge(Node, X, _),edge(X,Y,_),edge(Y,Z,_),edge(Z,CStartID,_))),
 		customer(CID, ETOP, LTOP, CStartID, _),
 		customerAvailable(CID, waiting, _, _),
 		ETOP >= Time,
 		minimumDistance(Node, CStartID, Path, PathTime),
 		NewTime is Time + PathTime,
 		NewTime =< LTOP,
-		Customer = NewTime-[CID-Path]),
+		maximum(NewTime, ETOP, NewNewTime),
+		Customer = NewNewTime-[CID-Path]),
 		Customers).
 	
 % Picks next customer, is not yet the best customer, just the first one
@@ -128,9 +132,9 @@ getNeighborhoodCustomers(Node, Time, Customers):-
 %	-Customer = the next customer to pick
 %	-Path = the path to this customer
 %	-NewTime = time it takes to get to the customer
-pickNextCustomer(Time, Node, Customer, Path, NewTime):-
+pickNextCustomer(Time, Node, CustomersSorted):-
 	getNeighborhoodCustomers(Node, Time, Customers),
-	keysort(Customers, [NewTime-[Customer-Path]|_]).
+	keysort(Customers, CustomersSorted).
 	
 % Get the customer with the lowest available ETOP value
 %	-Customer = the best customer

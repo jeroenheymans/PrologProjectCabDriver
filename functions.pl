@@ -18,3 +18,9 @@ removeKeys([_-First|List], NewList):-
 deleteFromList(X, [], X).
 deleteFromList(X, [_-X|Rest], Rest):- !.
 deleteFromList(X, [Y-Z|Rest], [Y-Z|Deleted]):- deleteFromList(X, Rest, Deleted).
+
+minimum(M,N,M):-M=<N.
+minimum(M,N,N):-N=<M.
+
+maximum(M,N,M):-N=<M.
+maximum(M,N,N):-M=<N.
