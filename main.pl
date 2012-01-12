@@ -52,7 +52,7 @@ loop([Taxi|Taxis]):-
 	loopInner([Customer], InTaxi, ETOP, Time1, FinalTime, Path, Path1, EndPath),
 	(Customer =:= 1 -> writeln(EndDropoffPath) ; true),
 	[CurrentNode|_] = EndPath,
-	assert(taxiJob(Taxi, InTaxi, NewPath, FinalTime)),
+	assert(taxiJob(Taxi, InTaxi, EndPath, FinalTime)),
 	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi),
 	loop(Taxis).
 	
@@ -77,6 +77,8 @@ loopInner([C1, C2, C3, C4], [C1, C2, C3, C4], FromTime, ToTime, FinalTime, [From
 %	-EndTime = final time it took to pick up all the customers
 loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
 	%pickNextCustomer(FromTime, From, Customer, [Top|AddFromPath], NewFromTime),
+	%write('From: '),writeln([From|FromPath]),
+	%write('To: '),writeln([To|ToPath]),
 	pickNextCustomer(FromTime, From, PickUpCustomers),
 	member(NewFromTime-[Customer-[Top|AddFromPath]], PickUpCustomers),
 	\+member(Customer, Customers),
@@ -86,14 +88,17 @@ loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|T
 	minimumDistance(Top, Destination, MiddlePath, MiddleTime),
 	NewToTime + MiddleTime + NewFromTime =< 1440,
 	retract(customerAvailable(Customer, _, _, _)),
-	append(ToPath, AddToPath, NewToPath),
-	append(FromPath, AddFromPath, NewFromPath), % hier gaat nog ne reverse moeten wss
+	reverse(AddToPath, Temp),
+	append(Temp, ToPath, NewToPath),
+	%write('New To: '),writeln(NewToPath),
+	append([Top|AddFromPath], FromPath, NewFromPath), % hier gaat nog ne reverse moeten wss
+	%write('New From: '),writeln(NewFromPath),
 	append([Customer], Customers, NewCustomers),
 	loopInner(NewCustomers, InTaxi, NewFromTime, NewToTime, FinalTime, NewFromPath, NewToPath, FinalPath).
 
 loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
 	minimumDistance(From, To, FromToPath, FromToTime),
-	FinalTime is FromTime + ToTime,
+	FinalTime is FromTime + ToTime + FromToTime,
 	append(FromPath, FromToPath, Temp),
 	reverse(ToPath, ToPathReverse),
 	append(Temp, ToPathReverse, FinalPath),
@@ -105,6 +110,7 @@ transportLoop([]):-
 transportLoop([Taxi|Jobs]):-
 	taxiJob(Taxi, Customers, Path, FinalTime),
 	write('Route for taxi '),write(Taxi),write(' (arrival: '),write(FinalTime),writeln('):'),
+	(Taxi =:= 0 -> writeln(Path) ; true),
 	routeLoop(Customers, Path),
 	transportLoop(Jobs).
 	
