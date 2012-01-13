@@ -33,10 +33,15 @@ nodeLoop(_, []).
 
 nodeLoop(Node, [Customer|Customers]):-
 	customer(Customer, _, _, Node, _),
-	write('Picking up customer #'),writeln(Customer),
+	write('  Picking up customer #'),writeln(Customer),
 	nodeLoop(Node, Customers).
 	
 nodeLoop(Node, [Customer|Customers]):-
 	customer(Customer, _, _, _, Node),
-	write('Dropping off customer #'),writeln(Customer),
+	write('  Dropping off customer #'),writeln(Customer),
 	nodeLoop(Node, Customers).
+	
+printStart:-
+	writeln('Project Taxi Company'),
+	writeln('--------------------'),
+	writeln('Starting preprocessing...').

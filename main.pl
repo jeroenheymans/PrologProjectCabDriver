@@ -27,6 +27,7 @@
 % This takes all the taxis in a list and sets the
 % necessary availableCustomers
 main:-
+	printStart,
 	getAllTaxis(Taxis),
 	setAllCustomersAvailable,
 	getAllAvailableCustomers(Customers),
