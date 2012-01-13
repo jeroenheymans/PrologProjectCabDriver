@@ -15,6 +15,7 @@
 % Necessary includes
 %:-['city_smaller.pl'].
 :-reconsult('city.pl').
+%:-reconsult('city_1taxi.pl').
 %:-reconsult('city_smallest.pl').
 :-['routeCalculation.pl'].
 :-['customer.pl'].
@@ -111,16 +112,28 @@ transportLoop([]):-
 		 
 transportLoop([Taxi|Jobs]):-
 	taxiJob(Taxi, Customers, Path, FinalTime),
+	writeln(Customers),
+	writeln(Path),
 	write('Route for taxi '),write(Taxi),write(' (arrival: '),write(FinalTime),writeln('):'),
-	(Taxi =:= 0 -> writeln(Path) ; true),
 	routeLoop(Customers, Path),
 	transportLoop(Jobs).
 	
 routeLoop(_, []).
 	
 routeLoop(Customers, [Node|Path]):-
-	getCustomersPickupOnNode(Customers, Node, OnNode, NotOnNode),
-	(OnNode = []
-	 -> true
-	 ; (write('On node '),write(Node),write(': '),writeln(OnNode))),
-	routeLoop(NotOnNode, Path).
+	customersToPickupOrDropoff(Customers, Node, OnNode),
+	%writeln(OnNode),
+	nodeLoop(Node, OnNode),
+	routeLoop(Customers, Path).
+	
+nodeLoop(_, []).
+
+nodeLoop(Node, [Customer|Customers]):-
+	customer(Customer, _, _, Node, _),
+	write('Picking up customer #'),writeln(Customer),
+	nodeLoop(Node, Customers).
+	
+nodeLoop(Node, [Customer|Customers]):-
+	customer(Customer, _, _, _, Node),
+	write('Dropping off customer #'),writeln(Customer),
+	nodeLoop(Node, Customers).
