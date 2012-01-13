@@ -61,9 +61,10 @@ loop([Taxi|Taxis]):-
 loopInner([C1, C2, C3, C4], [C1, C2, C3, C4], FromTime, ToTime, FinalTime, [From|FromPath], [To|ToPath], FinalPath):-
 	minimumDistance(From, To, FromToPath, FromToTime),
 	FinalTime is FromTime + ToTime + FromToTime,
-	append(FromPath, FromToPath, Temp),
-	reverse(ToPath, ToPathReverse),
-	append(Temp, ToPathReverse, FinalPath).
+	reverse(FromPath, FromPathReverse),
+	reverse(FromToPath, FromToPathReverse),
+	append(FromPathReverse, FromToPathReverse, Temp),
+	append(Temp, ToPath, FinalPath).
 	
 % Taxi is not yet filled with 4. Get the info where the taxi stand, take a
 % new customer and calculate the route to him to pick him up
@@ -103,7 +104,6 @@ loopInner(Customers, InTaxi, FromTime, ToTime, FinalTime, [From|FromPath], [To|T
 	reverse(FromToPath, FromToPathReverse),
 	append(FromPathReverse, FromToPathReverse, Temp),
 	append(Temp, ToPath, FinalPath),
-	writeln(FinalPath),
 	InTaxi = Customers.
 		 
 transportLoop([]):-
