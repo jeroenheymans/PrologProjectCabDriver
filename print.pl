@@ -1,53 +1,42 @@
-printClock:-
-    clock(C),
-    write('['),write(C),write('] ').
-    
-printTimesUp(Customers):-
-    printClock,
-    writeln('Times up!'),
-    printClock,
-    write('Remaining customers: '),
-    writeln(Customers),
-    printClock,
-    writeln('Taxis still in transport: '),
-    forall(transport(TaxiID,_,_,_,_,_),
-          (write(TaxiID),write(' '))).
-    
-printCustomersToPickUpNow([]).
-    
-printCustomersToPickUpNow(Customers):-
-    printClock,
-    write('Sending taxi\'s to customers: '),
-    writeln(Customers).
-    
-printDropOffCustomers(Taxi, []):-
-    printClock,
-    write('Taxi '),
-    write(Taxi),
-    writeln(' reached destination, no customers to drop off').
-    
-printDropOffCustomers(Taxi, Customers):-
-    printClock,
-    write('Taxi '),
-    write(Taxi),
-    write(' drops off customers '),
-    writeln(Customers).
-    
-printTaxiIsHome(Taxi):-
-    printClock,
-    write('Taxi '),
-    write(Taxi),
-    writeln(' says: "Honey I\'m home!"').
-    
-printPickUpCustomers(Taxi, []):-
-    printClock,
-    write('Taxi '),
-    write(Taxi),
-    writeln(' reached destination, no customers to pick up').
-    
-printPickUpCustomers(Taxi, Customers):-
-    printClock,
-    write('Taxi '),
-    write(Taxi),
-    write(' reached destination and picks up: '),
-    writeln(Customers).
+% print related functionality, self-explainatory
+
+printTransportableCustomers(Customers):-
+	listLength(Customers, TotalNrCustomers),
+	write(TotalNrCustomers),writeln(' customers can be transported').
+	
+printNoTaxisLeft:-
+	writeln('No taxis left').
+	
+printCustomersLeft(CustomersLeft):-
+	listLength(CustomersLeft, Total),
+	write('Customers left ('),write(Total),write('): '),writeln(CustomersLeft).
+	
+printCustomersInTaxi(Taxi, InTaxi):-
+	write('Taxi '),write(Taxi),write(' will transport: '),writeln(InTaxi).
+	
+printTransportLoop([]).
+		 
+printTransportLoop([Taxi|Jobs]):-
+	taxiJob(Taxi, Customers, Path, FinalTime),
+	write('Route for taxi '),write(Taxi),write(' (arrival: '),write(FinalTime),writeln('):'),
+	routeLoop(Customers, Path),
+	printTransportLoop(Jobs).
+	
+routeLoop(_, []).
+	
+routeLoop(Customers, [Node|Path]):-
+	customersToPickupOrDropoff(Customers, Node, OnNode),
+	nodeLoop(Node, OnNode),
+	routeLoop(Customers, Path).
+	
+nodeLoop(_, []).
+
+nodeLoop(Node, [Customer|Customers]):-
+	customer(Customer, _, _, Node, _),
+	write('Picking up customer #'),writeln(Customer),
+	nodeLoop(Node, Customers).
+	
+nodeLoop(Node, [Customer|Customers]):-
+	customer(Customer, _, _, _, Node),
+	write('Dropping off customer #'),writeln(Customer),
+	nodeLoop(Node, Customers).
