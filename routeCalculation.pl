@@ -19,22 +19,22 @@
 %   Length = the Length of the found path
 % It calls dijkstra algorithm. 
 minimumDistance(Start, Finish, ShortestPath, Length) :-
-  dijkstra([0-[Start]], Finish, ShortestPath, Length).
+  heuristicDijkstra([0-[Start]], Finish, ShortestPath, Length).
 
 % Dijkstra algorithm. We have reached the final so it is time to stop
 %   Length = total Length already traveled
 %   Finish = last node visited
 %   RestPath = previous nodes visited
-dijkstra([Length-[Finish|RestPath]|_], Finish, [Finish|RestPath], Length) :- !.
+heuristicDijkstra([Length-[Finish|RestPath]|_], Finish, [Finish|RestPath], Length) :- !.
 
 % Find best candidate and continue with the algorithm
 %   Visited = already discovered path
 %   Finish = end node
 %   RestShortestPath = rest of the already discovered shortest path
 %   Length = total Length of RestShortestPath
-dijkstra(Visited, Finish, RestShortestPath, Length) :-
+heuristicDijkstra(Visited, Finish, RestShortestPath, Length) :-
   bestCandidate(Visited, BestCandidate, Finish), 
-  dijkstra([BestCandidate|Visited], Finish, RestShortestPath, Length).
+  heuristicDijkstra([BestCandidate|Visited], Finish, RestShortestPath, Length).
 
 % Search for the best candidate by performing a
 % findall and then take the minimum (the one with less distance)
