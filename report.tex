@@ -23,4 +23,55 @@ Since we needed to implement the discovery of routes, we obviously needed an alg
 
 With our implementation of Dijkstra, it took half an hour to calculate this path. In order to get the execution time down, we choose to add a heuristic to the algorithm. The problem with the naïve Dijkstra implementation was that we could have situations where the shortest path goes from left to right but that the algorithm would first see if there was any shortest path to the left. By adding a heuristic, we could guide the algorithm more to the correct direction.
 
+We found a heuristic that decreased the time of calculation to a maximum of 2 seconds. With this heuristic, our implementation of a shortest path search algorithm could be used in the final program. The heuristic only has one flaw: it does not find the absolute shortest path. For example, if the absolute shortest path has a distance of 100, our algorithm will vary between a result of 100 and 105. Though this is a small flaw, we continued to search for a better heuristic but we had to conclude that this was the best one we could find without losing to much speed.
+
+\subsection{Datastructures}
+
+Our own implemented datastructures are:
+\begin{itemize}
+\item customerAvailable/3
+\item taxiJob/4
+\end{itemize}
+We will explain them more in detail what their purpose is.
+
+\subsubsection{Keeping track of the customers with customerAvailable/3}
+
+As the program runs, we must keep track of the customers that are already picked up. For this, we created the \textit{customerAvailable/3} dynamic fact. When we start the program, we give each known customer a customerAvailable fact by asserting them. With this, we could easily retract the customers that we already picked up without losing all the original data about the customers. It also enabled us to add extra information that could be preprocessed like the path from the dropofflocation of a customer to the startpoint of the taxi's.
+
+\subsubsection{The taxi jobs with taxiJob/4}
+
+\subsection{The main structure}
+
+The overall program is a sequence of the following parts: preprocess, loop over taxis, output. We will go deeper in this structure, so we can explain more in detail what we have implemented.
+
+\subsubsection{Preprocess}
+
+In order to increase performance of the program, we try at first to decrease the size of the dataset on which we operate. In the dataset, we have customers and their preferred range of time of picking up. There are however customers where the range of time for picking up is not good enough. For example, a customer that wants to be picked up between 1200 and 1300 can not be transported if the distance to his destination is 250. It is impossible for a taxi to pick the customer up on time and drop him off at such a time that the taxi can return home before midnight (1440).
+
+A similar problem occurs when a taxi can pick up and drop off a customer before midnight but can not return home before midnight. In these cases, it is unnecessary to take such customers in account as it is already known that is impossible to transport them within the time limits. We therefore preprocess all this information in order to decrease the search sapce of customers to transport.
+
+\subsubsection{Loop over taxis}
+
+In order to fill the taxis, we take a list of all the taxis and loop over them one by one. When taking a taxi, we immediately assign one customer to it. After this, we try to find out if we can add more customers to the same taxi. Each time, we look for the best possible customer to add. This means a customer that we can pick up within his timerange or where we only have to wait some time so we can pick him up within the timerange. Every customer that we consider generates a lot of calculating to see if we could stay within the timeframe of a complete day. If we can find a customer that can be picked up within his timerange but where we can't stay within the timeframe of one day, we have to discard this customer and try again with other customers.
+
+We continue to fill the taxi until there are 4 customers assigned to the taxi or if there is no valid customer left to pick up. When we get to one of these two endstates, we save the total calculated path that the taxi must drive to pick up and drop off his customers. This path is saved within the functor taxiJob.
+
+\subsubsection{Output}
+
+When all the taxis are filled or when all the customers are assigned to a taxi, we start outputting the results. What we do is loop over all the generated taxiJobs and output the result of every taxiJob. We loop over the path of a taxiJob and every time we can pick up or drop off a customer, we show this. This generates an output like this:
+
+\begin{quote}
+\begin{flushleft}
+Route for taxi 0 (arrival: 1343):\linebreak
+Picking up customer #462\linebreak
+Picking up customer #6\linebreak
+Picking up customer #394\linebreak
+Picking up customer #81\linebreak
+Dropping off customer #81\linebreak
+Dropping off customer #394\linebreak
+Dropping off customer #462\linebreak
+Dropping off customer #6
+\end{flushleft}
+\end{quote}
+
 \end{document}
