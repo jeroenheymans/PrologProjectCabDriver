@@ -13,7 +13,17 @@
 \section{Introduction}
 This is the report for the project for the course Declarative Programming, a master-course teached at the Vrije Universiteit Brussel. In this report we describe the design and the functionality that has been implemented.
 
-The general idea of the project was to build a program that would calculate the routes for the taxis of the taxi company El Cabinero. This company works in a given city that is described in a graph.
+The general idea of the project was to build a program that would calculate the routes for the taxis of the taxi company El Cabinero. This company works in a given city that is described in a graph. This graph was given to us, alongside with a list of 500 customers who wanted to be transported.
+
+The program can be run on SWI-prolog. What you need to do, is load the main.pl file and execute the main function like this:
+
+\begin{quote}
+\begin{flushleft}
+?- reconsult(main).\linebreak
+true.\linebreak
+?- main.
+\end{flushleft}
+\end{quote}
 
 \section{The implemented program}
 
@@ -39,6 +49,8 @@ We will explain them more in detail what their purpose is.
 As the program runs, we must keep track of the customers that are already picked up. For this, we created the \textit{customerAvailable/3} dynamic fact. When we start the program, we give each known customer a customerAvailable fact by asserting them. With this, we could easily retract the customers that we already picked up without losing all the original data about the customers. It also enabled us to add extra information that could be preprocessed like the path from the dropofflocation of a customer to the startpoint of the taxi's.
 
 \subsubsection{The taxi jobs with taxiJob/4}
+
+The functor taxiJob/4 is asserted whenever the loop for a taxi is completed. It holds the ID of the taxi, the customers that will be transported by the taxi, the total path that the taxi must follow and the return time of the taxi to his original startingpoint.
 
 \subsection{The main structure}
 
@@ -73,5 +85,8 @@ Dropping off customer #462\linebreak
 Dropping off customer #6
 \end{flushleft}
 \end{quote}
+
+\subsection{The final result}
+The program almost generates a result where all the customers are transported from the original dataset. With preprocessing, only 262 of the original 500 customers are considered to be transportable within the timelimits. From this 262, the program can make sure that a total of 255 customers are transported correctly.
 
 \end{document}
